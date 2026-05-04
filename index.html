@@ -2,15 +2,17 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8">
-  <title>Telegram Mini App</title>
+  <title>Mini Telegram App</title>
+
+  <!-- Telegram WebApp -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
     body {
       font-family: Arial;
-      text-align: center;
       background: #0f172a;
       color: white;
+      text-align: center;
       padding: 20px;
     }
 
@@ -29,50 +31,85 @@
       padding: 15px;
       border-radius: 10px;
     }
+
+    input {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+    }
   </style>
 </head>
 
 <body>
 
-<h1 id="welcome">Loading...</h1>
-
+<h1 id="title">Loading...</h1>
 <p id="userInfo"></p>
-
-<button onclick="showData()">Show User Info</button>
 
 <div id="adminPanel">
   <h2>ADMIN PANEL</h2>
-  <p>Faqat siz ko‘rasiz</p>
-  <button onclick="alert('Admin action')">Edit</button>
+  <input id="newTitle" placeholder="Yangi text">
+  <button onclick="updateTitle()">Saqlash</button>
 </div>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, doc, onSnapshot, setDoc } 
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  // 🔴 FIREBASE CONFIG (o'zingniki)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBzgk75uRWhGUFkBUl87oZRvJcumcRDfy8",
+    authDomain: "newapp-1e180.firebaseapp.com",
+    projectId: "newapp-1e180",
+    storageBucket: "newapp-1e180.appspot.com",
+    messagingSenderId: "48248136158",
+    appId: "1:48248136158:web:07e8a7ecf1de2adef6bd4f"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Telegram WebApp
   const tg = window.Telegram.WebApp;
-  tg.expand(); // full screen
+  tg.expand();
 
   const user = tg.initDataUnsafe?.user;
 
-  const ADMIN_ID = 7359558983; // 🔴 BU YERGA O'Z TELEGRAM IDINGNI YOZ
+  const ADMIN_ID = 7359558983; // 🔴 o'zingning Telegram ID
 
   if (user) {
-    document.getElementById("welcome").innerText =
-      "Salom, " + user.first_name;
-
     document.getElementById("userInfo").innerText =
       "Your ID: " + user.id;
 
-    // Admin tekshirish
     if (user.id === ADMIN_ID) {
       document.getElementById("adminPanel").style.display = "block";
     }
   } else {
-    document.getElementById("welcome").innerText =
+    document.getElementById("userInfo").innerText =
       "Telegram orqali kiring";
   }
 
-  function showData() {
-    alert(JSON.stringify(user, null, 2));
-  }
+  // FIRESTORE REALTIME DATA
+  const ref = doc(db, "app", "config");
+
+  onSnapshot(ref, (snap) => {
+    if (snap.exists()) {
+      document.getElementById("title").innerText =
+        snap.data().title;
+    }
+  });
+
+  // ADMIN UPDATE
+  window.updateTitle = async function () {
+    const val = document.getElementById("newTitle").value;
+
+    await setDoc(ref, {
+      title: val
+    });
+
+    alert("Yangilandi!");
+  };
+
 </script>
 
 </body>
