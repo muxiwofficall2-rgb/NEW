@@ -2,57 +2,118 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Mini Builder</title>
+<title>Mini Builder Pro+</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 body {
+  margin: 0;
   font-family: Arial;
   background: #0f172a;
   color: white;
+}
+
+/* MAIN */
+.main {
+  padding: 20px;
   text-align: center;
 }
 
-button {
-  margin: 5px;
+/* RIGHT MENU */
+.panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background: #1e293b;
   padding: 10px;
-  border-radius: 8px;
+  overflow-y: auto;
+}
+
+/* BLOCKS */
+.block {
+  background: #334155;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+/* BUTTON */
+button {
+  padding: 8px;
+  margin-top: 5px;
+  width: 100%;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-#adminPanel {
-  display: none;
-  background: #1e293b;
-  padding: 10px;
-  margin-top: 20px;
+input {
+  width: 95%;
+  padding: 8px;
+  margin: 5px 0;
 }
 
-.btn {
-  display: block;
-  margin: 10px auto;
-  width: 200px;
+img {
+  max-width: 100px;
 }
 </style>
 </head>
 
 <body>
 
-<h1 id="title">Loading...</h1>
-
-<div id="buttons"></div>
+<div class="main">
+  <h1 id="title">My Site</h1>
+  <img id="logo" src="" />
+  <div id="content"></div>
+</div>
 
 <!-- ADMIN PANEL -->
-<div id="adminPanel">
-  <h3>ADMIN PANEL</h3>
+<div class="panel" id="adminPanel">
 
-  <input id="btnText" placeholder="Button text"><br><br>
-  <input id="btnLink" placeholder="Link"><br><br>
+<h3>ADMIN MENU</h3>
 
-  <button onclick="addButton()">➕ Add Button</button>
+<!-- TEXT -->
+<div class="block">
+  <h4>Text</h4>
+  <input id="textInput" placeholder="Text yoz">
+  <button onclick="addText()">Add Text</button>
+</div>
+
+<!-- BUTTON -->
+<div class="block">
+  <h4>Button</h4>
+  <input id="btnText" placeholder="Button text">
+  <input id="btnLink" placeholder="Link">
+  <button onclick="addButton()">Add Button</button>
+</div>
+
+<!-- LOGO -->
+<div class="block">
+  <h4>Logo URL</h4>
+  <input id="logoInput" placeholder="Image link">
+  <button onclick="setLogo()">Set Logo</button>
+</div>
+
+<!-- PHONE -->
+<div class="block">
+  <h4>Phone</h4>
+  <input id="phoneInput" placeholder="+998...">
+  <button onclick="addPhone()">Add Phone</button>
+</div>
+
+<!-- COLOR -->
+<div class="block">
+  <h4>Color</h4>
+  <input type="color" id="colorInput">
+  <button onclick="setColor()">Apply</button>
+</div>
+
 </div>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getFirestore,
@@ -62,7 +123,6 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// 🔴 FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyBzgk75uRWhGUFkBUl87oZRvJcumcRDfy8",
   authDomain: "newapp-1e180.firebaseapp.com",
@@ -76,63 +136,80 @@ const tg = window.Telegram.WebApp;
 tg.expand();
 
 const user = tg.initDataUnsafe?.user;
-const ADMIN_ID = 7359558983;
+const ADMIN_ID = 123456789;
 
-// ADMIN CHECK
-if (user && user.id === ADMIN_ID) {
+if (user?.id === ADMIN_ID) {
   document.getElementById("adminPanel").style.display = "block";
 }
 
-// DB REF
 const ref = doc(db, "site", "data");
 
-// REALTIME LOAD
+/* LOAD */
 onSnapshot(ref, (snap) => {
   if (!snap.exists()) return;
 
   const data = snap.data();
 
-  document.getElementById("title").innerText = data.title || "No title";
+  document.getElementById("title").innerText = data.title || "My Site";
+  document.getElementById("logo").src = data.logo || "";
 
-  renderButtons(data.buttons || []);
+  document.getElementById("content").innerHTML = (data.blocks || []).join("");
 });
 
-// RENDER BUTTONS
-function renderButtons(buttons) {
-  const container = document.getElementById("buttons");
-  container.innerHTML = "";
+/* ADD TEXT */
+window.addText = async function () {
+  const text = document.getElementById("textInput").value;
 
-  buttons.forEach((btn, index) => {
-    const el = document.createElement("button");
-    el.className = "btn";
-    el.innerText = btn.text;
+  const snap = await getDoc(ref);
+  let data = snap.data() || {};
 
-    el.onclick = () => {
-      window.open(btn.link, "_blank");
-    };
+  let blocks = data.blocks || [];
+  blocks.push(`<p class="block">${text}</p>`);
 
-    container.appendChild(el);
-  });
-}
+  await setDoc(ref, { ...data, blocks });
+};
 
-// ADD BUTTON (ADMIN ONLY)
+/* ADD BUTTON */
 window.addButton = async function () {
   const text = document.getElementById("btnText").value;
   const link = document.getElementById("btnLink").value;
 
   const snap = await getDoc(ref);
-  let data = snap.exists() ? snap.data() : {};
+  let data = snap.data() || {};
 
-  let buttons = data.buttons || [];
+  let blocks = data.blocks || [];
+  blocks.push(`<a href="${link}" target="_blank"><button>${text}</button></a>`);
 
-  buttons.push({ text, link });
+  await setDoc(ref, { ...data, blocks });
+};
 
-  await setDoc(ref, {
-    title: data.title || "My Site",
-    buttons: buttons
-  });
+/* LOGO */
+window.setLogo = async function () {
+  const url = document.getElementById("logoInput").value;
 
-  alert("Button qo‘shildi!");
+  const snap = await getDoc(ref);
+  let data = snap.data() || {};
+
+  await setDoc(ref, { ...data, logo: url });
+};
+
+/* PHONE */
+window.addPhone = async function () {
+  const phone = document.getElementById("phoneInput").value;
+
+  const snap = await getDoc(ref);
+  let data = snap.data() || {};
+
+  let blocks = data.blocks || [];
+  blocks.push(`<p>📞 ${phone}</p>`);
+
+  await setDoc(ref, { ...data, blocks });
+};
+
+/* COLOR */
+window.setColor = async function () {
+  const color = document.getElementById("colorInput").value;
+  document.body.style.background = color;
 };
 
 </script>
