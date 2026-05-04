@@ -2,102 +2,77 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8">
-  <title>Mini App</title>
+  <title>Telegram Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     body {
       font-family: Arial;
       text-align: center;
       background: #0f172a;
       color: white;
+      padding: 20px;
     }
+
     button {
       padding: 10px 20px;
       margin: 10px;
-      border: none;
       border-radius: 8px;
+      border: none;
       cursor: pointer;
     }
+
     #adminPanel {
       display: none;
       margin-top: 20px;
-    }
-    input {
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
     }
   </style>
 </head>
+
 <body>
 
-<h1 id="title">Loading...</h1>
+<h1 id="welcome">Loading...</h1>
 
-<button id="loginBtn">Login</button>
+<p id="userInfo"></p>
+
+<button onclick="showData()">Show User Info</button>
 
 <div id="adminPanel">
-  <h2>Admin Panel</h2>
-  <input id="newTitle" placeholder="Yangi title">
-  <button onclick="updateTitle()">Saqlash</button>
+  <h2>ADMIN PANEL</h2>
+  <p>Faqat siz ko‘rasiz</p>
+  <button onclick="alert('Admin action')">Edit</button>
 </div>
 
-<!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script>
+  const tg = window.Telegram.WebApp;
+  tg.expand(); // full screen
 
-  // 🔴 BU YERNI O'ZGARTIRASAN (Firebase config)
-  const firebaseConfig = {
-    apiKey: "API_KEY",
-    authDomain: "PROJECT_ID.firebaseapp.com",
-    projectId: "PROJECT_ID",
-  };
+  const user = tg.initDataUnsafe?.user;
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+  const ADMIN_ID = 7359558983; // 🔴 BU YERGA O'Z TELEGRAM IDINGNI YOZ
 
-  const ADMIN_UID = "SENING_USER_ID"; // 🔴 BU YERGA O'Z UIDingni qo'yasan
+  if (user) {
+    document.getElementById("welcome").innerText =
+      "Salom, " + user.first_name;
 
-  let currentUser = null;
+    document.getElementById("userInfo").innerText =
+      "Your ID: " + user.id;
 
-  document.getElementById("loginBtn").onclick = () => {
-    signInAnonymously(auth);
-  };
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      currentUser = user;
-
-      console.log("User UID:", user.uid);
-
-      // Admin tekshirish
-      if (user.uid === ADMIN_UID) {
-        document.getElementById("adminPanel").style.display = "block";
-      }
+    // Admin tekshirish
+    if (user.id === ADMIN_ID) {
+      document.getElementById("adminPanel").style.display = "block";
     }
-  });
+  } else {
+    document.getElementById("welcome").innerText =
+      "Telegram orqali kiring";
+  }
 
-  // Real-time title
-  const docRef = doc(db, "app", "config");
-
-  onSnapshot(docRef, (docSnap) => {
-    if (docSnap.exists()) {
-      document.getElementById("title").innerText = docSnap.data().title;
-    }
-  });
-
-  // Update function (faqat admin ishlatadi)
-  window.updateTitle = async function () {
-    const value = document.getElementById("newTitle").value;
-
-    await setDoc(doc(db, "app", "config"), {
-      title: value
-    });
-
-    alert("Yangilandi!");
-  };
-
+  function showData() {
+    alert(JSON.stringify(user, null, 2));
+  }
 </script>
 
 </body>
