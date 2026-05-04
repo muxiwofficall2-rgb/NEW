@@ -1,114 +1,139 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <title>Mini Telegram App</title>
+<meta charset="UTF-8">
+<title>Mini Builder</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- Telegram WebApp -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  text-align: center;
+}
 
-  <style>
-    body {
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+button {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
 
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
+#adminPanel {
+  display: none;
+  background: #1e293b;
+  padding: 10px;
+  margin-top: 20px;
+}
 
-    #adminPanel {
-      display: none;
-      margin-top: 20px;
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 10px;
-    }
-
-    input {
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-    }
-  </style>
+.btn {
+  display: block;
+  margin: 10px auto;
+  width: 200px;
+}
+</style>
 </head>
 
 <body>
 
 <h1 id="title">Loading...</h1>
-<p id="userInfo"></p>
 
+<div id="buttons"></div>
+
+<!-- ADMIN PANEL -->
 <div id="adminPanel">
-  <h2>ADMIN PANEL</h2>
-  <input id="newTitle" placeholder="Yangi text">
-  <button onclick="updateTitle()">Saqlash</button>
+  <h3>ADMIN PANEL</h3>
+
+  <input id="btnText" placeholder="Button text"><br><br>
+  <input id="btnLink" placeholder="Link"><br><br>
+
+  <button onclick="addButton()">➕ Add Button</button>
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, doc, onSnapshot, setDoc } 
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  onSnapshot,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  // 🔴 FIREBASE CONFIG (o'zingniki)
-  const firebaseConfig = {
-    apiKey: "AIzaSyBzgk75uRWhGUFkBUl87oZRvJcumcRDfy8",
-    authDomain: "newapp-1e180.firebaseapp.com",
-    projectId: "newapp-1e180",
-    storageBucket: "newapp-1e180.appspot.com",
-    messagingSenderId: "48248136158",
-    appId: "1:48248136158:web:07e8a7ecf1de2adef6bd4f"
-  };
+// 🔴 FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyBzgk75uRWhGUFkBUl87oZRvJcumcRDfy8",
+  authDomain: "newapp-1e180.firebaseapp.com",
+  projectId: "newapp-1e180"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  // Telegram WebApp
-  const tg = window.Telegram.WebApp;
-  tg.expand();
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-  const user = tg.initDataUnsafe?.user;
+const user = tg.initDataUnsafe?.user;
+const ADMIN_ID = 7359558983;
 
-  const ADMIN_ID = 7359558983; // 🔴 o'zingning Telegram ID
+// ADMIN CHECK
+if (user && user.id === ADMIN_ID) {
+  document.getElementById("adminPanel").style.display = "block";
+}
 
-  if (user) {
-    document.getElementById("userInfo").innerText =
-      "Your ID: " + user.id;
+// DB REF
+const ref = doc(db, "site", "data");
 
-    if (user.id === ADMIN_ID) {
-      document.getElementById("adminPanel").style.display = "block";
-    }
-  } else {
-    document.getElementById("userInfo").innerText =
-      "Telegram orqali kiring";
-  }
+// REALTIME LOAD
+onSnapshot(ref, (snap) => {
+  if (!snap.exists()) return;
 
-  // FIRESTORE REALTIME DATA
-  const ref = doc(db, "app", "config");
+  const data = snap.data();
 
-  onSnapshot(ref, (snap) => {
-    if (snap.exists()) {
-      document.getElementById("title").innerText =
-        snap.data().title;
-    }
+  document.getElementById("title").innerText = data.title || "No title";
+
+  renderButtons(data.buttons || []);
+});
+
+// RENDER BUTTONS
+function renderButtons(buttons) {
+  const container = document.getElementById("buttons");
+  container.innerHTML = "";
+
+  buttons.forEach((btn, index) => {
+    const el = document.createElement("button");
+    el.className = "btn";
+    el.innerText = btn.text;
+
+    el.onclick = () => {
+      window.open(btn.link, "_blank");
+    };
+
+    container.appendChild(el);
+  });
+}
+
+// ADD BUTTON (ADMIN ONLY)
+window.addButton = async function () {
+  const text = document.getElementById("btnText").value;
+  const link = document.getElementById("btnLink").value;
+
+  const snap = await getDoc(ref);
+  let data = snap.exists() ? snap.data() : {};
+
+  let buttons = data.buttons || [];
+
+  buttons.push({ text, link });
+
+  await setDoc(ref, {
+    title: data.title || "My Site",
+    buttons: buttons
   });
 
-  // ADMIN UPDATE
-  window.updateTitle = async function () {
-    const val = document.getElementById("newTitle").value;
-
-    await setDoc(ref, {
-      title: val
-    });
-
-    alert("Yangilandi!");
-  };
+  alert("Button qo‘shildi!");
+};
 
 </script>
 
