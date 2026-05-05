@@ -2,188 +2,254 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Mini Builder Stable</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omad Tour PRO</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  transition: 0.3s;
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#0f172a,#020617);
+  color:white;
 }
 
-.container {
-  padding: 20px;
-  text-align: center;
+/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
 }
 
-.panel {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 260px;
-  height: 100%;
-  background: #1e293b;
-  padding: 10px;
-  overflow-y: auto;
+/* PROFILE MINI */
+.profile{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-.block {
-  margin: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.1);
+.profile img{
+  width:40px;
+  height:40px;
+  border-radius:50%;
 }
 
-input, button {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: none;
-  border-radius: 6px;
+/* BALANCE */
+.balance{
+  background:#22c55e;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:13px;
 }
 
-button {
-  cursor: pointer;
+/* PAGE */
+.page{
+  padding:20px;
+  min-height:100vh;
+  display:none;
+}
+.active{display:block}
+
+/* MENU */
+.menu{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+/* BUTTON */
+.btn{
+  padding:12px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#6366f1,#9333ea);
+  text-align:center;
+  cursor:pointer;
+}
+
+/* BIG */
+.btn.big{
+  grid-column:span 2;
+  background:#22c55e;
+}
+
+/* AVIA GRID */
+.avia-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+/* CARD */
+.card{
+  background:#1e293b;
+  padding:12px;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+/* NAVBAR */
+.nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  background:#020617;
+  padding:10px 0;
+}
+
+.nav div{
+  font-size:12px;
+  text-align:center;
+  cursor:pointer;
+}
+
+/* LOADING */
+#loader{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:#020617;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+.fire{
+  font-size:60px;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  100%{transform:rotate(360deg)}
 }
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
-  <h1 id="title">Loading...</h1>
-  <div id="content"></div>
+<!-- LOADER -->
+<div id="loader">
+<div class="fire">🔥</div>
+<div>Yuklanmoqda...</div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div class="panel" id="adminPanel">
+<!-- HOME -->
+<div id="home" class="page active">
 
-<h3>ADMIN</h3>
+<div class="header">
+<div class="profile">
+<img src="https://i.pravatar.cc/100">
+<div>
+<div>Omad Tour</div>
+<small>Servis</small>
+</div>
+</div>
 
-<input id="text" placeholder="Text">
-<button onclick="addText()">Add Text</button>
+<div class="balance">🔥 64</div>
+</div>
 
-<input id="btnText" placeholder="Button text">
-<input id="btnUrl" placeholder="Button URL">
-<button onclick="addButton()">Add Button</button>
+<div class="menu">
 
-<input type="color" id="color">
-<button onclick="setColor()">Change Color</button>
+<div class="btn" onclick="openPage('avia')">✈️ Avia bilet</div>
+<div class="btn" onclick="openPage('visa')">🛂 Viza</div>
+
+<div class="btn" onclick="window.open('https://t.me/+uJn1nFmpzjoxMGEy')">
+👥 Telegram
+</div>
+
+<div class="btn" onclick="openPage('support')">📞 Yordam</div>
+
+<div class="btn" onclick="openPage('anketa')">📝 Anketa</div>
+<div class="btn" onclick="openPage('services')">📄 Xizmatlar</div>
 
 </div>
 
-<script type="module">
+<div class="card">
+🔥 AKSIYA: Bugun arzon avia biletlari!
+</div>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getFirestore,
-  doc,
-  onSnapshot,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<div class="card">
+📊 Bugun 120+ mijoz xizmatdan foydalandi
+</div>
 
-/* FIREBASE */
-const firebaseConfig = {
-  apiKey: "AIzaSyBzgk75uRWhGUFkBUl87oZRvJcumcRDfy8",
-  authDomain: "newapp-1e180.firebaseapp.com",
-  projectId: "newapp-1e180"
-};
+</div>
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+<!-- AVIA -->
+<div id="avia" class="page">
 
-const ref = doc(db, "site", "data");
+<h3>✈️ Avia aloqa</h3>
 
-/* LOAD */
-onSnapshot(ref, (snap) => {
-  const data = snap.data();
-  if (!data) return;
+<div class="avia-grid">
 
-  document.body.style.background = data.style?.bg || "#0f172a";
-  document.body.style.color = data.style?.color || "white";
+<div class="btn" onclick="tg('@OMAD_TOUR9094')">📩 Telegram</div>
 
-  document.getElementById("title").innerText = data.title || "My Site";
+<div class="btn" onclick="window.open('https://max.ru/u/f9LHodD0cOLLpEmAWC_I3iUUWcn5IO6DFYg0IVz4jEXfm6BJP6OL-L7V0jk')">
+🌐 Max
+</div>
 
-  render(data.blocks || []);
-});
+<div class="btn" onclick="window.open('https://wa.me/79811939094')">
+📞 WhatsApp
+</div>
 
-/* RENDER */
-function render(blocks) {
-  const box = document.getElementById("content");
-  box.innerHTML = "";
+<div class="btn" onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t')">
+💰 Narxlar
+</div>
 
-  blocks.forEach(b => {
+</div>
 
-    if (b.type === "text") {
-      const p = document.createElement("div");
-      p.className = "block";
-      p.innerText = b.value;
-      box.appendChild(p);
-    }
+</div>
 
-    if (b.type === "button") {
-      const btn = document.createElement("button");
-      btn.innerText = b.text;
-      btn.onclick = () => window.open(b.url, "_blank");
-      box.appendChild(btn);
-    }
+<!-- VISA -->
+<div id="visa" class="page">
+<div class="btn" onclick="window.open('https://visa.mfa.uz/ruxsat/view')">
+🌐 Tekshirish
+</div>
+</div>
 
-  });
+<!-- SUPPORT -->
+<div id="support" class="page">
+<div class="btn" onclick="tg('@AVIAKASSA9094')">📩 Telegram</div>
+</div>
+
+<!-- ANKETA -->
+<div id="anketa" class="page">
+<div class="card">
+Anketa xizmatlari mavjud
+</div>
+</div>
+
+<!-- SERVICES -->
+<div id="services" class="page">
+<div class="card">
+Kopiya / Foto xizmatlari
+</div>
+</div>
+
+<!-- NAVBAR -->
+<div class="nav">
+<div onclick="openPage('home')">🏠<br>Home</div>
+<div onclick="openPage('avia')">✈️<br>Avia</div>
+<div onclick="openPage('services')">📄<br>Xizmat</div>
+<div onclick="openPage('support')">📞<br>Yordam</div>
+</div>
+
+<script>
+
+function openPage(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 }
 
-/* ADD TEXT */
-window.addText = async function () {
-  const text = document.getElementById("text").value;
+function tg(user){
+window.open("https://t.me/" + user.replace("@",""));
+}
 
-  const snap = await getDoc(ref);
-  let data = snap.data() || {};
-
-  let blocks = data.blocks || [];
-
-  blocks.push({ type: "text", value: text });
-
-  await setDoc(ref, {
-    ...data,
-    blocks
-  });
-};
-
-/* ADD BUTTON */
-window.addButton = async function () {
-  const text = document.getElementById("btnText").value;
-  const url = document.getElementById("btnUrl").value;
-
-  const snap = await getDoc(ref);
-  let data = snap.data() || {};
-
-  let blocks = data.blocks || [];
-
-  blocks.push({ type: "button", text, url });
-
-  await setDoc(ref, {
-    ...data,
-    blocks
-  });
-};
-
-/* COLOR */
-window.setColor = async function () {
-  const color = document.getElementById("color").value;
-
-  const snap = await getDoc(ref);
-  let data = snap.data() || {};
-
-  await setDoc(ref, {
-    ...data,
-    style: {
-      bg: color,
-      color: "white"
-    }
-  });
-};
+setTimeout(()=>{
+document.getElementById('loader').style.display='none';
+},1500);
 
 </script>
 
