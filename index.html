@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -7,7 +8,7 @@
 
 <style>
 
-*{
+{
 margin:0;
 padding:0;
 box-sizing:border-box;
@@ -20,7 +21,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* LOADER */
+/ LOADER /
 
 #loader{
 position:fixed;
@@ -35,23 +36,25 @@ z-index:9999;
 }
 
 .loader-icon{
-font-size:70px;
+font-size:65px;
 animation:spin 1.5s linear infinite;
 }
 
 @keyframes spin{
-100%{transform:rotate(360deg);}
+100%{
+transform:rotate(360deg);
+}
 }
 
-/* HEADER */
+/ HEADER /
 
 .header{
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:15px;
+background:rgba(255,255,255,.05);
 backdrop-filter:blur(10px);
-background:rgba(255,255,255,0.05);
 position:sticky;
 top:0;
 z-index:100;
@@ -64,29 +67,34 @@ gap:10px;
 }
 
 .logo{
-width:50px;
-height:50px;
+width:52px;
+height:52px;
 border-radius:50%;
 object-fit:cover;
 border:2px solid white;
 }
 
+.lang{
+display:flex;
+gap:6px;
+}
+
 .lang button{
-padding:7px 10px;
+padding:8px 12px;
 border:none;
 border-radius:10px;
 background:#1e293b;
 color:white;
-margin-left:5px;
 cursor:pointer;
+font-size:12px;
 }
 
-/* PAGE */
+/ PAGE /
 
 .page{
 display:none;
 padding:20px;
-padding-bottom:100px;
+padding-bottom:110px;
 min-height:100vh;
 animation:fade .3s;
 }
@@ -96,11 +104,17 @@ display:block;
 }
 
 @keyframes fade{
-from{opacity:0;transform:translateY(10px);}
-to{opacity:1;transform:translateY(0);}
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
-/* MENU */
+/ MENU /
 
 .menu{
 display:grid;
@@ -109,11 +123,11 @@ gap:12px;
 margin-top:20px;
 }
 
-/* BUTTON */
+/ BUTTON /
 
 .btn{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(10px);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
 padding:15px;
 border-radius:18px;
 text-align:center;
@@ -121,45 +135,44 @@ font-size:14px;
 font-weight:bold;
 cursor:pointer;
 transition:.2s;
-box-shadow:0 0 15px rgba(99,102,241,.2);
+box-shadow:0 0 18px rgba(99,102,241,.15);
 }
 
 .btn:hover{
 transform:scale(1.03);
-background:rgba(255,255,255,0.12);
 }
 
 .btn:active{
 transform:scale(.96);
 }
 
-/* CARD */
+/ CARD /
 
 .card{
-margin-top:15px;
-padding:15px;
-border-radius:18px;
-background:rgba(255,255,255,0.06);
+margin-top:18px;
+padding:18px;
+border-radius:20px;
+background:rgba(255,255,255,.06);
 backdrop-filter:blur(12px);
-line-height:1.6;
+line-height:1.7;
 }
 
-/* BACK */
+/ BACK /
 
 .back{
-width:42px;
-height:42px;
+width:45px;
+height:45px;
 background:#ef4444;
-border-radius:12px;
+border-radius:13px;
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:20px;
+font-size:22px;
 cursor:pointer;
-margin-bottom:20px;
+margin-bottom:18px;
 }
 
-/* NAVBAR */
+/ NAV /
 
 .nav{
 position:fixed;
@@ -168,9 +181,10 @@ width:100%;
 display:flex;
 justify-content:space-around;
 padding:12px 0;
-background:rgba(2,6,23,.95);
-backdrop-filter:blur(10px);
+background:rgba(2,6,23,.96);
+backdrop-filter:blur(12px);
 border-top:1px solid rgba(255,255,255,.08);
+z-index:999;
 }
 
 .nav div{
@@ -179,33 +193,21 @@ text-align:center;
 cursor:pointer;
 }
 
-/* PHOTO BOX */
+/ CALL BUTTON /
 
-.photo-box{
-margin-top:20px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.photo-card{
-background:rgba(255,255,255,0.06);
-padding:15px;
-border-radius:18px;
-text-align:center;
-}
-
-.download{
+.call-btn{
+display:block;
 margin-top:10px;
-padding:10px;
-border:none;
-border-radius:12px;
-background:#22c55e;
+padding:15px;
+border-radius:15px;
+background:#16a34a;
+text-align:center;
+text-decoration:none;
 color:white;
 font-weight:bold;
-cursor:pointer;
-width:100%;
 }
+
+/ ADDRESS /
 
 .address{
 margin-top:25px;
@@ -214,16 +216,49 @@ opacity:.8;
 line-height:1.7;
 }
 
-.call-btn{
-display:block;
-margin-top:10px;
+/ MODAL /
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.8);
+z-index:9999;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.modal-box{
+background:#111827;
+padding:20px;
+border-radius:22px;
+width:100%;
+max-width:420px;
+}
+
+.input{
+width:100%;
 padding:14px;
+border:none;
 border-radius:14px;
-background:#16a34a;
-text-align:center;
-text-decoration:none;
+margin-top:12px;
+background:#1f2937;
 color:white;
-font-weight:bold;
+font-size:14px;
+}
+
+textarea{
+resize:none;
+height:120px;
+}
+
+.download-btn{
+display:none;
+margin-top:15px;
 }
 
 </style>
@@ -234,7 +269,7 @@ font-weight:bold;
 <!-- LOADER -->
 
 <div id="loader">
-<div class="loader-icon">🔄</div>
+<div class="loader-icon">🔥</div>
 <p>Omad Tour yuklanmoqda...</p>
 </div>
 
@@ -246,7 +281,7 @@ font-weight:bold;
 
 <div class="logoBox">
 
-<img src="logo.ping" class="logo">
+<img src="YOUR_LOGO.png" class="logo">
 
 <div>
 <b>Omad Tour</b><br>
@@ -257,8 +292,8 @@ font-weight:bold;
 
 <div class="lang">
 <button onclick="setLang('uz')">UZ</button>
-<button onclick="setLang('ru')">RU</button>
-<button onclick="setLang('kr')">КР</button>
+<button onclick="setLang('ru')">РУС</button>
+<button onclick="setLang('kr')">ЎЗ</button>
 </div>
 
 </div>
@@ -283,8 +318,16 @@ font-weight:bold;
 
 </div>
 
-<div class="card" id="promo">
+<div class="card">
+
 🔥 Premium xizmatlar va tezkor yordam
+
+<div class="btn"
+style="margin-top:15px;"
+onclick="openModal()">
+💬 Bog‘lanish
+</div>
+
 </div>
 
 <div class="address">
@@ -318,22 +361,63 @@ font-weight:bold;
 
 <div class="back" onclick="goHome()">←</div>
 
+<h2>✈️ Avia Bilet</h2>
+
 <div class="menu">
 
 <div class="btn"
-onclick="window.open('https://t.me/+OW_pzYSHjIA5NmQy')">
-📩 Telegram Guruh
+onclick="window.open('https://t.me/OMAD_TOUR9094')">
+📩 @OMAD_TOUR9094
 </div>
 
 <div class="btn"
-onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t')">
-💬 WhatsApp Guruh
+onclick="window.open('https://t.me/omad_tour')">
+📩 @omad_tour
+</div>
+
+<div class="btn"
+onclick="window.open('https://t.me/AVIAKASSA9094')">
+📩 @AVIAKASSA9094
+</div>
+
+<div class="btn"
+onclick="window.open('https://wa.me/79811939094')">
+💬 WhatsApp 1
+</div>
+
+<div class="btn"
+onclick="window.open('https://wa.me/79379499094')">
+💬 WhatsApp 2
+</div>
+
+<div class="btn"
+onclick="window.location.href='tel:+79811939094'">
+📞 +7 981 193 90 94
+</div>
+
+<div class="btn"
+onclick="window.location.href='tel:+79214027489'">
+📞 +7 921 402 74 89
 </div>
 
 </div>
 
 <div class="card">
-✈️ Eng yaxshi avia biletlar va tezkor javoblar guruhlarimizda.
+
+<h3>👥 Guruhlarimiz</h3>
+
+<div class="btn"
+style="margin-top:12px;"
+onclick="window.open('https://t.me/+OW_pzYSHjIA5NmQy')">
+📢 Telegram Guruh
+</div>
+
+<div class="btn"
+style="margin-top:12px;"
+onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t')">
+💬 WhatsApp Guruh
+</div>
+
 </div>
 
 </section>
@@ -344,13 +428,16 @@ onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t
 
 <div class="back" onclick="goHome()">←</div>
 
+<h2>🛂 Viza</h2>
+
 <div class="btn"
+style="margin-top:20px;"
 onclick="window.open('https://visa.mfa.uz/ruxsat/view')">
 🌐 Vizani Tekshirish
 </div>
 
 <div class="card">
-🛂 Viza holatini online tekshirish mumkin.
+🛂 Vizangiz holatini online tekshiring.
 </div>
 
 </section>
@@ -361,31 +448,51 @@ onclick="window.open('https://visa.mfa.uz/ruxsat/view')">
 
 <div class="back" onclick="goHome()">←</div>
 
-<div class="photo-box">
-
-<div class="photo-card">
-📸 3.5 × 4.5<br>
-HD / 4K Format<br>
-Oq Fon
-<button class="download">
-⬇️ Saqlash
-</button>
-</div>
-
-<div class="photo-card">
-📸 2 × 3<br>
-HD / 4K Format<br>
-Oq Fon
-<button class="download">
-⬇️ Saqlash
-</button>
-</div>
-
-</div>
+<h2>📸 Passport Foto</h2>
 
 <div class="card">
-📱 Saqlanganda galereyaga va iPhone Photos bo‘limiga tushadi.
+
+<input
+type="file"
+id="upload"
+accept="image/*"
+class="input">
+
+<p style="margin-top:15px;">
+✅ Orqa fon oq bo‘ladi<br><br>
+✅ 3.5 × 4.5 format<br><br>
+✅ 2 × 3 format<br><br>
+✅ HD / 4K sifat<br><br>
+✅ Galereyaga saqlanadi
+</p>
+
 </div>
+
+<div class="menu">
+
+<div class="btn"
+onclick="makePhoto('3x4')">
+📸 3.5 × 4.5
+</div>
+
+<div class="btn"
+onclick="makePhoto('2x3')">
+📸 2 × 3
+</div>
+
+</div>
+
+<a id="downloadBtn"
+download="passport-photo.png"
+class="download-btn">
+
+<div class="btn">
+⬇️ Saqlash
+</div>
+
+</a>
+
+<canvas id="canvas" style="display:none;"></canvas>
 
 </section>
 
@@ -395,19 +502,66 @@ Oq Fon
 
 <div class="back" onclick="goHome()">←</div>
 
+<h2>📄 Xizmatlar</h2>
+
 <div class="card">
 
-📄 Kserokopiya<br>
-📠 Skan xizmatlari<br>
-📸 Foto xizmatlari<br>
-🛂 Hujjat tayyorlash<br>
+📄 Kserokopiya<br><br>
+📠 Skan xizmatlari<br><br>
+📸 Foto xizmatlari<br><br>
+🛂 Hujjat tayyorlash<br><br>
 ✈️ Avia yordam
+
+</div>
+
+<div class="btn"
+style="margin-top:20px;"
+onclick="window.open('https://t.me/AVIAKASSA9094')">
+
+📩 Zakaz Berish
 
 </div>
 
 </section>
 
-<!-- NAVBAR -->
+<!-- CONTACT MODAL -->
+
+<div id="contactModal" class="modal">
+
+<div class="modal-box">
+
+<h2>💬 Bog‘lanish</h2>
+
+<input
+type="text"
+id="phoneInput"
+placeholder="+79379499094"
+class="input">
+
+<textarea
+id="questionInput"
+placeholder="Savolingiz..."
+class="input"></textarea>
+
+<div class="menu">
+
+<div class="btn"
+onclick="sendQuestion()">
+📩 Yuborish
+</div>
+
+<div class="btn"
+onclick="closeModal()">
+⬅️ Orqaga
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- NAV -->
 
 <div class="nav">
 
@@ -431,6 +585,8 @@ Oq Fon
 
 <script>
 
+/ PAGE /
+
 function openPage(id){
 document.querySelectorAll('.page').forEach(p=>{
 p.classList.remove('active');
@@ -447,7 +603,89 @@ document.getElementById('home').classList.add('active');
 window.scrollTo(0,0);
 }
 
-/* LANG */
+/ MODAL /
+
+function openModal(){
+document.getElementById('contactModal').style.display='flex';
+}
+
+function closeModal(){
+document.getElementById('contactModal').style.display='none';
+}
+
+function sendQuestion(){
+
+let phone=document.getElementById('phoneInput').value.trim();
+let question=document.getElementById('questionInput').value.trim();
+
+let regex=/^+7\d{10}$/;
+
+if(!regex.test(phone)){
+alert("Telefon raqam noto‘g‘ri!\nMisol: +79379499094");
+return;
+}
+
+if(question.length<3){
+alert("Savol yozing!");
+return;
+}
+
+alert("✅ Savolingiz yuborildi!");
+closeModal();
+
+}
+
+/ PHOTO /
+
+function makePhoto(type){
+
+let file=document.getElementById('upload').files[0];
+
+if(!file){
+alert("Rasm tanlang!");
+return;
+}
+
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+let img=new Image();
+
+img.onload=function(){
+
+let canvas=document.getElementById('canvas');
+let ctx=canvas.getContext('2d');
+
+if(type=="3x4"){
+canvas.width=1050;
+canvas.height=1350;
+}else{
+canvas.width=800;
+canvas.height=1200;
+}
+
+ctx.fillStyle="white";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+let link=document.getElementById('downloadBtn');
+
+link.href=canvas.toDataURL("image/png");
+link.style.display="block";
+
+}
+
+img.src=e.target.result;
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+/ LANGUAGE /
 
 function setLang(lang){
 
@@ -457,7 +695,7 @@ b1.innerText="✈️ Авиабилеты";
 b2.innerText="🛂 Виза";
 b3.innerText="📸 Фото";
 b4.innerText="📄 Услуги";
-promo.innerText="🔥 Премиум услуги и быстрый сервис";
+subtitle.innerText="Сервис";
 
 }
 
@@ -467,7 +705,7 @@ b1.innerText="✈️ Авиа билет";
 b2.innerText="🛂 Виза";
 b3.innerText="📸 Фото";
 b4.innerText="📄 Хизматлар";
-promo.innerText="🔥 Премиум хизмат ва тезкор ёрдам";
+subtitle.innerText="Сервис";
 
 }
 
@@ -477,17 +715,17 @@ b1.innerText="✈️ Avia Bilet";
 b2.innerText="🛂 Viza";
 b3.innerText="📸 Foto";
 b4.innerText="📄 Xizmatlar";
-promo.innerText="🔥 Premium xizmatlar va tezkor yordam";
+subtitle.innerText="Servis";
 
 }
 
 }
 
-/* LOADER */
+/ LOADER */
 
 setTimeout(()=>{
 document.getElementById('loader').style.display='none';
-},1800);
+},1700);
 
 </script>
 
