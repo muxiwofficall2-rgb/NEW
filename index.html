@@ -16,7 +16,7 @@ font-family:Arial;
 }
 
 body{
-background:linear-gradient(135deg,#020617,#0f172a,#1e1b4b);
+background:linear-gradient(135deg,#020617,#111827,#1e1b4b);
 color:white;
 overflow-x:hidden;
 }
@@ -25,6 +25,8 @@ overflow-x:hidden;
 
 #loader{
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
 background:#020617;
@@ -32,7 +34,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-z-index:9999;
+z-index:99999;
 }
 
 .loader-icon{
@@ -52,9 +54,9 @@ transform:rotate(360deg);
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px;
+padding:14px;
 background:rgba(255,255,255,.05);
-backdrop-filter:blur(10px);
+backdrop-filter:blur(12px);
 position:sticky;
 top:0;
 z-index:100;
@@ -70,17 +72,17 @@ gap:10px;
 width:52px;
 height:52px;
 border-radius:50%;
-object-fit:cover;
 border:2px solid white;
+object-fit:cover;
 }
 
 .lang{
 display:flex;
-gap:6px;
+gap:5px;
 }
 
 .lang button{
-padding:8px 12px;
+padding:7px 10px;
 border:none;
 border-radius:10px;
 background:#1e293b;
@@ -94,7 +96,7 @@ font-size:12px;
 .page{
 display:none;
 padding:20px;
-padding-bottom:110px;
+padding-bottom:120px;
 min-height:100vh;
 animation:fade .3s;
 }
@@ -106,7 +108,7 @@ display:block;
 @keyframes fade{
 from{
 opacity:0;
-transform:translateY(10px);
+transform:translateY(15px);
 }
 to{
 opacity:1;
@@ -114,32 +116,31 @@ transform:translateY(0);
 }
 }
 
-/ MENU /
+/ BUTTONS /
 
 .menu{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:12px;
+gap:14px;
 margin-top:20px;
 }
-
-/ BUTTON /
 
 .btn{
 background:rgba(255,255,255,.08);
 backdrop-filter:blur(12px);
-padding:15px;
-border-radius:18px;
+padding:16px;
+border-radius:20px;
 text-align:center;
 font-size:14px;
 font-weight:bold;
 cursor:pointer;
 transition:.2s;
-box-shadow:0 0 18px rgba(99,102,241,.15);
+box-shadow:0 0 18px rgba(99,102,241,.18);
 }
 
 .btn:hover{
 transform:scale(1.03);
+background:rgba(255,255,255,.12);
 }
 
 .btn:active{
@@ -151,7 +152,7 @@ transform:scale(.96);
 .card{
 margin-top:18px;
 padding:18px;
-border-radius:20px;
+border-radius:22px;
 background:rgba(255,255,255,.06);
 backdrop-filter:blur(12px);
 line-height:1.7;
@@ -160,19 +161,43 @@ line-height:1.7;
 / BACK /
 
 .back{
-width:45px;
-height:45px;
+width:46px;
+height:46px;
 background:#ef4444;
-border-radius:13px;
+border-radius:14px;
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:22px;
+font-size:24px;
 cursor:pointer;
-margin-bottom:18px;
+margin-bottom:20px;
+box-shadow:0 0 15px rgba(239,68,68,.5);
 }
 
-/ NAV /
+/ CALL /
+
+.call-btn{
+display:block;
+margin-top:12px;
+padding:15px;
+border-radius:16px;
+background:linear-gradient(135deg,#16a34a,#22c55e);
+text-align:center;
+text-decoration:none;
+color:white;
+font-weight:bold;
+}
+
+/ ADDRESS /
+
+.address{
+margin-top:25px;
+line-height:1.8;
+font-size:13px;
+opacity:.85;
+}
+
+/ NAVBAR /
 
 .nav{
 position:fixed;
@@ -181,7 +206,7 @@ width:100%;
 display:flex;
 justify-content:space-around;
 padding:12px 0;
-background:rgba(2,6,23,.96);
+background:rgba(2,6,23,.95);
 backdrop-filter:blur(12px);
 border-top:1px solid rgba(255,255,255,.08);
 z-index:999;
@@ -193,30 +218,7 @@ text-align:center;
 cursor:pointer;
 }
 
-/ CALL BUTTON /
-
-.call-btn{
-display:block;
-margin-top:10px;
-padding:15px;
-border-radius:15px;
-background:#16a34a;
-text-align:center;
-text-decoration:none;
-color:white;
-font-weight:bold;
-}
-
-/ ADDRESS /
-
-.address{
-margin-top:25px;
-font-size:13px;
-opacity:.8;
-line-height:1.7;
-}
-
-/ MODAL /
+/ MODAL */
 
 .modal{
 display:none;
@@ -226,7 +228,7 @@ left:0;
 width:100%;
 height:100%;
 background:rgba(0,0,0,.8);
-z-index:9999;
+z-index:99999;
 justify-content:center;
 align-items:center;
 padding:20px;
@@ -235,14 +237,14 @@ padding:20px;
 .modal-box{
 background:#111827;
 padding:20px;
-border-radius:22px;
+border-radius:24px;
 width:100%;
 max-width:420px;
 }
 
 .input{
 width:100%;
-padding:14px;
+padding:15px;
 border:none;
 border-radius:14px;
 margin-top:12px;
@@ -258,7 +260,8 @@ height:120px;
 
 .download-btn{
 display:none;
-margin-top:15px;
+margin-top:18px;
+text-decoration:none;
 }
 
 </style>
@@ -269,8 +272,10 @@ margin-top:15px;
 <!-- LOADER -->
 
 <div id="loader">
+
 <div class="loader-icon">🔥</div>
 <p>Omad Tour yuklanmoqda...</p>
+
 </div>
 
 <!-- HOME -->
@@ -291,9 +296,11 @@ margin-top:15px;
 </div>
 
 <div class="lang">
+
 <button onclick="setLang('uz')">UZ</button>
 <button onclick="setLang('ru')">РУС</button>
 <button onclick="setLang('kr')">ЎЗ</button>
+
 </div>
 
 </div>
@@ -409,13 +416,17 @@ onclick="window.location.href='tel:+79214027489'">
 <div class="btn"
 style="margin-top:12px;"
 onclick="window.open('https://t.me/+OW_pzYSHjIA5NmQy')">
+
 📢 Telegram Guruh
+
 </div>
 
 <div class="btn"
 style="margin-top:12px;"
 onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t')">
+
 💬 WhatsApp Guruh
+
 </div>
 
 </div>
@@ -433,7 +444,9 @@ onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t
 <div class="btn"
 style="margin-top:20px;"
 onclick="window.open('https://visa.mfa.uz/ruxsat/view')">
+
 🌐 Vizani Tekshirish
+
 </div>
 
 <div class="card">
@@ -459,11 +472,13 @@ accept="image/*"
 class="input">
 
 <p style="margin-top:15px;">
+
 ✅ Orqa fon oq bo‘ladi<br><br>
 ✅ 3.5 × 4.5 format<br><br>
 ✅ 2 × 3 format<br><br>
 ✅ HD / 4K sifat<br><br>
 ✅ Galereyaga saqlanadi
+
 </p>
 
 </div>
@@ -472,12 +487,16 @@ class="input">
 
 <div class="btn"
 onclick="makePhoto('3x4')">
+
 📸 3.5 × 4.5
+
 </div>
 
 <div class="btn"
 onclick="makePhoto('2x3')">
+
 📸 2 × 3
+
 </div>
 
 </div>
@@ -524,7 +543,7 @@ onclick="window.open('https://t.me/AVIAKASSA9094')">
 
 </section>
 
-<!-- CONTACT MODAL -->
+<!-- MODAL -->
 
 <div id="contactModal" class="modal">
 
@@ -547,12 +566,16 @@ class="input"></textarea>
 
 <div class="btn"
 onclick="sendQuestion()">
+
 📩 Yuborish
+
 </div>
 
 <div class="btn"
 onclick="closeModal()">
+
 ⬅️ Orqaga
+
 </div>
 
 </div>
@@ -585,25 +608,29 @@ onclick="closeModal()">
 
 <script>
 
-/ PAGE /
-
 function openPage(id){
+
 document.querySelectorAll('.page').forEach(p=>{
 p.classList.remove('active');
 });
+
 document.getElementById(id).classList.add('active');
+
 window.scrollTo(0,0);
+
 }
 
 function goHome(){
+
 document.querySelectorAll('.page').forEach(p=>{
 p.classList.remove('active');
 });
-document.getElementById('home').classList.add('active');
-window.scrollTo(0,0);
-}
 
-/ MODAL /
+document.getElementById('home').classList.add('active');
+
+window.scrollTo(0,0);
+
+}
 
 function openModal(){
 document.getElementById('contactModal').style.display='flex';
@@ -631,11 +658,10 @@ return;
 }
 
 alert("✅ Savolingiz yuborildi!");
+
 closeModal();
 
 }
-
-/ PHOTO /
 
 function makePhoto(type){
 
@@ -685,8 +711,6 @@ reader.readAsDataURL(file);
 
 }
 
-/ LANGUAGE /
-
 function setLang(lang){
 
 if(lang=="ru"){
@@ -721,8 +745,6 @@ subtitle.innerText="Servis";
 
 }
 
-/ LOADER */
-
 setTimeout(()=>{
 document.getElementById('loader').style.display='none';
 },1700);
@@ -730,4 +752,4 @@ document.getElementById('loader').style.display='none';
 </script>
 
 </body>
-</html>
+</h
