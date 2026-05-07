@@ -1,65 +1,35 @@
-```html
 <!DOCTYPE html>
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Omad Tour Premium</title>
+<title>Omad Tour Servis</title>
 
 <style>
 
-{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-
 body{
-background:linear-gradient(135deg,#020617,#111827,#1e1b4b);
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#0f172a,#3b0764);
 color:white;
-overflow-x:hidden;
 }
 
-/ LOADER /
-
-#loader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#020617;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:99999;
-}
-
-.loader-icon{
-font-size:65px;
-animation:spin 1.5s linear infinite;
-}
-
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
-}
-
-/ HEADER /
+/* HEADER */
 
 .header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:14px;
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(12px);
-position:sticky;
-top:0;
-z-index:100;
+padding:10px;
+}
+
+/* LOGO */
+
+.logo{
+width:45px;
+height:45px;
+border-radius:50%;
+object-fit:cover;
 }
 
 .logoBox{
@@ -68,13 +38,119 @@ align-items:center;
 gap:10px;
 }
 
-.logo{
-width:52px;
-height:52px;
-border-radius:50%;
-border:2px solid white;
-object-fit:cover;
+/* PAGE */
+
+.page{
+padding:20px;
+min-height:100vh;
+display:flex;
+flex-direction:column;
 }
+
+.hidden{
+display:none;
+}
+
+/* MENU */
+
+.menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+max-width:480px;
+margin:20px auto;
+}
+
+/* BUTTON */
+
+.btn{
+display:flex;
+justify-content:center;
+align-items:center;
+padding:12px;
+border-radius:14px;
+background:linear-gradient(135deg,#6366f1,#9333ea);
+font-size:14px;
+font-weight:600;
+cursor:pointer;
+transition:.2s;
+text-align:center;
+}
+
+.btn:hover{
+transform:scale(1.03);
+}
+
+.btn.big{
+grid-column:span 2;
+background:linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+/* CALL */
+
+.call-btn{
+display:block;
+text-align:center;
+padding:12px;
+border-radius:12px;
+margin:6px 0;
+background:linear-gradient(135deg,#22c55e,#16a34a);
+color:white;
+text-decoration:none;
+font-weight:600;
+}
+
+/* ADDRESS */
+
+.address{
+margin-top:25px;
+font-size:12px;
+opacity:.7;
+text-align:center;
+}
+
+/* TOPBAR */
+
+.topbar{
+width:100%;
+display:flex;
+justify-content:flex-start;
+margin-bottom:20px;
+}
+
+/* BACK */
+
+.back{
+display:flex;
+justify-content:center;
+align-items:center;
+width:42px;
+height:42px;
+background:red;
+border-radius:12px;
+cursor:pointer;
+font-size:20px;
+font-weight:bold;
+color:white;
+}
+
+/* INNER */
+
+.inner-btn{
+padding:12px;
+font-size:13px;
+margin:8px 0;
+}
+
+.bottom-btn{
+margin-top:40px;
+}
+
+.text{
+line-height:1.7;
+}
+
+/* LANG */
 
 .lang{
 display:flex;
@@ -82,674 +158,416 @@ gap:5px;
 }
 
 .lang button{
-padding:7px 10px;
+padding:6px 10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* INPUT */
+
+input,textarea{
+width:100%;
+padding:12px;
 border:none;
 border-radius:10px;
-background:#1e293b;
-color:white;
-cursor:pointer;
-font-size:12px;
-}
-
-/ PAGE /
-
-.page{
-display:none;
-padding:20px;
-padding-bottom:120px;
-min-height:100vh;
-animation:fade .3s;
-}
-
-.active{
-display:block;
-}
-
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(15px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-/ BUTTONS /
-
-.menu{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:20px;
-}
-
-.btn{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-padding:16px;
-border-radius:20px;
-text-align:center;
-font-size:14px;
-font-weight:bold;
-cursor:pointer;
-transition:.2s;
-box-shadow:0 0 18px rgba(99,102,241,.18);
-}
-
-.btn:hover{
-transform:scale(1.03);
-background:rgba(255,255,255,.12);
-}
-
-.btn:active{
-transform:scale(.96);
-}
-
-/ CARD /
-
-.card{
-margin-top:18px;
-padding:18px;
-border-radius:22px;
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(12px);
-line-height:1.7;
-}
-
-/ BACK /
-
-.back{
-width:46px;
-height:46px;
-background:#ef4444;
-border-radius:14px;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:24px;
-cursor:pointer;
-margin-bottom:20px;
-box-shadow:0 0 15px rgba(239,68,68,.5);
-}
-
-/ CALL /
-
-.call-btn{
-display:block;
-margin-top:12px;
-padding:15px;
-border-radius:16px;
-background:linear-gradient(135deg,#16a34a,#22c55e);
-text-align:center;
-text-decoration:none;
-color:white;
-font-weight:bold;
-}
-
-/ ADDRESS /
-
-.address{
-margin-top:25px;
-line-height:1.8;
-font-size:13px;
-opacity:.85;
-}
-
-/ NAVBAR /
-
-.nav{
-position:fixed;
-bottom:0;
-width:100%;
-display:flex;
-justify-content:space-around;
-padding:12px 0;
-background:rgba(2,6,23,.95);
-backdrop-filter:blur(12px);
-border-top:1px solid rgba(255,255,255,.08);
-z-index:999;
-}
-
-.nav div{
-font-size:12px;
-text-align:center;
-cursor:pointer;
-}
-
-/ MODAL */
-
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.8);
-z-index:99999;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
-
-.modal-box{
-background:#111827;
-padding:20px;
-border-radius:24px;
-width:100%;
-max-width:420px;
-}
-
-.input{
-width:100%;
-padding:15px;
-border:none;
-border-radius:14px;
-margin-top:12px;
-background:#1f2937;
-color:white;
+margin-top:10px;
 font-size:14px;
 }
 
 textarea{
-resize:none;
 height:120px;
+resize:none;
 }
 
-.download-btn{
-display:none;
-margin-top:18px;
-text-decoration:none;
+/* PHOTO */
+
+.photo-box{
+background:rgba(255,255,255,.08);
+padding:20px;
+border-radius:16px;
+text-align:center;
+margin-top:20px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- LOADER -->
+<!-- HEADER -->
 
-<div id="loader">
-
-<div class="loader-icon">🔥</div>
-<p>Omad Tour yuklanmoqda...</p>
-
-</div>
-
-<!-- HOME -->
-
-<section id="home" class="page active">
-
-<div class="header">
+<header class="header">
 
 <div class="logoBox">
 
-<img src="YOUR_LOGO.png" class="logo">
+<img src="OneDrive/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/foto/sss%20png.png" class="logo">
 
 <div>
-<b>Omad Tour</b><br>
+<span>Omad Tour</span><br>
 <small id="subtitle">Servis</small>
 </div>
 
 </div>
 
 <div class="lang">
-
-<button onclick="setLang('uz')">UZ</button>
-<button onclick="setLang('ru')">РУС</button>
-<button onclick="setLang('kr')">ЎЗ</button>
-
+<button onclick="setLang('uz')">UZ🇺🇿</button>
+<button onclick="setLang('ru')">RU🇷🇺</button>
+<button onclick="setLang('kr')">ЎЗ🇺🇿</button>
 </div>
 
-</div>
+</header>
+
+<!-- HOME -->
+
+<section id="home" class="page">
 
 <div class="menu">
 
-<div class="btn" onclick="openPage('avia')" id="b1">
-✈️ Avia Bilet
+<div class="btn" id="btn1" onclick="openPage('avia')">
+✈️ Avia bilet
 </div>
 
-<div class="btn" onclick="openPage('visa')" id="b2">
-🛂 Viza
+<div class="btn" id="btn2" onclick="openPage('visa')">
+🛂 Viza javoblari
 </div>
 
-<div class="btn" onclick="openPage('photo')" id="b3">
+<div class="btn" id="btn3"
+onclick="window.open('https://t.me/+OW_pzYSHjIA5NmQy')">
+👥 Telegram guruhimiz
+</div>
+
+<div class="btn" id="btn4" onclick="openPage('support')">
+📞 Yordam
+</div>
+
+<div class="btn" id="btn5" onclick="openPage('photo')">
 📸 Foto
 </div>
 
-<div class="btn" onclick="openPage('services')" id="b4">
+<div class="btn" id="btn6" onclick="openPage('services')">
 📄 Xizmatlar
 </div>
 
 </div>
 
-<div class="card">
-
-🔥 Premium xizmatlar va tezkor yordam
-
-<div class="btn"
-style="margin-top:15px;"
-onclick="openModal()">
-💬 Bog‘lanish
-</div>
-
-</div>
+<!-- ADDRESS -->
 
 <div class="address">
 
+<p>
 ООО «ОмадТур»<br>
 Санкт-Петербург метро Технологический институт<br>
 4-я Красноармейская дом 3<br>
 домофон 22в
+</p>
 
-<br><br>
-
+<p>
 ООО «ОмадТур»<br>
 Санкт-Петербург, метро Дыбенко<br>
 пр. Большевиков, 24к1
+</p>
 
 </div>
 
-<a href="tel:+79811939094" class="call-btn">
-📞 +7 981 193 90 94
+<!-- PHONE -->
+
+<div class="bottom-btn">
+
+<a href="tel:+79811939094"
+class="call-btn"
+id="call1">
+
+📞 Aloqa: +7 981 193 90 94
+
 </a>
 
-<a href="tel:+79379499094" class="call-btn">
-📞 +7 937 949 90 94
+<a href="tel:+79214027489"
+class="call-btn"
+id="call2">
+
+📞 Aloqa: +7 921 402 74 89
+
 </a>
+
+</div>
 
 </section>
 
 <!-- AVIA -->
 
-<section id="avia" class="page">
+<section id="avia" class="page hidden">
 
+<div class="topbar">
 <div class="back" onclick="goHome()">←</div>
-
-<h2>✈️ Avia Bilet</h2>
+</div>
 
 <div class="menu">
 
-<div class="btn"
-onclick="window.open('https://t.me/OMAD_TOUR9094')">
+<div class="btn inner-btn"
+onclick="tg('@OMAD_TOUR9094')">
 📩 @OMAD_TOUR9094
 </div>
 
-<div class="btn"
-onclick="window.open('https://t.me/omad_tour')">
+<div class="btn inner-btn"
+onclick="tg('@omad_tour')">
 📩 @omad_tour
 </div>
 
-<div class="btn"
-onclick="window.open('https://t.me/AVIAKASSA9094')">
+<div class="btn inner-btn"
+onclick="tg('@AVIAKASSA9094')">
 📩 @AVIAKASSA9094
 </div>
 
-<div class="btn"
+<div class="btn inner-btn"
 onclick="window.open('https://wa.me/79811939094')">
 💬 WhatsApp 1
 </div>
 
-<div class="btn"
+<div class="btn inner-btn"
 onclick="window.open('https://wa.me/79379499094')">
 💬 WhatsApp 2
 </div>
 
-<div class="btn"
+<div class="btn inner-btn"
 onclick="window.location.href='tel:+79811939094'">
 📞 +7 981 193 90 94
 </div>
 
-<div class="btn"
+<div class="btn inner-btn"
 onclick="window.location.href='tel:+79214027489'">
 📞 +7 921 402 74 89
 </div>
 
 </div>
 
-<div class="card">
-
-<h3>👥 Guruhlarimiz</h3>
-
-<div class="btn"
-style="margin-top:12px;"
+<div class="btn big bottom-btn"
 onclick="window.open('https://t.me/+OW_pzYSHjIA5NmQy')">
-
-📢 Telegram Guruh
-
+👥 Telegram Guruh
 </div>
 
-<div class="btn"
-style="margin-top:12px;"
+<div class="btn big"
 onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t')">
-
 💬 WhatsApp Guruh
-
-</div>
-
 </div>
 
 </section>
 
 <!-- VISA -->
 
-<section id="visa" class="page">
+<section id="visa" class="page hidden">
 
+<div class="topbar">
 <div class="back" onclick="goHome()">←</div>
-
-<h2>🛂 Viza</h2>
-
-<div class="btn"
-style="margin-top:20px;"
-onclick="window.open('https://visa.mfa.uz/ruxsat/view')">
-
-🌐 Vizani Tekshirish
-
 </div>
 
-<div class="card">
-🛂 Vizangiz holatini online tekshiring.
+<div class="btn inner-btn"
+onclick="window.open('https://visa.mfa.uz/ruxsat/view')">
+🌐 Vizani Tekshirish
+</div>
+
+</section>
+
+<!-- SUPPORT -->
+
+<section id="support" class="page hidden">
+
+<div class="topbar">
+<div class="back" onclick="goHome()">←</div>
+</div>
+
+<input type="text"
+id="phone"
+placeholder="+79379499094">
+
+<textarea
+id="question"
+placeholder="Savolingizni yozing..."></textarea>
+
+<div class="btn big bottom-btn"
+onclick="sendQuestion()">
+📩 Yuborish
 </div>
 
 </section>
 
 <!-- PHOTO -->
 
-<section id="photo" class="page">
+<section id="photo" class="page hidden">
 
+<div class="topbar">
 <div class="back" onclick="goHome()">←</div>
+</div>
 
-<h2>📸 Passport Foto</h2>
+<div class="photo-box">
 
-<div class="card">
-
-<input
-type="file"
-id="upload"
-accept="image/*"
-class="input">
+<input type="file"
+accept="image/*">
 
 <p style="margin-top:15px;">
-
-✅ Orqa fon oq bo‘ladi<br><br>
-✅ 3.5 × 4.5 format<br><br>
-✅ 2 × 3 format<br><br>
-✅ HD / 4K sifat<br><br>
-✅ Galereyaga saqlanadi
-
+3.5x4.5 yoki 2x3 format<br>
+Orqa fon oq<br>
+HD sifat
 </p>
-
-</div>
 
 <div class="menu">
 
-<div class="btn"
-onclick="makePhoto('3x4')">
-
-📸 3.5 × 4.5
-
+<div class="btn">
+📸 3.5x4.5
 </div>
-
-<div class="btn"
-onclick="makePhoto('2x3')">
-
-📸 2 × 3
-
-</div>
-
-</div>
-
-<a id="downloadBtn"
-download="passport-photo.png"
-class="download-btn">
 
 <div class="btn">
+📸 2x3
+</div>
+
+</div>
+
+<div class="btn big bottom-btn">
 ⬇️ Saqlash
 </div>
 
-</a>
-
-<canvas id="canvas" style="display:none;"></canvas>
+</div>
 
 </section>
 
 <!-- SERVICES -->
 
-<section id="services" class="page">
+<section id="services" class="page hidden">
 
+<div class="topbar">
 <div class="back" onclick="goHome()">←</div>
+</div>
 
-<h2>📄 Xizmatlar</h2>
+<div class="text">
 
-<div class="card">
-
-📄 Kserokopiya<br><br>
-📠 Skan xizmatlari<br><br>
-📸 Foto xizmatlari<br><br>
-🛂 Hujjat tayyorlash<br><br>
-✈️ Avia yordam
+КСЕРОКОПИЯ<br>
+СКАН<br>
+ФОТО<br>
+АНКЕТА<br>
+ВИЗА<br>
 
 </div>
 
-<div class="btn"
-style="margin-top:20px;"
-onclick="window.open('https://t.me/AVIAKASSA9094')">
-
-📩 Zakaz Berish
-
+<div class="btn big bottom-btn"
+onclick="tg('@AVIAKASSA9094')">
+📩 Zakaz
 </div>
 
 </section>
-
-<!-- MODAL -->
-
-<div id="contactModal" class="modal">
-
-<div class="modal-box">
-
-<h2>💬 Bog‘lanish</h2>
-
-<input
-type="text"
-id="phoneInput"
-placeholder="+79379499094"
-class="input">
-
-<textarea
-id="questionInput"
-placeholder="Savolingiz..."
-class="input"></textarea>
-
-<div class="menu">
-
-<div class="btn"
-onclick="sendQuestion()">
-
-📩 Yuborish
-
-</div>
-
-<div class="btn"
-onclick="closeModal()">
-
-⬅️ Orqaga
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- NAV -->
-
-<div class="nav">
-
-<div onclick="goHome()">
-🏠<br>Home
-</div>
-
-<div onclick="openPage('avia')">
-✈️<br>Avia
-</div>
-
-<div onclick="openPage('photo')">
-📸<br>Foto
-</div>
-
-<div onclick="openPage('services')">
-📄<br>Xizmat
-</div>
-
-</div>
 
 <script>
 
 function openPage(id){
 
-document.querySelectorAll('.page').forEach(p=>{
-p.classList.remove('active');
-});
+document.querySelectorAll('.page')
+.forEach(p=>p.classList.add('hidden'));
 
-document.getElementById(id).classList.add('active');
-
-window.scrollTo(0,0);
+document.getElementById(id)
+.classList.remove('hidden');
 
 }
 
 function goHome(){
 
-document.querySelectorAll('.page').forEach(p=>{
-p.classList.remove('active');
-});
+document.querySelectorAll('.page')
+.forEach(p=>p.classList.add('hidden'));
 
-document.getElementById('home').classList.add('active');
-
-window.scrollTo(0,0);
+document.getElementById('home')
+.classList.remove('hidden');
 
 }
 
-function openModal(){
-document.getElementById('contactModal').style.display='flex';
-}
+function tg(user){
 
-function closeModal(){
-document.getElementById('contactModal').style.display='none';
+window.open(
+"https://t.me/" +
+user.replace("@","")
+);
+
 }
 
 function sendQuestion(){
 
-let phone=document.getElementById('phoneInput').value.trim();
-let question=document.getElementById('questionInput').value.trim();
+let phone=
+document.getElementById('phone').value;
 
-let regex=/^+7\d{10}$/;
+let question=
+document.getElementById('question').value;
+
+let regex=/^\+7\d{10}$/;
 
 if(!regex.test(phone)){
-alert("Telefon raqam noto‘g‘ri!\nMisol: +79379499094");
+
+alert("Telefon raqam noto‘g‘ri!");
+
 return;
+
 }
 
 if(question.length<3){
+
 alert("Savol yozing!");
+
 return;
-}
-
-alert("✅ Savolingiz yuborildi!");
-
-closeModal();
 
 }
 
-function makePhoto(type){
-
-let file=document.getElementById('upload').files[0];
-
-if(!file){
-alert("Rasm tanlang!");
-return;
-}
-
-let reader=new FileReader();
-
-reader.onload=function(e){
-
-let img=new Image();
-
-img.onload=function(){
-
-let canvas=document.getElementById('canvas');
-let ctx=canvas.getContext('2d');
-
-if(type=="3x4"){
-canvas.width=1050;
-canvas.height=1350;
-}else{
-canvas.width=800;
-canvas.height=1200;
-}
-
-ctx.fillStyle="white";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-ctx.drawImage(img,0,0,canvas.width,canvas.height);
-
-let link=document.getElementById('downloadBtn');
-
-link.href=canvas.toDataURL("image/png");
-link.style.display="block";
-
-}
-
-img.src=e.target.result;
-
-}
-
-reader.readAsDataURL(file);
+alert("Savolingiz yuborildi ✅");
 
 }
 
 function setLang(lang){
 
-if(lang=="ru"){
+if(lang==="ru"){
 
-b1.innerText="✈️ Авиабилеты";
-b2.innerText="🛂 Виза";
-b3.innerText="📸 Фото";
-b4.innerText="📄 Услуги";
+btn1.innerText="✈️ Авиабилеты";
+btn2.innerText="🛂 Виза";
+btn3.innerText="👥 Телеграм группа";
+btn4.innerText="📞 Поддержка";
+btn5.innerText="📸 Фото";
+btn6.innerText="📄 Услуги";
 subtitle.innerText="Сервис";
+
+call1.innerText="📞 Связь: +7 981 193 90 94";
+call2.innerText="📞 Связь: +7 921 402 74 89";
 
 }
 
-else if(lang=="kr"){
+else if(lang==="kr"){
 
-b1.innerText="✈️ Авиа билет";
-b2.innerText="🛂 Виза";
-b3.innerText="📸 Фото";
-b4.innerText="📄 Хизматлар";
+btn1.innerText="✈️ Авиа билет";
+btn2.innerText="🛂 Виза";
+btn3.innerText="👥 Телеграм гуруҳ";
+btn4.innerText="📞 Ёрдам";
+btn5.innerText="📸 Фото";
+btn6.innerText="📄 Хизматлар";
 subtitle.innerText="Сервис";
+
+call1.innerText="📞 Алоқа: +7 981 193 90 94";
+call2.innerText="📞 Алоқа: +7 921 402 74 89";
 
 }
 
 else{
 
-b1.innerText="✈️ Avia Bilet";
-b2.innerText="🛂 Viza";
-b3.innerText="📸 Foto";
-b4.innerText="📄 Xizmatlar";
+btn1.innerText="✈️ Avia bilet";
+btn2.innerText="🛂 Viza";
+btn3.innerText="👥 Telegram guruh";
+btn4.innerText="📞 Yordam";
+btn5.innerText="📸 Foto";
+btn6.innerText="📄 Xizmatlar";
 subtitle.innerText="Servis";
 
-}
+call1.innerText="📞 Aloqa: +7 981 193 90 94";
+call2.innerText="📞 Aloqa: +7 921 402 74 89";
 
 }
 
-setTimeout(()=>{
-document.getElementById('loader').style.display='none';
-},1700);
+}
 
 </script>
 
 </body>
-</h
+</html>
