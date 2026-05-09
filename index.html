@@ -1,1 +1,600 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omad Tour Servis</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial;
+background:#060b16;
+color:white;
+overflow-x:hidden;
+}
+
+/* SPLASH */
+
+#welcome{
+position:fixed;
+inset:0;
+background:linear-gradient(180deg,#0f172a,#1e1b4b,#312e81);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+text-align:center;
+padding:20px;
+}
+
+#welcome h1{
+font-size:34px;
+margin-bottom:10px;
+}
+
+#welcome p{
+opacity:.8;
+margin-bottom:30px;
+line-height:1.5;
+}
+
+.start-btn{
+padding:15px 40px;
+border-radius:18px;
+background:linear-gradient(135deg,#22c55e,#16a34a);
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 0 20px rgba(34,197,94,.5);
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px;
+background:#0f172a;
+position:sticky;
+top:0;
+z-index:100;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.title{
+font-size:20px;
+font-weight:bold;
+}
+
+.lang button{
+border:none;
+padding:8px 12px;
+border-radius:10px;
+margin-left:5px;
+background:#1e293b;
+color:white;
+cursor:pointer;
+}
+
+/* PAGE */
+
+.page{
+display:none;
+padding:16px;
+min-height:100vh;
+}
+
+.active{
+display:block;
+}
+
+/* CARD */
+
+.card{
+background:#111827;
+border-radius:24px;
+padding:16px;
+margin-bottom:16px;
+border:1px solid rgba(255,255,255,.05);
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+/* BUTTON */
+
+.btn{
+padding:15px;
+border-radius:16px;
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+margin-top:12px;
+font-weight:600;
+cursor:pointer;
+text-align:center;
+transition:.2s;
+}
+
+.btn:hover{
+transform:scale(1.02);
+}
+
+/* MENU GRID */
+
+.menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+/* BACK */
+
+.back-btn{
+display:inline-block;
+padding:10px 14px;
+background:#dc2626;
+border-radius:12px;
+margin-bottom:15px;
+font-size:14px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* CALL */
+
+.call-row{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
+.call-btn{
+flex:1;
+padding:12px;
+border-radius:14px;
+background:#16a34a;
+text-decoration:none;
+color:white;
+text-align:center;
+font-weight:bold;
+}
+
+/* TEXT */
+
+.text{
+opacity:.9;
+line-height:1.6;
+margin-top:10px;
+}
+
+/* ANIMATION */
+
+.fade{
+animation:fade .4s ease;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(15px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- WELCOME -->
+
+<div id="welcome">
+
+<h1>✈️ Omad Tour</h1>
+
+<p id="welcomeText">
+Omad Tour servisiga xush kelibsiz ❤️
+</p>
+
+<div class="start-btn" onclick="startApp()" id="startBtn">
+🚀 Начать
+</div>
+
+</div>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="title">
+Omad Tour
+</div>
+
+<div class="lang">
+<button onclick="setLang('uz')">UZ 🇺🇿</button>
+<button onclick="setLang('ru')">RU 🇷🇺</button>
+</div>
+
+</div>
+
+<!-- HOME -->
+
+<div id="home" class="page active fade">
+
+<div class="card">
+
+<h2 id="homeTitle">
+👋 Xush kelibsiz
+</h2>
+
+<div class="text" id="homeText">
+Siz kerakli xizmatni tanlang
+</div>
+
+</div>
+
+<div class="menu">
+
+<div class="btn" onclick="openPage('avia')" id="aviaBtn">
+✈️ Avia bilet
+</div>
+
+<div class="btn" onclick="openPage('visa')" id="visaBtn">
+🛂 Viza javoblari
+</div>
+
+<div class="btn" onclick="openPage('groups')" id="groupBtn">
+👥 Guruhlarimiz
+</div>
+
+<div class="btn" onclick="openPage('anketa')" id="anketaBtn">
+📝 Anketa
+</div>
+
+</div>
+
+<!-- TEZKOR BOG‘LANISH -->
+
+<div style="margin-top:35px;" class="card">
+
+<div class="text" id="fastText">
+⚡ Tezkor bog‘lanish
+</div>
+
+<div class="call-row">
+
+<a href="tel:+79811939094" class="call-btn" id="callA">
+📞 Aloqa
+</a>
+
+<a href="tel:+79379499094" class="call-btn" id="callB">
+📞 Aloqa
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- AVIA -->
+
+<div id="avia" class="page fade">
+
+<div class="back-btn" onclick="goHome()" id="back1">
+⬅ Orqaga
+</div>
+
+<div class="card">
+
+<h2 id="aviaTitle">
+✈️ Avia bilet
+</h2>
+
+<div class="text" id="aviaText">
+Qulay aloqa orqali narx bilib bron qilishingiz mumkin
+</div>
+
+<div class="btn"
+onclick="window.open('https://wa.me/79811939094')"
+id="aviaWhatsapp">
+📞 WhatsApp
+</div>
+
+<div class="btn"
+onclick="window.open('https://max.ru/u/f9LHodD0cOLLpEmAWC_I3iUUWcn5IO6DFYg0IVz4jEXfm6BJP6OL-L7V0jk')"
+id="aviaMax">
+🚀 MAX
+</div>
+
+</div>
+
+</div>
+
+<!-- GROUPS -->
+
+<div id="groups" class="page fade">
+
+<div class="back-btn" onclick="goHome()" id="back2">
+⬅ Orqaga
+</div>
+
+<div class="card">
+
+<h2 id="groupsTitle">
+👥 Guruhlarimiz
+</h2>
+
+<div class="text" id="groupsText">
+Bizning rasmiy guruhlarimiz
+</div>
+
+<div class="btn"
+onclick="window.open('https://t.me/+OW_pzYSHjIA5NmQy')"
+id="tgGroup">
+📢 Telegram guruh
+</div>
+
+<div class="btn"
+onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t')"
+id="waGroup">
+💬 WhatsApp guruh
+</div>
+
+<div class="btn"
+onclick="window.open('https://max.ru/join/M4-SsjF594_qN-XYZd8YabTAqxvGFRzd30p_N2hRh7c')"
+id="maxGroup">
+🚀 MAX guruh
+</div>
+
+</div>
+
+</div>
+
+<!-- VISA -->
+
+<div id="visa" class="page fade">
+
+<div class="back-btn" onclick="goHome()" id="back3">
+⬅ Orqaga
+</div>
+
+<div class="card">
+
+<div class="btn"
+onclick="window.open('https://visa.mfa.uz/ruxsat/view')"
+id="visaCheck">
+🌐 Vizani tekshirish
+</div>
+
+<div class="btn"
+onclick="window.open('https://t.me/+i8I6ByH_CUVhOWQy')"
+id="visaGroup">
+👥 Konsulxona guruhi
+</div>
+
+</div>
+
+</div>
+
+<!-- ANKETA -->
+
+<div id="anketa" class="page fade">
+
+<div class="back-btn" onclick="goHome()" id="back4">
+⬅ Orqaga
+</div>
+
+<div class="card">
+
+<div class="text" id="anketaText">
+Загранпаспортная анкета — 1000₽<br><br>
+Возвращение — 500₽<br><br>
+Консульский учёт — 500₽<br><br>
+Транзит — 1000₽
+фото - 400₽
+копия чёрно беьлй 35₽
+цветная копия 50₽
+</div>
+
+<div class="btn"
+onclick="window.open('https://wa.me/79811939094')"
+id="orderBtn">
+📩 Buyurtma berish
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function startApp(){
+document.getElementById("welcome").style.display="none";
+}
+
+function openPage(id){
+
+document.querySelectorAll('.page').forEach(p=>{
+p.classList.remove('active');
+});
+
+document.getElementById(id).classList.add('active');
+
+}
+
+function goHome(){
+
+document.querySelectorAll('.page').forEach(p=>{
+p.classList.remove('active');
+});
+
+document.getElementById('home').classList.add('active');
+
+}
+
+function setLang(lang){
+
+if(lang==="ru"){
+
+document.getElementById("welcomeText").innerText=
+"Добро пожаловать в Omad Tour ❤️";
+
+document.getElementById("startBtn").innerText=
+"🚀 Начать";
+
+document.getElementById("homeTitle").innerText=
+"👋 Добро пожаловать";
+
+document.getElementById("homeText").innerText=
+"Выберите нужную услугу";
+
+document.getElementById("aviaBtn").innerText=
+"✈️ Авиабилеты";
+
+document.getElementById("visaBtn").innerText=
+"🛂 Визовые ответы";
+
+document.getElementById("groupBtn").innerText=
+"👥 Наши группы";
+
+document.getElementById("anketaBtn").innerText=
+"📝 Анкета";
+
+document.getElementById("fastText").innerText=
+"⚡ Быстрая связь";
+
+document.getElementById("callA").innerText=
+"📞 Связь";
+
+document.getElementById("callB").innerText=
+"📞 Связь";
+
+document.getElementById("aviaTitle").innerText=
+"✈️ Авиабилеты";
+
+document.getElementById("aviaText").innerText=
+"Свяжитесь удобным способом";
+
+document.getElementById("aviaWhatsapp").innerText=
+"📞 WhatsApp";
+
+document.getElementById("aviaMax").innerText=
+"🚀 MAX";
+
+document.getElementById("groupsTitle").innerText=
+"👥 Наши группы";
+
+document.getElementById("groupsText").innerText=
+"Наши официальные группы";
+
+document.getElementById("tgGroup").innerText=
+"📢 Телеграм группа";
+
+document.getElementById("waGroup").innerText=
+"💬 WhatsApp группа";
+
+document.getElementById("maxGroup").innerText=
+"🚀 MAX группа";
+
+document.getElementById("visaCheck").innerText=
+"🌐 Проверить визу";
+
+document.getElementById("visaGroup").innerText=
+"👥 Группа консульства";
+
+document.getElementById("orderBtn").innerText=
+"📩 Заказать";
+
+document.getElementById("back1").innerText="⬅ Назад";
+document.getElementById("back2").innerText="⬅ Назад";
+document.getElementById("back3").innerText="⬅ Назад";
+document.getElementById("back4").innerText="⬅ Назад";
+
+}else{
+
+document.getElementById("welcomeText").innerText=
+"Omad Tour servisiga xush kelibsiz ❤️";
+
+document.getElementById("startBtn").innerText=
+"🚀 Boshlash";
+
+document.getElementById("homeTitle").innerText=
+"👋 Xush kelibsiz";
+
+document.getElementById("homeText").innerText=
+"Siz kerakli xizmatni tanlang";
+
+document.getElementById("aviaBtn").innerText=
+"✈️ Avia bilet";
+
+document.getElementById("visaBtn").innerText=
+"🛂 Viza javoblari";
+
+document.getElementById("groupBtn").innerText=
+"👥 Guruhlarimiz";
+
+document.getElementById("anketaBtn").innerText=
+"📝 Anketa";
+
+document.getElementById("fastText").innerText=
+"⚡ Tezkor bog‘lanish";
+
+document.getElementById("callA").innerText=
+"📞 +79811939094";
+
+document.getElementById("callB").innerText=
+"📞 +79379499094";
+
+document.getElementById("aviaTitle").innerText=
+"✈️ Avia bilet";
+
+document.getElementById("aviaText").innerText=
+"Qulay aloqa orqali narx bilib bron qilishingiz mumkin";
+
+document.getElementById("groupsTitle").innerText=
+"👥 Guruhlarimiz";
+
+document.getElementById("groupsText").innerText=
+"Bizning rasmiy guruhlarimiz";
+
+document.getElementById("tgGroup").innerText=
+"📢 Telegram guruh";
+
+document.getElementById("waGroup").innerText=
+"💬 WhatsApp guruh";
+
+document.getElementById("maxGroup").innerText=
+"🚀 MAX guruh";
+
+document.getElementById("visaCheck").innerText=
+"🌐 Vizani tekshirish";
+
+document.getElementById("visaGroup").innerText=
+"👥 Konsulxona guruhi";
+
+document.getElementById("orderBtn").innerText=
+"📩 Buyurtma berish";
+
+document.getElementById("back1").innerText="⬅ Orqaga";
+document.getElementById("back2").innerText="⬅ Orqaga";
+document.getElementById("back3").innerText="⬅ Orqaga";
+document.getElementById("back4").innerText="⬅ Orqaga";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
