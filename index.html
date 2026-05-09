@@ -1,573 +1,170 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Omad Tour Servis</title>
-
-<style>
-
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(135deg,#0f172a,#3b0764);
-color:white;
-}
-
-/* HEADER */
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:10px;
-}
-
-/* LOGO */
-
-.logo{
-width:45px;
-height:45px;
-border-radius:50%;
-object-fit:cover;
-}
-
-.logoBox{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-/* PAGE */
-
-.page{
-padding:20px;
-min-height:100vh;
-display:flex;
-flex-direction:column;
-}
-
-.hidden{
-display:none;
-}
-
-/* MENU */
-
-.menu{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-max-width:480px;
-margin:20px auto;
-}
-
-/* BUTTON */
-
-.btn{
-display:flex;
-justify-content:center;
-align-items:center;
-padding:12px;
-border-radius:14px;
-background:linear-gradient(135deg,#6366f1,#9333ea);
-font-size:14px;
-font-weight:600;
-cursor:pointer;
-transition:.2s;
-text-align:center;
-}
-
-.btn:hover{
-transform:scale(1.03);
-}
-
-.btn.big{
-grid-column:span 2;
-background:linear-gradient(135deg,#22c55e,#16a34a);
-}
-
-/* CALL */
-
-.call-btn{
-display:block;
-text-align:center;
-padding:12px;
-border-radius:12px;
-margin:6px 0;
-background:linear-gradient(135deg,#22c55e,#16a34a);
-color:white;
-text-decoration:none;
-font-weight:600;
-}
-
-/* ADDRESS */
-
-.address{
-margin-top:25px;
-font-size:12px;
-opacity:.7;
-text-align:center;
-}
-
-/* TOPBAR */
-
-.topbar{
-width:100%;
-display:flex;
-justify-content:flex-start;
-margin-bottom:20px;
-}
-
-/* BACK */
-
-.back{
-display:flex;
-justify-content:center;
-align-items:center;
-width:42px;
-height:42px;
-background:red;
-border-radius:12px;
-cursor:pointer;
-font-size:20px;
-font-weight:bold;
-color:white;
-}
-
-/* INNER */
-
-.inner-btn{
-padding:12px;
-font-size:13px;
-margin:8px 0;
-}
-
-.bottom-btn{
-margin-top:40px;
-}
-
-.text{
-line-height:1.7;
-}
-
-/* LANG */
-
-.lang{
-display:flex;
-gap:5px;
-}
-
-.lang button{
-padding:6px 10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-}
-
-/* INPUT */
-
-input,textarea{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-margin-top:10px;
-font-size:14px;
-}
-
-textarea{
-height:120px;
-resize:none;
-}
-
-/* PHOTO */
-
-.photo-box{
-background:rgba(255,255,255,.08);
-padding:20px;
-border-radius:16px;
-text-align:center;
-margin-top:20px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<!-- HEADER -->
-
-<header class="header">
-
-<div class="logoBox">
-
-<img src="OneDrive/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/foto/sss%20png.png" class="logo">
-
-<div>
-<span>Omad Tour</span><br>
-<small id="subtitle">Servis</small>
-</div>
-
-</div>
-
-<div class="lang">
-<button onclick="setLang('uz')">UZ🇺🇿</button>
-<button onclick="setLang('ru')">RU🇷🇺</button>
-<button onclick="setLang('kr')">ЎЗ🇺🇿</button>
-</div>
-
-</header>
-
-<!-- HOME -->
-
-<section id="home" class="page">
-
-<div class="menu">
-
-<div class="btn" id="btn1" onclick="openPage('avia')">
-✈️ Avia bilet
-</div>
-
-<div class="btn" id="btn2" onclick="openPage('visa')">
-🛂 Viza javoblari
-</div>
-
-<div class="btn" id="btn3"
-onclick="window.open('https://t.me/+OW_pzYSHjIA5NmQy')">
-👥 Telegram guruhimiz
-</div>
-
-<div class="btn" id="btn4" onclick="openPage('support')">
-📞 Yordam
-</div>
-
-<div class="btn" id="btn5" onclick="openPage('photo')">
-📸 Foto
-</div>
-
-<div class="btn" id="btn6" onclick="openPage('services')">
-📄 Xizmatlar
-</div>
-
-</div>
-
-<!-- ADDRESS -->
-
-<div class="address">
-
-<p>
-ООО «ОмадТур»<br>
-Санкт-Петербург метро Технологический институт<br>
-4-я Красноармейская дом 3<br>
-домофон 22в
-</p>
-
-<p>
-ООО «ОмадТур»<br>
-Санкт-Петербург, метро Дыбенко<br>
-пр. Большевиков, 24к1
-</p>
-
-</div>
-
-<!-- PHONE -->
-
-<div class="bottom-btn">
-
-<a href="tel:+79811939094"
-class="call-btn"
-id="call1">
-
-📞 Aloqa: +7 981 193 90 94
-
-</a>
-
-<a href="tel:+79214027489"
-class="call-btn"
-id="call2">
-
-📞 Aloqa: +7 921 402 74 89
-
-</a>
-
-</div>
-
-</section>
-
-<!-- AVIA -->
-
-<section id="avia" class="page hidden">
-
-<div class="topbar">
-<div class="back" onclick="goHome()">←</div>
-</div>
-
-<div class="menu">
-
-<div class="btn inner-btn"
-onclick="tg('@OMAD_TOUR9094')">
-📩 @OMAD_TOUR9094
-</div>
-
-<div class="btn inner-btn"
-onclick="tg('@omad_tour')">
-📩 @omad_tour
-</div>
-
-<div class="btn inner-btn"
-onclick="tg('@AVIAKASSA9094')">
-📩 @AVIAKASSA9094
-</div>
-
-<div class="btn inner-btn"
-onclick="window.open('https://wa.me/79811939094')">
-💬 WhatsApp 1
-</div>
-
-<div class="btn inner-btn"
-onclick="window.open('https://wa.me/79379499094')">
-💬 WhatsApp 2
-</div>
-
-<div class="btn inner-btn"
-onclick="window.location.href='tel:+79811939094'">
-📞 +7 981 193 90 94
-</div>
-
-<div class="btn inner-btn"
-onclick="window.location.href='tel:+79214027489'">
-📞 +7 921 402 74 89
-</div>
-
-</div>
-
-<div class="btn big bottom-btn"
-onclick="window.open('https://t.me/+OW_pzYSHjIA5NmQy')">
-👥 Telegram Guruh
-</div>
-
-<div class="btn big"
-onclick="window.open('https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t')">
-💬 WhatsApp Guruh
-</div>
-
-</section>
-
-<!-- VISA -->
-
-<section id="visa" class="page hidden">
-
-<div class="topbar">
-<div class="back" onclick="goHome()">←</div>
-</div>
-
-<div class="btn inner-btn"
-onclick="window.open('https://visa.mfa.uz/ruxsat/view')">
-🌐 Vizani Tekshirish
-</div>
-
-</section>
-
-<!-- SUPPORT -->
-
-<section id="support" class="page hidden">
-
-<div class="topbar">
-<div class="back" onclick="goHome()">←</div>
-</div>
-
-<input type="text"
-id="phone"
-placeholder="+79379499094">
-
-<textarea
-id="question"
-placeholder="Savolingizni yozing..."></textarea>
-
-<div class="btn big bottom-btn"
-onclick="sendQuestion()">
-📩 Yuborish
-</div>
-
-</section>
-
-<!-- PHOTO -->
-
-<section id="photo" class="page hidden">
-
-<div class="topbar">
-<div class="back" onclick="goHome()">←</div>
-</div>
-
-<div class="photo-box">
-
-<input type="file"
-accept="image/*">
-
-<p style="margin-top:15px;">
-3.5x4.5 yoki 2x3 format<br>
-Orqa fon oq<br>
-HD sifat
-</p>
-
-<div class="menu">
-
-<div class="btn">
-📸 3.5x4.5
-</div>
-
-<div class="btn">
-📸 2x3
-</div>
-
-</div>
-
-<div class="btn big bottom-btn">
-⬇️ Saqlash
-</div>
-
-</div>
-
-</section>
-
-<!-- SERVICES -->
-
-<section id="services" class="page hidden">
-
-<div class="topbar">
-<div class="back" onclick="goHome()">←</div>
-</div>
-
-<div class="text">
-
-КСЕРОКОПИЯ<br>
-СКАН<br>
-ФОТО<br>
-АНКЕТА<br>
-ВИЗА<br>
-
-</div>
-
-<div class="btn big bottom-btn"
-onclick="tg('@AVIAKASSA9094')">
-📩 Zakaz
-</div>
-
-</section>
-
-<script>
-
-function openPage(id){
-
-document.querySelectorAll('.page')
-.forEach(p=>p.classList.add('hidden'));
-
-document.getElementById(id)
-.classList.remove('hidden');
-
-}
-
-function goHome(){
-
-document.querySelectorAll('.page')
-.forEach(p=>p.classList.add('hidden'));
-
-document.getElementById('home')
-.classList.remove('hidden');
-
-}
-
-function tg(user){
-
-window.open(
-"https://t.me/" +
-user.replace("@","")
-);
-
-}
-
-function sendQuestion(){
-
-let phone=
-document.getElementById('phone').value;
-
-let question=
-document.getElementById('question').value;
-
-let regex=/^\+7\d{10}$/;
-
-if(!regex.test(phone)){
-
-alert("Telefon raqam noto‘g‘ri!");
-
-return;
-
-}
-
-if(question.length<3){
-
-alert("Savol yozing!");
-
-return;
-
-}
-
-alert("Savolingiz yuborildi ✅");
-
-}
-
-function setLang(lang){
-
-if(lang==="ru"){
-
-btn1.innerText="✈️ Авиабилеты";
-btn2.innerText="🛂 Виза";
-btn3.innerText="👥 Телеграм группа";
-btn4.innerText="📞 Поддержка";
-btn5.innerText="📸 Фото";
-btn6.innerText="📄 Услуги";
-subtitle.innerText="Сервис";
-
-call1.innerText="📞 Связь: +7 981 193 90 94";
-call2.innerText="📞 Связь: +7 921 402 74 89";
-
-}
-
-else if(lang==="kr"){
-
-btn1.innerText="✈️ Авиа билет";
-btn2.innerText="🛂 Виза";
-btn3.innerText="👥 Телеграм гуруҳ";
-btn4.innerText="📞 Ёрдам";
-btn5.innerText="📸 Фото";
-btn6.innerText="📄 Хизматлар";
-subtitle.innerText="Сервис";
-
-call1.innerText="📞 Алоқа: +7 981 193 90 94";
-call2.innerText="📞 Алоқа: +7 921 402 74 89";
-
-}
-
-else{
-
-btn1.innerText="✈️ Avia bilet";
-btn2.innerText="🛂 Viza";
-btn3.innerText="👥 Telegram guruh";
-btn4.innerText="📞 Yordam";
-btn5.innerText="📸 Foto";
-btn6.innerText="📄 Xizmatlar";
-subtitle.innerText="Servis";
-
-call1.innerText="📞 Aloqa: +7 981 193 90 94";
-call2.innerText="📞 Aloqa: +7 921 402 74 89";
-
-}
-
-}
-
-</script>
-
-</body>
-</html>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;meta name="description" content="Professional AI Bot with GitHub/Vercel Integration"&gt;
+    &lt;title&gt;Professional AI Bot&lt;/title&gt;
+    &lt;style&gt;
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --accent-color: #4a90e2;
+            --border-color: #333;
+        }
+        .dark-mode {
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .chat-interface {
+            height: 500px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-y: auto;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #1e1e1e;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: var(--accent-color);
+            color: white;
+            margin-left: auto;
+        }
+        .bot-message {
+            background-color: #2a2a2a;
+            margin-right: auto;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        #user-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background-color: #252525;
+            color: var(--text-color);
+        }
+        #send-button {
+            padding: 12px 20px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        #send-button:hover {
+            background-color: #3a7bc8;
+        }
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .github-vercel-info {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 20px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="header"&gt;
+            &lt;h1&gt;Professional AI Bot&lt;/h1&gt;
+            &lt;p&gt;Deployed via GitHub + Vercel&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class="chat-interface" id="chatBox"&gt;
+            &lt;div class="message bot-message"&gt;
+                Hello! How can I assist you today?
+            &lt;/div&gt;
+            &lt;div class="message user-message"&gt;
+                Hi, can you help me deploy this bot?
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class="input-area"&gt;
+            &lt;input type="text" id="user-input" placeholder="Type your message..."&gt;
+            &lt;button id="send-button"&gt;Send&lt;/button&gt;
+        &lt;/div&gt; &lt;div class="github-vercel-info"&gt;
+            &lt;p&gt;🔧 Deployed via GitHub Actions + Vercel&lt;/p&gt;
+            &lt;p&gt;📂 Clone repo: git clone https://github.com/your-username/professional-ai-bot.git&lt;/p&gt;
+            &lt;p&gt;🚀 Deploy with Vercel: Drag & drop folder or use CLI&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button class="theme-toggle" id="themeToggle"&gt;🌓 Dark Mode&lt;/button&gt;
+
+    &lt;script&gt;
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const themeToggle = document.getElementById('themeToggle');
+
+        themeToggle.addEventListener('click', () =&gt; {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌓 Dark Mode';
+        });
+
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) =&gt; {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user-message';
+            userMsg.textContent = message;
+            chatBox.appendChild(userMsg);
+            userInput.value = '';
+
+            setTimeout(() =&gt; {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'message bot-message';
+                botMsg.textContent = You said: "${message}". How can I assist further?;
+                chatBox.appendChild(botMsg);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 500);
+        }
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
