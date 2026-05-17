@@ -5,756 +5,1419 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>OMAD TOUR</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --accent:    #2563EB;
-    --accent2:   #60A5FA;
-    --accent3:   #93C5FD;
-    --dark:      #080C14;
-    --dark2:     #0E1422;
-    --card:      #111827;
-    --card2:     #1A2236;
-    --text:      #E8EDF5;
-    --muted:     #6B7A99;
-    --green:     #22C55E;
-    --red:       #EF4444;
-    --radius:    18px;
-    --shadow:    0 8px 32px rgba(0,0,0,0.55);
-  }
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html,body { height:100%; background:var(--dark); color:var(--text); font-family:'Nunito',sans-serif; overflow:hidden; }
+:root {
+  --bg:       #05080F;
+  --bg2:      #090D18;
+  --surface:  #0D1220;
+  --surface2: #111826;
+  --border:   rgba(99,179,255,0.1);
+  --accent:   #3B82F6;
+  --accent2:  #60A5FA;
+  --accent3:  #93C5FD;
+  --gold:     #F59E0B;
+  --gold2:    #FCD34D;
+  --green:    #10B981;
+  --red:      #EF4444;
+  --text:     #EEF2FF;
+  --muted:    #4B5A7A;
+  --muted2:   #8899BB;
+  --r:        20px;
+  --r2:       14px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow:hidden;user-select:none;}
 
-  /* ── SCREENS ── */
-  .screen { position:fixed; inset:0; display:none; flex-direction:column; background:var(--dark); overflow-y:auto; overflow-x:hidden; animation:fadeIn .3s ease; }
-  .screen.active { display:flex; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+/* ═══ ONBOARDING ═══ */
+#onboarding{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.ob-particles{position:absolute;inset:0;overflow:hidden;}
+.ob-p{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle,rgba(59,130,246,0.6),transparent);
+  animation:obFloat linear infinite;
+}
+@keyframes obFloat{
+  0%{transform:translateY(100vh) scale(0);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:1;}
+  100%{transform:translateY(-20vh) scale(1.5);opacity:0;}
+}
+.ob-content{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  width:100%;max-width:380px;padding:32px 28px;
+}
+.ob-logo-wrap{
+  width:110px;height:110px;border-radius:50%;
+  background:conic-gradient(from 0deg,#1D4ED8,#3B82F6,#60A5FA,#93C5FD,#1D4ED8);
+  display:flex;align-items:center;justify-content:center;
+  animation:obSpin 8s linear infinite,obGlow 3s ease-in-out infinite alternate;
+  margin-bottom:28px;
+  position:relative;
+}
+.ob-logo-wrap::before{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  background:conic-gradient(from 0deg,#1D4ED8,#3B82F6,#60A5FA,#93C5FD,#1D4ED8);
+  filter:blur(8px);opacity:0.5;z-index:-1;
+  animation:obSpin 8s linear infinite reverse;
+}
+.ob-logo-inner{
+  width:90px;height:90px;border-radius:50%;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+@keyframes obSpin{to{transform:rotate(360deg);}}
+@keyframes obGlow{
+  0%{box-shadow:0 0 20px rgba(59,130,246,0.4);}
+  100%{box-shadow:0 0 60px rgba(59,130,246,0.8),0 0 100px rgba(59,130,246,0.3);}
+}
+.ob-logo-inner svg{width:46px;height:46px;}
+.ob-slides{width:100%;position:relative;height:180px;overflow:hidden;margin-bottom:32px;}
+.ob-slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;opacity:0;transform:translateX(60px);
+  transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;
+}
+.ob-slide.active{opacity:1;transform:translateX(0);pointer-events:auto;}
+.ob-slide.exit{opacity:0;transform:translateX(-60px);}
+.ob-emoji{font-size:3rem;filter:drop-shadow(0 0 20px rgba(59,130,246,0.6));}
+.ob-title{font-family:'Syne',serif;font-size:1.55rem;font-weight:900;text-align:center;
+  background:linear-gradient(135deg,#fff,var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.ob-desc{font-size:.9rem;color:var(--muted2);text-align:center;line-height:1.7;max-width:280px;}
+.ob-dots{display:flex;gap:8px;margin-bottom:20px;}
+.ob-dot{width:8px;height:8px;border-radius:4px;background:var(--muted);transition:.4s;cursor:pointer;}
+.ob-dot.active{width:28px;background:var(--accent);}
+.ob-next{
+  width:100%;padding:16px;border-radius:var(--r);
+  background:linear-gradient(135deg,#1D4ED8,#3B82F6);
+  border:none;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;
+  color:#fff;cursor:pointer;letter-spacing:.5px;
+  box-shadow:0 8px 32px rgba(59,130,246,0.4);
+  transition:.2s;
+}
+.ob-next:active{transform:scale(0.97);}
+.ob-skip{
+  margin-top:14px;font-size:.83rem;color:var(--muted);
+  background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
+}
 
-  /* ── WELCOME ── */
-  #welcome {
-    justify-content:center; align-items:center;
-    background:
-      radial-gradient(ellipse 70% 50% at 50% -10%, rgba(37,99,235,.35) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(37,99,235,.12) 0%, transparent 60%),
-      var(--dark);
-  }
-  .welcome-inner { display:flex; flex-direction:column; align-items:center; gap:26px; padding:32px 24px; width:100%; max-width:420px; }
+/* ═══ SCREENS ═══ */
+.screen{position:fixed;inset:0;display:none;flex-direction:column;background:var(--bg);overflow-y:auto;overflow-x:hidden;}
+.screen.active{display:flex;animation:screenIn .35s cubic-bezier(0.34,1.2,0.64,1);}
+@keyframes screenIn{from{opacity:0;transform:translateY(20px) scale(0.98);}to{opacity:1;transform:none;}}
 
-  .logo-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; }
-  .logo-ring {
-    width:96px; height:96px; border-radius:50%;
-    background:linear-gradient(145deg, #1D4ED8, #2563EB, #3B82F6);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 0 0 6px rgba(37,99,235,.18), 0 0 50px rgba(37,99,235,.4);
-    animation: logoPulse 3.5s infinite ease-in-out;
-    position:relative;
-  }
-  .logo-ring::before {
-    content:'';
-    position:absolute; inset:-6px; border-radius:50%;
-    border:1.5px solid rgba(96,165,250,.25);
-    animation:ringExpand 3.5s infinite ease-in-out;
-  }
-  @keyframes logoPulse {
-    0%,100%{ box-shadow:0 0 0 6px rgba(37,99,235,.18),0 0 50px rgba(37,99,235,.35); }
-    50%    { box-shadow:0 0 0 10px rgba(37,99,235,.1),0 0 70px rgba(59,130,246,.55); }
-  }
-  @keyframes ringExpand {
-    0%,100%{ transform:scale(1); opacity:.6; }
-    50%    { transform:scale(1.08); opacity:.15; }
-  }
-  .logo-ring svg { width:54px; height:54px; }
-  .logo-name {
-    font-family:'Playfair Display',serif; font-size:2.3rem; font-weight:900;
-    background:linear-gradient(90deg,#60A5FA,#E8EDF5,#93C5FD);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    letter-spacing:3px;
-  }
-  .logo-sub { font-size:.78rem; font-weight:700; color:var(--accent2); letter-spacing:4px; text-transform:uppercase; opacity:.7; }
+/* ═══ BOTTOM NAV ═══ */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(9,13,24,0.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:8px 4px;cursor:pointer;border:none;background:none;
+  position:relative;transition:.2s;
+}
+.nav-icon{font-size:1.4rem;transition:.3s;filter:grayscale(1) opacity(0.4);}
+.nav-label{font-size:.65rem;font-weight:600;color:var(--muted);transition:.3s;letter-spacing:.3px;}
+.nav-item.active .nav-icon{filter:none;transform:translateY(-2px);}
+.nav-item.active .nav-label{color:var(--accent2);}
+.nav-badge{
+  position:absolute;top:6px;right:calc(50% - 16px);
+  background:var(--red);color:#fff;font-size:.6rem;font-weight:800;
+  padding:2px 5px;border-radius:10px;min-width:16px;text-align:center;
+  display:none;
+}
+.nav-badge.show{display:block;}
+.nav-pip{
+  position:absolute;top:6px;right:calc(50% - 18px);
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);display:none;
+  box-shadow:0 0 8px var(--accent);
+}
+.nav-pip.show{display:block;}
 
-  .welcome-text { font-size:1.02rem; color:var(--muted); text-align:center; line-height:1.75; max-width:310px; }
-  .welcome-text span { color:var(--accent2); font-weight:800; }
+/* ═══ HEADER ═══ */
+.page-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px 12px;
+  background:rgba(9,13,24,0.9);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:50;
+}
+.header-logo{display:flex;align-items:center;gap:10px;}
+.header-logo-ring{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#1D4ED8,#60A5FA);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 14px rgba(59,130,246,0.4);
+}
+.header-logo-ring svg{width:20px;height:20px;}
+.header-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:900;
+  background:linear-gradient(90deg,#60A5FA,#EEF2FF);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.lang-toggle{display:flex;gap:5px;}
+.lt{padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);
+  background:none;color:var(--muted);font-size:.75rem;font-weight:700;
+  cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif;}
+.lt.on{background:var(--accent);border-color:var(--accent);color:#fff;}
 
-  .lang-row { display:flex; gap:12px; width:100%; }
-  .lang-btn {
-    flex:1; padding:13px 0; border-radius:var(--radius);
-    border:1.5px solid; font-family:'Nunito',sans-serif;
-    font-size:.95rem; font-weight:700; cursor:pointer; transition:.2s;
-    background:transparent;
-  }
-  .lang-btn.uz { border-color:var(--accent); color:var(--accent2); }
-  .lang-btn.ru { border-color:#334155; color:var(--muted); }
-  .lang-btn.selected, .lang-btn:active {
-    background:var(--accent); border-color:var(--accent); color:#fff;
-  }
-  .lang-btn.ru.selected { background:#1E293B; border-color:#3B82F6; color:var(--accent3); }
+/* ═══ PAGE BODY ═══ */
+.page-body{padding:16px 16px 100px;display:flex;flex-direction:column;gap:14px;}
 
-  .nachat-btn {
-    width:100%; padding:17px; border-radius:var(--radius);
-    background:linear-gradient(90deg,#1D4ED8,#2563EB,#3B82F6);
-    border:none; font-family:'Nunito',sans-serif; font-size:1.1rem;
-    font-weight:800; color:#fff; cursor:pointer;
-    box-shadow:0 4px 24px rgba(37,99,235,.45);
-    transition:.2s; letter-spacing:.4px;
-  }
-  .nachat-btn:active { transform:scale(.97); box-shadow:0 2px 10px rgba(37,99,235,.3); }
+/* ═══ HOME ═══ */
+.hero-card{
+  border-radius:var(--r);overflow:hidden;position:relative;
+  background:linear-gradient(135deg,#0A1628,#0F1E3A);
+  border:1px solid rgba(59,130,246,0.2);
+  padding:24px 20px;
+}
+.hero-card::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(59,130,246,0.15),transparent 70%);
+}
+.hero-greeting{font-size:.8rem;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.hero-name{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:900;
+  background:linear-gradient(135deg,#fff,var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:4px;}
+.hero-sub{font-size:.85rem;color:var(--muted2);}
+.hero-points{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:14px;padding:8px 14px;
+  background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);
+  border-radius:30px;
+}
+.hp-icon{font-size:1rem;}
+.hp-val{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--gold2);}
+.hp-lbl{font-size:.75rem;color:var(--gold);opacity:.8;}
 
-  /* ── HOME HEADER ── */
-  .home-header {
-    display:flex; justify-content:space-between; align-items:center;
-    padding:16px 18px 12px; background:var(--dark2);
-    border-bottom:1px solid rgba(37,99,235,.15);
-    position:sticky; top:0; z-index:10;
-    backdrop-filter:blur(10px);
-  }
-  .h-logo { display:flex; align-items:center; gap:10px; }
-  .h-logo-icon {
-    width:38px; height:38px; border-radius:50%;
-    background:linear-gradient(135deg,#1D4ED8,#3B82F6);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 0 14px rgba(37,99,235,.35);
-  }
-  .h-logo-icon svg { width:22px; height:22px; }
-  .h-logo-text {
-    font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:900;
-    background:linear-gradient(90deg,#60A5FA,#E8EDF5);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  }
-  .lang-toggle { display:flex; gap:6px; }
-  .lt-btn {
-    padding:7px 13px; border-radius:30px; border:1.5px solid #1E293B;
-    background:transparent; color:var(--muted);
-    font-family:'Nunito',sans-serif; font-size:.8rem; font-weight:700;
-    cursor:pointer; transition:.2s;
-  }
-  .lt-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.stat-mini{
+  background:var(--surface);border-radius:var(--r2);
+  border:1px solid var(--border);padding:16px 14px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.sm-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--text);}
+.sm-lbl{font-size:.72rem;color:var(--muted2);}
+.sm-trend{font-size:.7rem;color:var(--green);margin-top:2px;}
 
-  /* ── HOME BODY ── */
-  .home-body { padding:16px; display:flex; flex-direction:column; gap:13px; }
+.menu-card{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;background:var(--surface);
+  border-radius:var(--r);border:1px solid var(--border);
+  cursor:pointer;transition:.2s;position:relative;overflow:hidden;
+}
+.menu-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent,rgba(59,130,246,0.04));
+  opacity:0;transition:.2s;
+}
+.menu-card:active{transform:scale(0.98);background:var(--surface2);}
+.mc-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+  background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);
+}
+.mc-body{flex:1;}
+.mc-title{font-size:.95rem;font-weight:600;color:var(--text);}
+.mc-sub{font-size:.76rem;color:var(--muted2);margin-top:2px;}
+.mc-arr{color:var(--accent2);font-size:1.1rem;opacity:0.5;}
 
-  /* ── MENU CARDS ── */
-  .menu-btn {
-    display:flex; align-items:center; gap:14px;
-    padding:17px 18px; background:var(--card);
-    border-radius:var(--radius);
-    border:1px solid rgba(37,99,235,.12);
-    cursor:pointer; transition:.18s; box-shadow:var(--shadow);
-    position:relative; overflow:hidden;
-  }
-  .menu-btn::after {
-    content:''; position:absolute; left:0; top:0; bottom:0;
-    width:3px; border-radius:3px 0 0 3px;
-    background:linear-gradient(180deg,#2563EB,#60A5FA);
-    opacity:0; transition:.2s;
-  }
-  .menu-btn:active { transform:scale(.98); background:var(--card2); }
-  .menu-btn:active::after { opacity:1; }
-  .mb-icon {
-    width:46px; height:46px; border-radius:13px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:1.45rem; flex-shrink:0;
-    background:rgba(37,99,235,.12);
-    border:1px solid rgba(37,99,235,.2);
-  }
-  .mb-text { flex:1; }
-  .mb-title { font-size:.98rem; font-weight:700; color:var(--text); }
-  .mb-sub { font-size:.78rem; color:var(--muted); margin-top:2px; }
-  .mb-arrow { color:var(--accent2); font-size:1.1rem; opacity:.6; }
+.phones-row{display:flex;gap:10px;}
+.phone-chip{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:13px 8px;background:var(--surface);border-radius:var(--r2);
+  border:1px solid var(--border);
+  font-size:.76rem;font-weight:600;color:var(--accent2);
+  text-decoration:none;transition:.15s;
+}
+.phone-chip:active{background:rgba(59,130,246,0.12);transform:scale(0.96);}
 
-  /* ── ADDRESS ── */
-  .address-card {
-    background:linear-gradient(135deg,var(--card),var(--card2));
-    border-radius:var(--radius);
-    border:1px solid rgba(37,99,235,.2);
-    padding:20px 20px 18px; position:relative; overflow:hidden;
-  }
-  .address-card::before {
-    content:''; position:absolute; top:-30px; right:-30px;
-    width:100px; height:100px; border-radius:50%;
-    background:radial-gradient(circle,rgba(37,99,235,.15),transparent 70%);
-  }
-  .addr-label { font-size:.75rem; font-weight:700; color:var(--accent2); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:10px; }
-  .addr-anim { display:flex; flex-direction:column; gap:5px; }
-  .addr-line { opacity:0; transform:translateX(-18px); animation:slideIn .45s forwards; }
-  .addr-line:nth-child(1){animation-delay:.05s}
-  .addr-line:nth-child(2){animation-delay:.2s}
-  .addr-line:nth-child(3){animation-delay:.35s}
-  @keyframes slideIn{to{opacity:1;transform:translateX(0)}}
+.addr-card{
+  background:var(--surface);border-radius:var(--r);
+  border:1px solid var(--border);padding:18px;
+  position:relative;overflow:hidden;
+}
+.addr-glow{
+  position:absolute;top:-40px;right:-40px;
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,rgba(59,130,246,0.1),transparent 70%);
+}
+.addr-lbl{font-size:.72rem;font-weight:700;color:var(--accent2);
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;}
+.addr-city{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:4px;}
+.addr-street{font-size:.87rem;color:var(--muted2);}
+.addr-note{font-size:.8rem;color:var(--muted);margin-top:4px;}
 
-  /* ── PHONES ── */
-  .phones-row { display:flex; gap:10px; }
-  .phone-chip {
-    flex:1; display:flex; align-items:center; justify-content:center;
-    gap:6px; padding:12px 8px; background:var(--card);
-    border-radius:13px; border:1px solid rgba(37,99,235,.2);
-    font-size:.78rem; font-weight:700; color:var(--accent2);
-    cursor:pointer; text-decoration:none; transition:.15s;
-  }
-  .phone-chip:active { background:rgba(37,99,235,.15); transform:scale(.96); }
+/* ═══ INNER SCREENS ═══ */
+.inner-header{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;
+  background:rgba(9,13,24,0.9);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:50;
+}
+.back-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);
+  color:var(--accent2);font-size:1.25rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;
+}
+.back-btn:active{background:rgba(59,130,246,0.2);}
+.inner-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--accent2);flex:1;}
 
-  /* ── STARS ── */
-  .stars-card {
-    background:var(--card); border-radius:var(--radius);
-    border:1px solid rgba(255,255,255,.05); padding:18px;
-  }
-  .stars-label { font-size:.82rem; color:var(--muted); margin-bottom:12px; text-align:center; }
-  .stars-row { display:flex; justify-content:center; gap:12px; }
-  .star-btn { font-size:2rem; cursor:pointer; transition:.2s; filter:grayscale(1) opacity(.3); }
-  .star-btn.lit { filter:none; animation:starPop .22s ease; }
-  @keyframes starPop{0%{transform:scale(1.55)}100%{transform:scale(1)}}
-  .stars-thanks { text-align:center; font-size:.86rem; color:var(--green); margin-top:10px; display:none; }
+.info-card{
+  background:var(--surface);border-radius:var(--r);
+  border:1px solid var(--border);padding:18px;
+}
+.info-card p{font-size:.9rem;line-height:1.75;color:var(--muted2);}
 
-  /* ── INNER SCREENS ── */
-  .inner-header {
-    display:flex; align-items:center; gap:12px;
-    padding:16px 18px 13px; background:var(--dark2);
-    border-bottom:1px solid rgba(37,99,235,.12);
-    position:sticky; top:0; z-index:10;
-  }
-  .back-btn {
-    width:36px; height:36px; border-radius:50%;
-    background:rgba(37,99,235,.12); border:1px solid rgba(37,99,235,.2);
-    color:var(--accent2); font-size:1.2rem; cursor:pointer;
-    display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:.15s;
-  }
-  .back-btn:active { background:rgba(37,99,235,.25); }
-  .inner-title { font-family:'Playfair Display',serif; font-size:1.12rem; font-weight:700; color:var(--accent2); flex:1; }
-  .inner-body { padding:16px; display:flex; flex-direction:column; gap:13px; }
+.link-row{
+  display:flex;align-items:center;gap:13px;
+  padding:15px 17px;background:var(--surface);
+  border-radius:var(--r2);border:1px solid var(--border);
+  text-decoration:none;color:var(--text);
+  font-size:.9rem;font-weight:600;transition:.15s;cursor:pointer;
+}
+.link-row:active{background:var(--surface2);transform:scale(0.98);border-color:rgba(59,130,246,0.3);}
+.link-icon{font-size:1.3rem;flex-shrink:0;}
+.link-sub{font-size:.72rem;color:var(--muted);margin-bottom:2px;}
 
-  .info-card {
-    background:var(--card); border-radius:var(--radius);
-    border:1px solid rgba(37,99,235,.1); padding:18px;
-  }
-  .info-card p { font-size:.93rem; line-height:1.75; color:var(--text); }
+/* ═══ LOYALTY ═══ */
+.loyalty-hero{
+  background:linear-gradient(135deg,#1A0F00,#2D1800);
+  border:1px solid rgba(245,158,11,0.25);
+  border-radius:var(--r);padding:22px;position:relative;overflow:hidden;
+}
+.loyalty-hero::before{
+  content:'';position:absolute;top:-30px;right:-30px;
+  width:150px;height:150px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,158,11,0.15),transparent 70%);
+}
+.lh-crown{font-size:2.5rem;margin-bottom:8px;filter:drop-shadow(0 0 12px rgba(245,158,11,0.6));}
+.lh-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:900;
+  background:linear-gradient(135deg,#F59E0B,#FCD34D);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:4px;}
+.lh-sub{font-size:.83rem;color:rgba(245,158,11,0.7);}
+.lh-points-big{
+  font-family:'Syne',sans-serif;font-size:3rem;font-weight:900;
+  color:var(--gold2);margin:16px 0 4px;
+  text-shadow:0 0 30px rgba(245,158,11,0.4);
+}
+.lh-pts-lbl{font-size:.78rem;color:var(--gold);opacity:.8;text-transform:uppercase;letter-spacing:1px;}
 
-  .link-btn {
-    display:flex; align-items:center; gap:13px;
-    padding:15px 17px; background:var(--card);
-    border-radius:14px; border:1px solid rgba(37,99,235,.12);
-    text-decoration:none; color:var(--text);
-    font-size:.93rem; font-weight:700; transition:.15s; cursor:pointer;
-  }
-  .link-btn:active { background:var(--card2); transform:scale(.97); border-color:rgba(37,99,235,.3); }
-  .link-icon { font-size:1.3rem; flex-shrink:0; }
-  .link-sub { font-size:.75rem; color:var(--muted); margin-bottom:2px; }
+.progress-bar-wrap{margin:16px 0;}
+.pb-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted2);margin-bottom:8px;}
+.pb-track{height:8px;background:rgba(245,158,11,0.12);border-radius:4px;overflow:hidden;}
+.pb-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#F59E0B,#FCD34D);transition:width 1s cubic-bezier(0.34,1.56,0.64,1);}
 
-  .phones-big { display:flex; gap:10px; flex-wrap:wrap; }
-  .phone-big {
-    flex:1; min-width:140px;
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    padding:14px; border-radius:14px;
-    background:rgba(37,99,235,.1); border:1.5px solid rgba(37,99,235,.25);
-    font-size:.87rem; font-weight:800; color:var(--accent2);
-    cursor:pointer; text-decoration:none; transition:.15s;
-  }
-  .phone-big:active { transform:scale(.96); background:rgba(37,99,235,.18); }
+.level-badges{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
+.level-badge{
+  flex-shrink:0;padding:10px 16px;border-radius:30px;
+  border:1.5px solid;font-size:.78rem;font-weight:700;
+  display:flex;align-items:center;gap:6px;
+  font-family:'DM Sans',sans-serif;
+}
+.lb-bronze{border-color:rgba(180,100,30,0.4);background:rgba(180,100,30,0.1);color:#CD7F32;}
+.lb-silver{border-color:rgba(160,160,160,0.4);background:rgba(160,160,160,0.1);color:#C0C0C0;}
+.lb-gold{border-color:rgba(245,158,11,0.5);background:rgba(245,158,11,0.12);color:var(--gold2);}
+.lb-platinum{border-color:rgba(99,179,255,0.4);background:rgba(99,179,255,0.1);color:var(--accent2);}
+.lb-active{transform:scale(1.05);}
 
-  /* ── PRICE TABLE ── */
-  .price-table { background:var(--card); border-radius:var(--radius); border:1px solid rgba(37,99,235,.1); overflow:hidden; }
-  .price-section { padding:14px 17px 10px; border-bottom:1px solid rgba(255,255,255,.04); }
-  .price-section:last-child { border-bottom:none; }
-  .ps-title { font-size:.74rem; font-weight:800; color:var(--accent2); text-transform:uppercase; letter-spacing:1.1px; margin-bottom:9px; }
-  .ps-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.03); }
-  .ps-row:last-child { border:none; }
-  .ps-name { font-size:.88rem; color:var(--text); }
-  .ps-price { font-size:.88rem; font-weight:700; color:var(--accent3); }
+.rewards-list{display:flex;flex-direction:column;gap:10px;}
+.reward-item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;background:var(--surface);
+  border-radius:var(--r2);border:1px solid var(--border);
+}
+.ri-icon{font-size:1.5rem;flex-shrink:0;}
+.ri-body{flex:1;}
+.ri-title{font-size:.88rem;font-weight:600;color:var(--text);}
+.ri-cost{font-size:.75rem;color:var(--gold);margin-top:2px;}
+.ri-btn{
+  padding:7px 14px;border-radius:20px;
+  background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);
+  color:var(--gold2);font-size:.75rem;font-weight:700;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:.15s;
+}
+.ri-btn:active{background:rgba(245,158,11,0.25);}
+.ri-btn:disabled{opacity:.35;cursor:not-allowed;}
 
-  /* ── ORDER FORM ── */
-  .order-form {
-    background:var(--card); border-radius:var(--radius);
-    border:1px solid rgba(37,99,235,.12); padding:18px;
-    display:flex; flex-direction:column; gap:14px;
-  }
-  .order-title { font-size:.97rem; font-weight:800; color:var(--accent2); }
-  .form-label { font-size:.76rem; font-weight:700; color:var(--accent2); text-transform:uppercase; letter-spacing:.8px; margin-bottom:5px; }
-  .form-req { color:var(--red); }
-  .form-input {
-    width:100%; padding:13px 15px; background:#0D1421;
-    border:1.5px solid rgba(37,99,235,.2); border-radius:12px;
-    color:var(--text); font-family:'Nunito',sans-serif; font-size:.93rem;
-    outline:none; transition:.2s;
-  }
-  .form-input::placeholder { color:var(--muted); }
-  .form-input:focus { border-color:var(--accent); background:rgba(37,99,235,.06); }
-  .phone-input-wrap { display:flex; gap:8px; align-items:stretch; }
-  .flag-select {
-    display:flex; gap:6px; padding:11px 12px;
-    background:#0D1421; border:1.5px solid rgba(37,99,235,.2);
-    border-radius:12px; cursor:pointer; font-size:.88rem;
-    align-items:center; flex-shrink:0; transition:.2s; white-space:nowrap; color:var(--text); font-weight:700;
-  }
-  .flag-select.open { border-color:var(--accent); }
-  .flag-drop-wrap { position:relative; }
-  .flag-dropdown {
-    position:absolute; top:calc(100% + 6px); left:0; z-index:50;
-    background:var(--dark2); border:1.5px solid rgba(37,99,235,.3);
-    border-radius:12px; overflow:hidden; box-shadow:var(--shadow); display:none; min-width:160px;
-  }
-  .flag-dropdown.open { display:block; }
-  .fd-opt {
-    padding:12px 16px; cursor:pointer; font-size:.88rem;
-    font-weight:700; display:flex; gap:9px; align-items:center;
-    color:var(--text); transition:.15s;
-  }
-  .fd-opt:hover { background:rgba(37,99,235,.15); color:var(--accent2); }
-  .form-textarea {
-    width:100%; padding:13px 15px; background:#0D1421;
-    border:1.5px solid rgba(37,99,235,.2); border-radius:12px;
-    color:var(--text); font-family:'Nunito',sans-serif; font-size:.93rem;
-    outline:none; resize:none; min-height:80px; transition:.2s;
-  }
-  .form-textarea::placeholder { color:var(--muted); }
-  .form-textarea:focus { border-color:var(--accent); }
-  .submit-btn {
-    padding:15px; background:linear-gradient(90deg,#1D4ED8,#2563EB,#3B82F6);
-    border:none; border-radius:var(--radius);
-    font-family:'Nunito',sans-serif; font-size:.97rem; font-weight:800;
-    color:#fff; cursor:pointer; transition:.15s; box-shadow:0 3px 14px rgba(37,99,235,.35);
-  }
-  .submit-btn:active { transform:scale(.98); }
-  .submit-msg { text-align:center; font-size:.86rem; color:var(--green); display:none; }
+/* ═══ CHAT ═══ */
+.chat-wrap{display:flex;flex-direction:column;height:100%;}
+.chat-messages{flex:1;padding:14px 14px 0;display:flex;flex-direction:column;gap:12px;overflow-y:auto;}
+.chat-msg{display:flex;flex-direction:column;max-width:80%;}
+.chat-msg.user{align-self:flex-end;align-items:flex-end;}
+.chat-msg.agent{align-self:flex-start;align-items:flex-start;}
+.msg-bubble{
+  padding:11px 15px;border-radius:18px;
+  font-size:.88rem;line-height:1.5;
+}
+.chat-msg.user .msg-bubble{
+  background:linear-gradient(135deg,#1D4ED8,#3B82F6);
+  color:#fff;border-bottom-right-radius:4px;
+}
+.chat-msg.agent .msg-bubble{
+  background:var(--surface2);color:var(--text);
+  border:1px solid var(--border);border-bottom-left-radius:4px;
+}
+.msg-time{font-size:.65rem;color:var(--muted);margin-top:4px;padding:0 4px;}
+.agent-name{font-size:.7rem;color:var(--accent2);font-weight:700;margin-bottom:4px;padding-left:4px;}
+.typing-dot{display:flex;gap:4px;padding:11px 15px;background:var(--surface2);border-radius:18px;border-bottom-left-radius:4px;border:1px solid var(--border);width:fit-content;}
+.td{width:6px;height:6px;border-radius:50%;background:var(--muted2);animation:tdAnim 1.2s infinite;}
+.td:nth-child(2){animation-delay:.2s;}
+.td:nth-child(3){animation-delay:.4s;}
+@keyframes tdAnim{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+.chat-input-row{
+  padding:12px 14px calc(12px + env(safe-area-inset-bottom));
+  background:rgba(9,13,24,0.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;gap:10px;align-items:center;
+}
+.chat-input{
+  flex:1;padding:12px 16px;
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:25px;color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:.9rem;
+  outline:none;transition:.2s;
+}
+.chat-input:focus{border-color:var(--accent);}
+.chat-input::placeholder{color:var(--muted);}
+.chat-send{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,#1D4ED8,#3B82F6);
+  border:none;color:#fff;font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:.15s;
+  box-shadow:0 4px 12px rgba(59,130,246,0.35);
+}
+.chat-send:active{transform:scale(0.92);}
+.online-badge{
+  display:flex;align-items:center;gap:6px;
+  font-size:.75rem;color:var(--green);
+}
+.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
 
-  /* scrollbar */
-  ::-webkit-scrollbar { width:4px; }
-  ::-webkit-scrollbar-track { background:transparent; }
-  ::-webkit-scrollbar-thumb { background:rgba(37,99,235,.3); border-radius:4px; }
+/* ═══ STATS / DASHBOARD ═══ */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.stat-card{
+  background:var(--surface);border-radius:var(--r);
+  border:1px solid var(--border);padding:18px 16px;
+}
+.sc-icon{font-size:1.5rem;margin-bottom:10px;}
+.sc-val{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:900;color:var(--text);}
+.sc-lbl{font-size:.73rem;color:var(--muted2);margin-top:4px;}
+.sc-trend{font-size:.72rem;margin-top:6px;}
+.sc-trend.up{color:var(--green);}
+.sc-trend.dn{color:var(--red);}
+
+.chart-card{
+  background:var(--surface);border-radius:var(--r);
+  border:1px solid var(--border);padding:18px;
+}
+.chart-title{font-size:.8rem;font-weight:700;color:var(--muted2);
+  text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px;}
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:80px;}
+.bar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bar-fill{
+  width:100%;border-radius:6px 6px 0 0;
+  background:linear-gradient(180deg,#3B82F6,#1D4ED8);
+  transition:height 1s cubic-bezier(0.34,1.56,0.64,1);
+  min-height:4px;
+}
+.bar-lbl{font-size:.6rem;color:var(--muted);text-align:center;}
+
+.activity-list{display:flex;flex-direction:column;gap:10px;}
+.act-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;background:var(--surface);
+  border-radius:var(--r2);border:1px solid var(--border);
+}
+.act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.act-body{flex:1;}
+.act-title{font-size:.85rem;color:var(--text);}
+.act-time{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.act-val{font-size:.83rem;font-weight:700;color:var(--accent2);}
+
+/* ═══ NOTIFICATIONS ═══ */
+.notif-list{display:flex;flex-direction:column;gap:10px;}
+.notif-item{
+  display:flex;align-items:flex-start;gap:13px;
+  padding:15px 16px;background:var(--surface);
+  border-radius:var(--r);border:1px solid var(--border);
+  position:relative;overflow:hidden;cursor:pointer;transition:.15s;
+}
+.notif-item:active{background:var(--surface2);}
+.notif-item.unread::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+  border-radius:3px 0 0 3px;
+}
+.ni-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
+.ni-body{flex:1;}
+.ni-title{font-size:.88rem;font-weight:600;color:var(--text);}
+.ni-text{font-size:.78rem;color:var(--muted2);margin-top:3px;line-height:1.5;}
+.ni-time{font-size:.68rem;color:var(--muted);margin-top:6px;}
+.ni-badge{
+  position:absolute;top:12px;right:12px;
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 6px var(--accent);
+}
+
+/* ═══ OFIS XIZMATLARI ═══ */
+.price-table{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;}
+.ps{padding:14px 16px 10px;border-bottom:1px solid rgba(255,255,255,.04);}
+.ps:last-child{border:none;}
+.ps-head{font-size:.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.ps-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+.ps-row:last-child{border:none;}
+.ps-name{font-size:.86rem;color:var(--muted2);}
+.ps-price{font-size:.86rem;font-weight:700;color:var(--accent3);}
+
+.order-form{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:18px;display:flex;flex-direction:column;gap:14px;}
+.form-label{font-size:.73rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px;}
+.form-req{color:var(--red);}
+.form-input{width:100%;padding:13px 15px;background:rgba(5,8,15,0.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:.2s;}
+.form-input::placeholder{color:var(--muted);}
+.form-input:focus{border-color:var(--accent);background:rgba(59,130,246,0.04);}
+.phone-wrap{display:flex;gap:8px;}
+.flag-sel{display:flex;align-items:center;gap:5px;padding:11px 12px;background:rgba(5,8,15,0.8);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;font-size:.86rem;font-weight:700;color:var(--text);flex-shrink:0;white-space:nowrap;transition:.2s;position:relative;}
+.flag-sel.open{border-color:var(--accent);}
+.flag-drop{position:absolute;top:calc(100%+6px);left:0;z-index:50;background:var(--bg2);border:1.5px solid rgba(59,130,246,0.3);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5);display:none;min-width:160px;}
+.flag-drop.open{display:block;}
+.fd-o{padding:12px 16px;cursor:pointer;font-size:.86rem;font-weight:600;display:flex;gap:8px;color:var(--text);transition:.15s;}
+.fd-o:hover{background:rgba(59,130,246,0.12);color:var(--accent2);}
+.form-textarea{width:100%;padding:12px 15px;background:rgba(5,8,15,0.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;resize:none;min-height:76px;transition:.2s;}
+.form-textarea:focus{border-color:var(--accent);}
+.form-textarea::placeholder{color:var(--muted);}
+.submit-btn{padding:15px;background:linear-gradient(135deg,#1D4ED8,#3B82F6);border:none;border-radius:var(--r);font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:#fff;cursor:pointer;transition:.15s;box-shadow:0 4px 16px rgba(59,130,246,0.35);}
+.submit-btn:active{transform:scale(0.98);}
+.submit-ok{text-align:center;font-size:.85rem;color:var(--green);display:none;}
+
+/* ═══ VIZA / GURUH ═══ */
+.phones-big{display:flex;gap:10px;flex-wrap:wrap;}
+.phone-big{flex:1;min-width:140px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:14px;background:rgba(59,130,246,0.08);border:1.5px solid rgba(59,130,246,0.2);font-size:.85rem;font-weight:700;color:var(--accent2);text-decoration:none;transition:.15s;}
+.phone-big:active{transform:scale(0.96);background:rgba(59,130,246,0.15);}
+
+/* ═══ SECTION TITLE ═══ */
+.section-title{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:800;
+  color:var(--muted2);text-transform:uppercase;letter-spacing:1.5px;
+  display:flex;align-items:center;gap:8px;}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ═══ TOAST ═══ */
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:30px;padding:10px 20px;
+  font-size:.85rem;font-weight:600;color:var(--text);
+  opacity:0;transition:.3s;z-index:200;white-space:nowrap;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(59,130,246,0.2);border-radius:2px;}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ WELCOME ═══════════════ -->
-<div class="screen active" id="welcome">
-  <div class="welcome-inner">
-    <div class="logo-wrap">
-      <div class="logo-ring">
-        <svg viewBox="0 0 54 54" fill="none">
-          <circle cx="27" cy="27" r="18" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-          <path d="M14 27 Q27 10 40 27 Q27 44 14 27Z" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="1"/>
-          <circle cx="27" cy="27" r="5" fill="white"/>
-          <path d="M27 9 L27 13M27 41 L27 45M9 27 L13 27M41 27 L45 27" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+<!-- ═══════════ ONBOARDING ═══════════ -->
+<div id="onboarding">
+  <div class="ob-particles" id="obParticles"></div>
+  <div class="ob-content">
+    <div class="ob-logo-wrap">
+      <div class="ob-logo-inner">
+        <svg viewBox="0 0 46 46" fill="none">
+          <circle cx="23" cy="23" r="15" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <path d="M11 23 Q23 8 35 23 Q23 38 11 23Z" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="1"/>
+          <circle cx="23" cy="23" r="5" fill="white"/>
+          <path d="M23 8L23 12M23 34L23 38M8 23L12 23M34 23L38 23" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="logo-name">OMAD TOUR</div>
-      <div class="logo-sub">Travel Agency</div>
     </div>
 
-    <div class="welcome-text" id="wText">
-      <span>OMAD TOUR</span> da ko'rganingizdan bagoyatda xursandmiz! 🎉
+    <div class="ob-slides" id="obSlides">
+      <div class="ob-slide active">
+        <div class="ob-emoji">✈️</div>
+        <div class="ob-title">OMAD TOUR</div>
+        <div class="ob-desc">Sankt-Peterburgdagi eng ishonchli sayohat agentligi. Bilet, viza, hujjat — hammasi bir joyda.</div>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-emoji">🏆</div>
+        <div class="ob-title">Ball yig'ing!</div>
+        <div class="ob-desc">Har bir xizmatdan ball oling va maxsus chegirmalardan foydalaning. Qanchalik ko'p — shunchalik yaxshi!</div>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-emoji">💬</div>
+        <div class="ob-title">Jonli muloqot</div>
+        <div class="ob-desc">Operatorlarimiz har kuni 9:00 – 20:00 gacha sizning savollaringizga javob berishga tayyor.</div>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-emoji">🚀</div>
+        <div class="ob-title">Tayyor!</div>
+        <div class="ob-desc">Hamma narsa sizning qo'lingizda. Boshlaylik!</div>
+      </div>
     </div>
 
-    <div class="lang-row">
-      <button class="lang-btn uz selected" onclick="selectLang('uz')">🇺🇿 O'zbek</button>
-      <button class="lang-btn ru" onclick="selectLang('ru')">🇷🇺 Русский</button>
+    <div class="ob-dots" id="obDots">
+      <div class="ob-dot active" onclick="goSlide(0)"></div>
+      <div class="ob-dot" onclick="goSlide(1)"></div>
+      <div class="ob-dot" onclick="goSlide(2)"></div>
+      <div class="ob-dot" onclick="goSlide(3)"></div>
     </div>
-    <button class="nachat-btn" id="nachatBtn" onclick="goHome()">Boshlash / Начать</button>
+
+    <button class="ob-next" id="obNext" onclick="nextSlide()">Davom etish →</button>
+    <button class="ob-skip" onclick="finishOnboarding()">O'tkazib yuborish</button>
   </div>
 </div>
 
-<!-- ═══════════════ HOME ═══════════════ -->
-<div class="screen" id="home">
-  <div class="home-header">
-    <div class="h-logo">
-      <div class="h-logo-icon">
-        <svg viewBox="0 0 22 22" fill="none">
-          <circle cx="11" cy="11" r="7" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-          <path d="M5.5 11 Q11 4.5 16.5 11 Q11 17.5 5.5 11Z" fill="rgba(255,255,255,.2)" stroke="white" stroke-width=".8"/>
-          <circle cx="11" cy="11" r="2.5" fill="white"/>
+<!-- ═══════════ TOAST ═══════════ -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════ BOTTOM NAV ═══════════ -->
+<div class="bottom-nav" id="bottomNav" style="display:none;">
+  <button class="nav-item active" onclick="navTo('home',this)">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label" data-uz="Bosh sahifa" data-ru="Главная">Bosh sahifa</span>
+  </button>
+  <button class="nav-item" onclick="navTo('loyalty',this)">
+    <span class="nav-icon">🏆</span>
+    <span class="nav-label" data-uz="Ballar" data-ru="Баллы">Ballar</span>
+    <div class="nav-pip show" id="loyaltyPip"></div>
+  </button>
+  <button class="nav-item" onclick="navTo('chat',this)">
+    <span class="nav-icon">💬</span>
+    <span class="nav-label" data-uz="Chat" data-ru="Чат">Chat</span>
+    <div class="nav-badge show" id="chatBadge">1</div>
+  </button>
+  <button class="nav-item" onclick="navTo('stats',this)">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label" data-uz="Statistika" data-ru="Статистика">Statistika</span>
+  </button>
+  <button class="nav-item" onclick="navTo('notifs',this)">
+    <span class="nav-icon">🔔</span>
+    <span class="nav-label" data-uz="Xabarlar" data-ru="Уведомления">Xabarlar</span>
+    <div class="nav-badge show" id="notifBadge">3</div>
+  </button>
+</div>
+
+<!-- ═══════════ HOME ═══════════ -->
+<div class="screen active" id="home">
+  <div class="page-header">
+    <div class="header-logo">
+      <div class="header-logo-ring">
+        <svg viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="6.5" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+          <path d="M4.5 10 Q10 4 15.5 10 Q10 16 4.5 10Z" fill="rgba(255,255,255,.2)" stroke="white" stroke-width=".7"/>
+          <circle cx="10" cy="10" r="2.2" fill="white"/>
         </svg>
       </div>
-      <span class="h-logo-text">OMAD TOUR</span>
+      <span class="header-title">OMAD TOUR</span>
     </div>
     <div class="lang-toggle">
-      <button class="lt-btn active" id="ltUz" onclick="switchLang('uz')">UZ</button>
-      <button class="lt-btn" id="ltRu" onclick="switchLang('ru')">RU</button>
+      <button class="lt on" id="hLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="hLtRu" onclick="setLang('ru')">RU</button>
     </div>
   </div>
-
-  <div class="home-body">
-    <div class="menu-btn" onclick="goScreen('avia')">
-      <div class="mb-icon">✈️</div>
-      <div class="mb-text">
-        <div class="mb-title" data-uz="Aviakassa" data-ru="Авиакасса">Aviakassa</div>
-        <div class="mb-sub" data-uz="Arzon chipta narxlari" data-ru="Дешёвые билеты">Arzon chipta narxlari</div>
+  <div class="page-body">
+    <div class="hero-card">
+      <div class="hero-greeting" data-uz="Xush kelibsiz 👋" data-ru="Добро пожаловать 👋">Xush kelibsiz 👋</div>
+      <div class="hero-name" id="heroName">OMAD TOUR</div>
+      <div class="hero-sub" data-uz="Sankt-Peterburgdagi sayohat sherigingiz" data-ru="Ваш туристический партнёр в Санкт-Петербурге">Sankt-Peterburgdagi sayohat sherigingiz</div>
+      <div class="hero-points">
+        <span class="hp-icon">⭐</span>
+        <span class="hp-val" id="heroPoints">120</span>
+        <span class="hp-lbl" data-uz="ball" data-ru="баллов">ball</span>
       </div>
-      <span class="mb-arrow">›</span>
     </div>
 
-    <div class="menu-btn" onclick="goScreen('viza')">
-      <div class="mb-icon">🛂</div>
-      <div class="mb-text">
-        <div class="mb-title" data-uz="Viza bo'limi" data-ru="Визовый отдел">Viza bo'limi</div>
-        <div class="mb-sub" data-uz="Viza ma'lumotlari" data-ru="Информация о визе">Viza ma'lumotlari</div>
+    <div class="grid-2">
+      <div class="stat-mini">
+        <div class="sm-val">4.9</div>
+        <div class="sm-lbl" data-uz="Reyting" data-ru="Рейтинг">Reyting</div>
+        <div class="sm-trend">⭐⭐⭐⭐⭐</div>
       </div>
-      <span class="mb-arrow">›</span>
+      <div class="stat-mini">
+        <div class="sm-val">2k+</div>
+        <div class="sm-lbl" data-uz="Mijozlar" data-ru="Клиентов">Mijozlar</div>
+        <div class="sm-trend">↑ Har oy o'smoqda</div>
+      </div>
     </div>
 
-    <div class="menu-btn" onclick="goScreen('guruh')">
-      <div class="mb-icon">👥</div>
-      <div class="mb-text">
-        <div class="mb-title" data-uz="Guruhlarimiz" data-ru="Наши группы">Guruhlarimiz</div>
-        <div class="mb-sub" data-uz="Narxlar va yangiliklar" data-ru="Цены и новости">Narxlar va yangiliklar</div>
-      </div>
-      <span class="mb-arrow">›</span>
-    </div>
+    <div class="section-title" data-uz="Xizmatlar" data-ru="Услуги">Xizmatlar</div>
 
-    <div class="menu-btn" onclick="goScreen('ofis')">
-      <div class="mb-icon">🖨️</div>
-      <div class="mb-text">
-        <div class="mb-title" data-uz="Ofis xizmatlari" data-ru="Офисные услуги">Ofis xizmatlari</div>
-        <div class="mb-sub" data-uz="Nusxa, skaner, foto..." data-ru="Копия, скан, фото...">Nusxa, skaner, foto...</div>
+    <div class="menu-card" onclick="openInner('avia')">
+      <div class="mc-icon">✈️</div>
+      <div class="mc-body">
+        <div class="mc-title" data-uz="Aviakassa" data-ru="Авиакасса">Aviakassa</div>
+        <div class="mc-sub" data-uz="Arzon chipta narxlari" data-ru="Дешёвые билеты">Arzon chipta narxlari</div>
       </div>
-      <span class="mb-arrow">›</span>
+      <span class="mc-arr">›</span>
+    </div>
+    <div class="menu-card" onclick="openInner('viza')">
+      <div class="mc-icon">🛂</div>
+      <div class="mc-body">
+        <div class="mc-title" data-uz="Viza bo'limi" data-ru="Визовый отдел">Viza bo'limi</div>
+        <div class="mc-sub" data-uz="Viza ma'lumotlari" data-ru="Информация о визе">Viza ma'lumotlari</div>
+      </div>
+      <span class="mc-arr">›</span>
+    </div>
+    <div class="menu-card" onclick="openInner('guruh')">
+      <div class="mc-icon">👥</div>
+      <div class="mc-body">
+        <div class="mc-title" data-uz="Guruhlarimiz" data-ru="Наши группы">Guruhlarimiz</div>
+        <div class="mc-sub" data-uz="Narxlar va yangiliklar" data-ru="Цены и новости">Narxlar va yangiliklar</div>
+      </div>
+      <span class="mc-arr">›</span>
+    </div>
+    <div class="menu-card" onclick="openInner('ofis')">
+      <div class="mc-icon">🖨️</div>
+      <div class="mc-body">
+        <div class="mc-title" data-uz="Ofis xizmatlari" data-ru="Офисные услуги">Ofis xizmatlari</div>
+        <div class="mc-sub" data-uz="Nusxa, skaner, foto..." data-ru="Копия, скан, фото...">Nusxa, skaner, foto...</div>
+      </div>
+      <span class="mc-arr">›</span>
     </div>
 
     <div class="phones-row">
-      <a href="tel:+79811939094" class="phone-chip">📞 +7 981 193 9094</a>
-      <a href="tel:+79379499094" class="phone-chip">📞 +7 937 949 9094</a>
+      <a href="tel:+79811939094" class="phone-chip" onclick="haptic('light')">📞 +7 981 193 9094</a>
+      <a href="tel:+79379499094" class="phone-chip" onclick="haptic('light')">📞 +7 937 949 9094</a>
     </div>
 
-    <div class="address-card">
-      <div class="addr-label" data-uz="📍 Bizning manzil" data-ru="📍 Наш адрес">📍 Bizning manzil</div>
-      <div class="addr-anim">
-        <div class="addr-line" style="color:var(--accent2);font-weight:800;font-size:1rem;">🏙 Санкт-Петербург</div>
-        <div class="addr-line" style="font-size:.9rem;color:var(--text);">4-я Красноармейская улица, дом 3</div>
-        <div class="addr-line" style="font-size:.84rem;color:var(--muted);">🔢 Домофон: 22В</div>
-      </div>
-    </div>
-
-    <div class="stars-card">
-      <div class="stars-label" data-uz="Bizni baholang" data-ru="Оцените нас">Bizni baholang</div>
-      <div class="stars-row" id="starsRow">
-        <span class="star-btn" onclick="rateStar(1)">⭐</span>
-        <span class="star-btn" onclick="rateStar(2)">⭐</span>
-        <span class="star-btn" onclick="rateStar(3)">⭐</span>
-        <span class="star-btn" onclick="rateStar(4)">⭐</span>
-        <span class="star-btn" onclick="rateStar(5)">⭐</span>
-      </div>
-      <div class="stars-thanks" id="starsThanks"></div>
+    <div class="addr-card">
+      <div class="addr-glow"></div>
+      <div class="addr-lbl" data-uz="📍 Bizning manzil" data-ru="📍 Наш адрес">📍 Bizning manzil</div>
+      <div class="addr-city">🏙 Санкт-Петербург</div>
+      <div class="addr-street">4-я Красноармейская улица, дом 3</div>
+      <div class="addr-note">🔢 Домофон: 22В</div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ AVIAKASSA ═══════════════ -->
+<!-- ═══════════ LOYALTY ═══════════ -->
+<div class="screen" id="loyalty">
+  <div class="page-header">
+    <div class="header-logo">
+      <span style="font-size:1.3rem;">🏆</span>
+      <span class="header-title" data-uz="Loyalty dastur" data-ru="Программа лояльности">Loyalty dastur</span>
+    </div>
+    <div class="lang-toggle">
+      <button class="lt on" id="lLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="lLtRu" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="loyalty-hero">
+      <div class="lh-crown">👑</div>
+      <div class="lh-title" data-uz="Sizning darajangiz: OLTIN" data-ru="Ваш уровень: ЗОЛОТО">Sizning darajangiz: OLTIN</div>
+      <div class="lh-sub" data-uz="Platinumgacha 380 ball qoldi" data-ru="До Platinum осталось 380 баллов">Platinumgacha 380 ball qoldi</div>
+      <div class="lh-points-big" id="loyaltyPoints">120</div>
+      <div class="lh-pts-lbl" data-uz="umumiy ball" data-ru="всего баллов">umumiy ball</div>
+      <div class="progress-bar-wrap">
+        <div class="pb-labels">
+          <span>Bronze (0)</span><span>Platinum (500)</span>
+        </div>
+        <div class="pb-track">
+          <div class="pb-fill" id="loyaltyBar" style="width:24%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-badges">
+      <div class="level-badge lb-bronze">🥉 Bronze <span style="opacity:.6">0–99</span></div>
+      <div class="level-badge lb-silver">🥈 Silver <span style="opacity:.6">100–249</span></div>
+      <div class="level-badge lb-gold lb-active">🥇 Gold <span style="opacity:.6">250–499</span></div>
+      <div class="level-badge lb-platinum">💎 Platinum <span style="opacity:.6">500+</span></div>
+    </div>
+
+    <div class="section-title" data-uz="Mukofotlar" data-ru="Награды">Mukofotlar</div>
+
+    <div class="rewards-list">
+      <div class="reward-item">
+        <div class="ri-icon">✈️</div>
+        <div class="ri-body">
+          <div class="ri-title" data-uz="Biletga 5% chegirma" data-ru="Скидка 5% на билет">Biletga 5% chegirma</div>
+          <div class="ri-cost">🌟 50 ball</div>
+        </div>
+        <button class="ri-btn" onclick="redeemReward(this,50,'5% chegirma')">Olish</button>
+      </div>
+      <div class="reward-item">
+        <div class="ri-icon">📸</div>
+        <div class="ri-body">
+          <div class="ri-title" data-uz="Bepul foto 3×4" data-ru="Бесплатное фото 3×4">Bepul foto 3×4</div>
+          <div class="ri-cost">🌟 30 ball</div>
+        </div>
+        <button class="ri-btn" onclick="redeemReward(this,30,'Bepul foto')">Olish</button>
+      </div>
+      <div class="reward-item">
+        <div class="ri-icon">🛂</div>
+        <div class="ri-body">
+          <div class="ri-title" data-uz="Viza maslahat — bepul" data-ru="Визовая консультация бесплатно">Viza maslahat — bepul</div>
+          <div class="ri-cost">🌟 80 ball</div>
+        </div>
+        <button class="ri-btn" onclick="redeemReward(this,80,'Viza maslahat')">Olish</button>
+      </div>
+      <div class="reward-item">
+        <div class="ri-icon">💎</div>
+        <div class="ri-body">
+          <div class="ri-title" data-uz="VIP xizmat (navbatsiz)" data-ru="VIP обслуживание (без очереди)">VIP xizmat (navbatsiz)</div>
+          <div class="ri-cost">🌟 200 ball</div>
+        </div>
+        <button class="ri-btn" onclick="redeemReward(this,200,'VIP xizmat')" disabled>Yetarli emas</button>
+      </div>
+    </div>
+
+    <div class="section-title" data-uz="Ball qanday yig'iladi?" data-ru="Как накопить баллы?">Ball qanday yig'iladi?</div>
+    <div class="info-card">
+      <p data-uz="• Har bir bilet xarididan: 10 ball&#10;• Ofis xizmatlaridan: 5 ball&#10;• Do'st taklif qilganda: 20 ball&#10;• Sharh qoldirganda: 5 ball" data-ru="• За каждый купленный билет: 10 баллов&#10;• За офисные услуги: 5 баллов&#10;• За приглашение друга: 20 баллов&#10;• За оставленный отзыв: 5 баллов">• Har bir bilet xarididan: 10 ball
+• Ofis xizmatlaridan: 5 ball
+• Do'st taklif qilganda: 20 ball
+• Sharh qoldirganda: 5 ball</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CHAT ═══════════ -->
+<div class="screen" id="chat" style="padding-bottom:0;">
+  <div class="inner-header">
+    <div style="display:flex;align-items:center;gap:10px;flex:1;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">👩</div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--text);">OMAD TOUR</div>
+        <div class="online-badge"><div class="online-dot"></div><span data-uz="Onlayn" data-ru="Онлайн">Onlayn</span></div>
+      </div>
+    </div>
+    <div class="lang-toggle">
+      <button class="lt on" id="cLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="cLtRu" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+  <div class="chat-wrap">
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg agent">
+        <div class="agent-name">OMAD TOUR operatori</div>
+        <div class="msg-bubble" data-uz="Salom! 👋 OMAD TOUR ga xush kelibsiz. Sizga qanday yordam bera olaman?" data-ru="Здравствуйте! 👋 Добро пожаловать в OMAD TOUR. Чем могу помочь?">Salom! 👋 OMAD TOUR ga xush kelibsiz. Sizga qanday yordam bera olaman?</div>
+        <div class="msg-time">09:00</div>
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" placeholder="Xabar yozing..." onkeydown="if(event.key==='Enter')sendChat()"/>
+      <button class="chat-send" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ STATS ═══════════ -->
+<div class="screen" id="stats">
+  <div class="page-header">
+    <div class="header-logo">
+      <span style="font-size:1.3rem;">📊</span>
+      <span class="header-title" data-uz="Statistika" data-ru="Статистика">Statistika</span>
+    </div>
+    <div class="lang-toggle">
+      <button class="lt on" id="sLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="sLtRu" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="sc-icon">👥</div>
+        <div class="sc-val" id="scClients">2,148</div>
+        <div class="sc-lbl" data-uz="Jami mijozlar" data-ru="Всего клиентов">Jami mijozlar</div>
+        <div class="sc-trend up">↑ +12% bu oy</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon">✈️</div>
+        <div class="sc-val" id="scTickets">847</div>
+        <div class="sc-lbl" data-uz="Sotilgan biletlar" data-ru="Продано билетов">Sotilgan biletlar</div>
+        <div class="sc-trend up">↑ +8% bu oy</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon">⭐</div>
+        <div class="sc-val">4.9</div>
+        <div class="sc-lbl" data-uz="O'rtacha reyting" data-ru="Средний рейтинг">O'rtacha reyting</div>
+        <div class="sc-trend up">↑ 0.1 o'sish</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon">💬</div>
+        <div class="sc-val">98%</div>
+        <div class="sc-lbl" data-uz="Murojaat hal qilingan" data-ru="Обращений решено">Murojaat hal qilingan</div>
+        <div class="sc-trend up">↑ Ajoyib!</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title" data-uz="Oylik mijozlar" data-ru="Клиенты по месяцам">Oylik mijozlar</div>
+      <div class="bar-chart" id="barChart"></div>
+    </div>
+
+    <div class="section-title" data-uz="So'nggi faollik" data-ru="Последняя активность">So'nggi faollik</div>
+    <div class="activity-list">
+      <div class="act-item">
+        <div class="act-dot" style="background:var(--green)"></div>
+        <div class="act-body">
+          <div class="act-title" data-uz="Yangi buyurtma — Ofis xizmati" data-ru="Новый заказ — Офисные услуги">Yangi buyurtma — Ofis xizmati</div>
+          <div class="act-time">Bugun, 14:32</div>
+        </div>
+        <div class="act-val">+5 ⭐</div>
+      </div>
+      <div class="act-item">
+        <div class="act-dot" style="background:var(--accent)"></div>
+        <div class="act-body">
+          <div class="act-title" data-uz="Bilet bronlandi — SPb→TAS" data-ru="Бронь билета — СПб→ТАШ">Bilet bronlandi — SPb→TAS</div>
+          <div class="act-time">Kecha, 11:15</div>
+        </div>
+        <div class="act-val">+10 ⭐</div>
+      </div>
+      <div class="act-item">
+        <div class="act-dot" style="background:var(--gold)"></div>
+        <div class="act-body">
+          <div class="act-title" data-uz="Do'st taklif qilindi" data-ru="Приглашён друг">Do'st taklif qilindi</div>
+          <div class="act-time">3 kun oldin</div>
+        </div>
+        <div class="act-val">+20 ⭐</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ NOTIFICATIONS ═══════════ -->
+<div class="screen" id="notifs">
+  <div class="page-header">
+    <div class="header-logo">
+      <span style="font-size:1.3rem;">🔔</span>
+      <span class="header-title" data-uz="Xabarlar" data-ru="Уведомления">Xabarlar</span>
+    </div>
+    <div class="lang-toggle">
+      <button class="lt on" id="nLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="nLtRu" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="notif-list" id="notifList">
+      <div class="notif-item unread" onclick="readNotif(this)">
+        <div class="ni-badge"></div>
+        <div class="ni-icon">✈️</div>
+        <div class="ni-body">
+          <div class="ni-title" data-uz="Yangi chegirma: SPb→Toshkent" data-ru="Новая скидка: СПб→Ташкент">Yangi chegirma: SPb→Toshkent</div>
+          <div class="ni-text" data-uz="Bu hafta faqat 8,900 ₽ dan! Joylar cheklangan." data-ru="Только на этой неделе от 8 900 ₽! Мест ограничено.">Bu hafta faqat 8,900 ₽ dan! Joylar cheklangan.</div>
+          <div class="ni-time">Bugun 10:00</div>
+        </div>
+      </div>
+      <div class="notif-item unread" onclick="readNotif(this)">
+        <div class="ni-badge"></div>
+        <div class="ni-icon">🏆</div>
+        <div class="ni-body">
+          <div class="ni-title" data-uz="Tabriklaymiz! 20 ball qo'shildi" data-ru="Поздравляем! Начислено 20 баллов">Tabriklaymiz! 20 ball qo'shildi</div>
+          <div class="ni-text" data-uz="Do'stingiz ro'yxatdan o'tdi. Bonus ballaringiz hisoblandi!" data-ru="Ваш друг зарегистрировался. Бонусные баллы начислены!">Do'stingiz ro'yxatdan o'tdi. Bonus ballaringiz hisoblandi!</div>
+          <div class="ni-time">Kecha 18:45</div>
+        </div>
+      </div>
+      <div class="notif-item unread" onclick="readNotif(this)">
+        <div class="ni-badge"></div>
+        <div class="ni-icon">🛂</div>
+        <div class="ni-body">
+          <div class="ni-title" data-uz="Viza haqida yangilik" data-ru="Новости о визах">Viza haqida yangilik</div>
+          <div class="ni-text" data-uz="Schengen viza muddati 2 yilgacha uzaytirilishi mumkin bo'ldi." data-ru="Шенгенская виза теперь может выдаваться на срок до 2 лет.">Schengen viza muddati 2 yilgacha uzaytirilishi mumkin bo'ldi.</div>
+          <div class="ni-time">2 kun oldin</div>
+        </div>
+      </div>
+      <div class="notif-item" onclick="readNotif(this)">
+        <div class="ni-icon">📦</div>
+        <div class="ni-body">
+          <div class="ni-title" data-uz="Buyurtmangiz qabul qilindi" data-ru="Ваш заказ принят">Buyurtmangiz qabul qilindi</div>
+          <div class="ni-text" data-uz="Ofis xizmati buyurtmangiz ko'rib chiqilmoqda." data-ru="Ваш заказ на офисные услуги рассматривается.">Ofis xizmati buyurtmangiz ko'rib chiqilmoqda.</div>
+          <div class="ni-time">5 kun oldin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ INNER: AVIA ═══════════ -->
 <div class="screen" id="avia">
   <div class="inner-header">
-    <button class="back-btn" onclick="goHome()">‹</button>
+    <button class="back-btn" onclick="closeInner()">‹</button>
     <div class="inner-title">✈️ Aviakassa</div>
     <div class="lang-toggle">
-      <button class="lt-btn active" id="aviaLtUz" onclick="switchLang('uz')">UZ</button>
-      <button class="lt-btn" id="aviaLtRu" onclick="switchLang('ru')">RU</button>
+      <button class="lt on" id="aLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="aLtRu" onclick="setLang('ru')">RU</button>
     </div>
   </div>
-  <div class="inner-body">
+  <div class="page-body">
     <div class="info-card">
-      <p data-uz="Siz aviakassa bo'limidasiz. Bu yerda siz biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishib borishingiz va bron qilish imkoniyatiga egasiz."
-         data-ru="Вы находитесь в разделе авиакасса. Здесь вы можете связаться с нами, ознакомиться с выгодными ценами на авиабилеты и оформить бронирование.">
-        Siz aviakassa bo'limidasiz. Bu yerda siz biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishib borishingiz va bron qilish imkoniyatiga egasiz.
-      </p>
+      <p data-uz="Siz aviakassa bo'limidasiz. Bu yerda siz biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishib borishingiz va bron qilish imkoniyatiga egasiz." data-ru="Вы находитесь в разделе авиакасса. Здесь вы можете связаться с нами, ознакомиться с выгодными ценами на авиабилеты и оформить бронирование.">Siz aviakassa bo'limidasiz. Bu yerda siz biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishib borishingiz va bron qilish imkoniyatiga egasiz.</p>
     </div>
-
-    <a href="https://t.me/OMAD_TOUR9094" target="_blank" class="link-btn">
+    <a href="https://t.me/OMAD_TOUR9094" target="_blank" class="link-row" onclick="haptic('light')">
       <span class="link-icon">💬</span>
-      <div>
-        <div class="link-sub" data-uz="Aviakassa Telegram" data-ru="Авиакасса Telegram">Aviakassa Telegram</div>
-        <div>@OMAD_TOUR9094</div>
-      </div>
+      <div><div class="link-sub">Telegram</div><div>@OMAD_TOUR9094</div></div>
     </a>
-
-    <a href="https://wa.me/79811939094" target="_blank" class="link-btn">
+    <a href="https://wa.me/79811939094" target="_blank" class="link-row" onclick="haptic('light')">
       <span class="link-icon">📱</span>
-      <div>
-        <div class="link-sub" data-uz="Aviakassa WhatsApp" data-ru="Авиакасса WhatsApp">Aviakassa WhatsApp</div>
-        <div>+7 981 193 9094</div>
-      </div>
+      <div><div class="link-sub">WhatsApp</div><div>+7 981 193 9094</div></div>
     </a>
-
-    <a href="https://max.ru/u/f9LHodD0cOLLpEmAWC_I3iUUWcn5IO6DFYg0IVz4jEXfm6BJP6OL-L7V0jk" target="_blank" class="link-btn">
+    <a href="https://max.ru/u/f9LHodD0cOLLpEmAWC_I3iUUWcn5IO6DFYg0IVz4jEXfm6BJP6OL-L7V0jk" target="_blank" class="link-row" onclick="haptic('light')">
       <span class="link-icon">🔗</span>
-      <div>
-        <div class="link-sub" data-uz="Aviakassa MAX" data-ru="Авиакасса MAX">Aviakassa MAX</div>
-        <div>max.ru — OMAD TOUR</div>
-      </div>
+      <div><div class="link-sub">MAX</div><div>max.ru — OMAD TOUR</div></div>
     </a>
-
     <div class="phones-big">
-      <a href="tel:+79811939094" class="phone-big">📞 +7 981 193 9094</a>
-      <a href="tel:+79379499094" class="phone-big">📞 +7 937 949 9094</a>
+      <a href="tel:+79811939094" class="phone-big" onclick="haptic('medium')">📞 +7 981 193 9094</a>
+      <a href="tel:+79379499094" class="phone-big" onclick="haptic('medium')">📞 +7 937 949 9094</a>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ VIZA ═══════════════ -->
+<!-- ═══════════ INNER: VIZA ═══════════ -->
 <div class="screen" id="viza">
   <div class="inner-header">
-    <button class="back-btn" onclick="goHome()">‹</button>
+    <button class="back-btn" onclick="closeInner()">‹</button>
     <div class="inner-title">🛂 Viza bo'limi</div>
     <div class="lang-toggle">
-      <button class="lt-btn active" id="vizaLtUz" onclick="switchLang('uz')">UZ</button>
-      <button class="lt-btn" id="vizaLtRu" onclick="switchLang('ru')">RU</button>
+      <button class="lt on" id="vLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="vLtRu" onclick="setLang('ru')">RU</button>
     </div>
   </div>
-  <div class="inner-body">
+  <div class="page-body">
     <div class="info-card">
-      <p data-uz="Siz viza bo'limidasiz. Siz bu yerda viza javoblarini bilishingiz va savollar bo'lsa konsullik bo'limiga murojat qilish imkoniyatlariga egasiz."
-         data-ru="Вы находитесь в визовом отделе. Здесь вы можете узнать ответы на вопросы по визе и при необходимости обратиться в консульский отдел.">
-        Siz viza bo'limidasiz. Siz bu yerda viza javoblarini bilishingiz va savollar bo'lsa konsullik bo'limiga murojat qilish imkoniyatlariga egasiz.
-      </p>
+      <p data-uz="Siz viza bo'limidasiz. Bu yerda viza javoblarini bilib olishingiz va konsullik bo'limiga murojat qilishingiz mumkin." data-ru="Вы находитесь в визовом отделе. Здесь вы можете узнать ответы по визам и обратиться в консульский отдел.">Siz viza bo'limidasiz. Bu yerda viza javoblarini bilib olishingiz va konsullik bo'limiga murojat qilishingiz mumkin.</p>
     </div>
-    <a href="https://visa.mfa.uz/ruxsat/view" target="_blank" class="link-btn">
+    <a href="https://visa.mfa.uz/ruxsat/view" target="_blank" class="link-row" onclick="haptic('light')">
       <span class="link-icon">📋</span>
-      <div>
-        <div class="link-sub" data-uz="Viza javoblari" data-ru="Ответы по визам">Viza javoblari</div>
-        <div>visa.mfa.uz</div>
-      </div>
+      <div><div class="link-sub" data-uz="Viza javoblari" data-ru="Ответы по визам">Viza javoblari</div><div>visa.mfa.uz</div></div>
     </a>
-    <a href="https://t.me/+i8I6ByH_CUVhOWQy" target="_blank" class="link-btn">
+    <a href="https://t.me/+i8I6ByH_CUVhOWQy" target="_blank" class="link-row" onclick="haptic('light')">
       <span class="link-icon">🏛️</span>
-      <div>
-        <div class="link-sub" data-uz="Uzb Sankt-Peterburgdagi bosh konsulxona" data-ru="Генконсульство Узбекистана в СПб">Uzb Sankt-Peterburgdagi bosh konsulxona</div>
-        <div data-uz="Telegram kanal" data-ru="Telegram канал">Telegram kanal</div>
-      </div>
+      <div><div class="link-sub" data-uz="Bosh konsulxona SPb" data-ru="Генконсульство СПб">Bosh konsulxona SPb</div><div data-uz="Telegram kanal" data-ru="Telegram канал">Telegram kanal</div></div>
     </a>
   </div>
 </div>
 
-<!-- ═══════════════ GURUHLAR ═══════════════ -->
+<!-- ═══════════ INNER: GURUH ═══════════ -->
 <div class="screen" id="guruh">
   <div class="inner-header">
-    <button class="back-btn" onclick="goHome()">‹</button>
+    <button class="back-btn" onclick="closeInner()">‹</button>
     <div class="inner-title">👥 Guruhlarimiz</div>
     <div class="lang-toggle">
-      <button class="lt-btn active" id="guruhLtUz" onclick="switchLang('uz')">UZ</button>
-      <button class="lt-btn" id="guruhLtRu" onclick="switchLang('ru')">RU</button>
+      <button class="lt on" id="gLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="gLtRu" onclick="setLang('ru')">RU</button>
     </div>
   </div>
-  <div class="inner-body">
+  <div class="page-body">
     <div class="info-card">
-      <p data-uz="Siz guruhlarimiz bo'limidasiz. Bu yerda siz biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin."
-         data-ru="Вы находитесь в разделе наших групп. Здесь вы можете узнать актуальные цены на билеты по дням.">
-        Siz guruhlarimiz bo'limidasiz. Bu yerda siz biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin.
-      </p>
+      <p data-uz="Bu yerda siz biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin." data-ru="Здесь вы можете узнать актуальные цены на билеты по дням.">Bu yerda siz biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin.</p>
     </div>
-    <a href="https://t.me/+OW_pzYSHjIA5NmQy" target="_blank" class="link-btn">
+    <a href="https://t.me/+OW_pzYSHjIA5NmQy" target="_blank" class="link-row" onclick="haptic('light')">
       <span class="link-icon">📢</span>
-      <div>
-        <div class="link-sub" data-uz="Telegram guruhimiz" data-ru="Наша группа Telegram">Telegram guruhimiz</div>
-        <div>OMAD TOUR Telegram</div>
-      </div>
+      <div><div class="link-sub" data-uz="Telegram guruh" data-ru="Telegram группа">Telegram guruh</div><div>OMAD TOUR Telegram</div></div>
     </a>
-    <a href="https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t" target="_blank" class="link-btn">
+    <a href="https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t" target="_blank" class="link-row" onclick="haptic('light')">
       <span class="link-icon">💬</span>
-      <div>
-        <div class="link-sub" data-uz="WhatsApp guruhimiz" data-ru="Наша группа WhatsApp">WhatsApp guruhimiz</div>
-        <div>OMAD TOUR WhatsApp</div>
-      </div>
+      <div><div class="link-sub" data-uz="WhatsApp guruh" data-ru="WhatsApp группа">WhatsApp guruh</div><div>OMAD TOUR WhatsApp</div></div>
     </a>
-    <a href="https://max.ru/join/M4-SsjF594_qN-XYZd8YabTAqxvGFRzd30p_N2hRh7c" target="_blank" class="link-btn">
+    <a href="https://max.ru/join/M4-SsjF594_qN-XYZd8YabTAqxvGFRzd30p_N2hRh7c" target="_blank" class="link-row" onclick="haptic('light')">
       <span class="link-icon">🔗</span>
-      <div>
-        <div class="link-sub" data-uz="MAX guruhimiz" data-ru="Наша группа MAX">MAX guruhimiz</div>
-        <div>OMAD TOUR MAX</div>
-      </div>
+      <div><div class="link-sub">MAX guruh</div><div>OMAD TOUR MAX</div></div>
     </a>
   </div>
 </div>
 
-<!-- ═══════════════ OFIS ═══════════════ -->
+<!-- ═══════════ INNER: OFIS ═══════════ -->
 <div class="screen" id="ofis">
   <div class="inner-header">
-    <button class="back-btn" onclick="goHome()">‹</button>
+    <button class="back-btn" onclick="closeInner()">‹</button>
     <div class="inner-title">🖨️ Ofis xizmatlari</div>
     <div class="lang-toggle">
-      <button class="lt-btn active" id="ofisLtUz" onclick="switchLang('uz')">UZ</button>
-      <button class="lt-btn" id="ofisLtRu" onclick="switchLang('ru')">RU</button>
+      <button class="lt on" id="oLtUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="oLtRu" onclick="setLang('ru')">RU</button>
     </div>
   </div>
-  <div class="inner-body">
+  <div class="page-body">
     <div class="price-table">
-      <div class="price-section">
-        <div class="ps-title" data-uz="Nusxa ko'chirish" data-ru="Копирование">Nusxa ko'chirish</div>
+      <div class="ps">
+        <div class="ps-head" data-uz="Nusxa ko'chirish" data-ru="Копирование">Nusxa ko'chirish</div>
         <div class="ps-row"><span class="ps-name" data-uz="Qora-oq" data-ru="Чёрно-белая">Qora-oq</span><span class="ps-price">35 ₽</span></div>
         <div class="ps-row"><span class="ps-name" data-uz="Ikki tomonlama" data-ru="Двухсторонняя">Ikki tomonlama</span><span class="ps-price">50 ₽</span></div>
         <div class="ps-row"><span class="ps-name" data-uz="Rangli" data-ru="Цветная">Rangli</span><span class="ps-price">50 ₽</span></div>
         <div class="ps-row"><span class="ps-name" data-uz="Skan" data-ru="Скан">Skan</span><span class="ps-price">50 ₽</span></div>
       </div>
-      <div class="price-section">
-        <div class="ps-title" data-uz="Rangli nusxa" data-ru="Цветная копия">Rangli nusxa</div>
-        <div class="ps-row"><span class="ps-name" data-uz="Rangli" data-ru="Цветная">Rangli</span><span class="ps-price">50 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Ikki tomonlama" data-ru="Двухсторонняя">Ikki tomonlama</span><span class="ps-price">100 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Hujjatlarni skan" data-ru="Скан документов">Hujjatlarni skan</span><span class="ps-price">50 ₽</span></div>
-      </div>
-      <div class="price-section">
-        <div class="ps-title" data-uz="Fotosurat" data-ru="Фотография">Fotosurat</div>
+      <div class="ps">
+        <div class="ps-head" data-uz="Fotosurat" data-ru="Фотография">Fotosurat</div>
         <div class="ps-row"><span class="ps-name">Фото 3×4</span><span class="ps-price">400 ₽</span></div>
         <div class="ps-row"><span class="ps-name" data-uz="Elektron foto" data-ru="Фото электронная">Elektron foto</span><span class="ps-price">250 ₽</span></div>
         <div class="ps-row"><span class="ps-name">Фото 2×3</span><span class="ps-price">400 ₽</span></div>
       </div>
-      <div class="price-section">
-        <div class="ps-title" data-uz="Hujjatlar" data-ru="Документы">Hujjatlar</div>
-        <div class="ps-row"><span class="ps-name" data-uz="Zagranpasport" data-ru="Загранпаспорт">Загранпаспорт</span><span class="ps-price">1000 ₽</span></div>
+      <div class="ps">
+        <div class="ps-head" data-uz="Hujjatlar" data-ru="Документы">Hujjatlar</div>
+        <div class="ps-row"><span class="ps-name">Загранпаспорт</span><span class="ps-price">1000 ₽</span></div>
         <div class="ps-row"><span class="ps-name" data-uz="Qaytish" data-ru="Возвращение">Возвращение</span><span class="ps-price">500 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Konsullik hisobi" data-ru="Консульский учёт">Консульский учёт</span><span class="ps-price">500 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Tranzit viza" data-ru="Транзитная виза">Транзитная виза</span><span class="ps-price">1000 ₽</span></div>
+        <div class="ps-row"><span class="ps-name">Консульский учёт</span><span class="ps-price">500 ₽</span></div>
+        <div class="ps-row"><span class="ps-name">Транзитная виза</span><span class="ps-price">1000 ₽</span></div>
       </div>
     </div>
 
-    <!-- ORDER FORM -->
     <div class="order-form">
-      <div class="order-title" data-uz="📦 Buyurtma" data-ru="📦 Заказ">📦 Buyurtma</div>
+      <div style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--accent2);" data-uz="📦 Buyurtma" data-ru="📦 Заказ">📦 Buyurtma</div>
       <div>
         <div class="form-label" data-uz="Ismingiz *" data-ru="Ваше имя *">Ismingiz <span class="form-req">*</span></div>
-        <input class="form-input" id="orderName" type="text" autocomplete="off"/>
+        <input class="form-input" id="oName" type="text" autocomplete="off"/>
       </div>
       <div>
-        <div class="form-label" data-uz="Tel raqamingiz *" data-ru="Ваш телефон *">Tel raqamingiz <span class="form-req">*</span></div>
-        <div class="phone-input-wrap">
-          <div class="flag-drop-wrap">
-            <div class="flag-select" id="flagSelect" onclick="toggleFlagDrop()">
-              <span id="flagEmoji">🇷🇺</span><span id="flagCode">+7</span><span style="font-size:.7rem;color:var(--muted)">▾</span>
+        <div class="form-label" data-uz="Tel raqam *" data-ru="Телефон *">Tel raqam <span class="form-req">*</span></div>
+        <div class="phone-wrap">
+          <div style="position:relative;">
+            <div class="flag-sel" id="flagSel" onclick="toggleFlag()">
+              <span id="flagEm">🇷🇺</span><span id="flagCd">+7</span><span style="font-size:.65rem;color:var(--muted);">▾</span>
             </div>
-            <div class="flag-dropdown" id="flagDrop">
-              <div class="fd-opt" onclick="setFlag('ru')">🇷🇺 +7 &nbsp; Россия</div>
-              <div class="fd-opt" onclick="setFlag('uz')">🇺🇿 +998 Ўзбекистон</div>
+            <div class="flag-drop" id="flagDrop">
+              <div class="fd-o" onclick="setFlag('ru')">🇷🇺 +7 Россия</div>
+              <div class="fd-o" onclick="setFlag('uz')">🇺🇿 +998 Ўзбекистон</div>
             </div>
           </div>
-          <input class="form-input" id="orderPhone" type="tel" style="flex:1" placeholder="900 000 00 00"/>
+          <input class="form-input" id="oPhone" type="tel" style="flex:1;" placeholder="900 000 00 00"/>
         </div>
       </div>
       <div>
         <div class="form-label" data-uz="Xizmat / savol" data-ru="Услуга / вопрос">Xizmat / savol</div>
-        <textarea class="form-textarea" id="orderNote" rows="3"></textarea>
+        <textarea class="form-textarea" id="oNote" rows="3" placeholder="..."></textarea>
       </div>
       <button class="submit-btn" onclick="submitOrder()" data-uz="Yuborish ✉️" data-ru="Отправить ✉️">Yuborish ✉️</button>
-      <div class="submit-msg" id="submitMsg"></div>
+      <div class="submit-ok" id="submitOk"></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ JS ═══════════════ -->
 <script>
-/* ─── CONFIG ─── */
-const BOT_TOKEN  = '8564514766:AAEXi5C6MzvB4466QI3e1LKJHDcwjwx5RX4';
-const ADMIN_ID   = '7359558983';
+/* ═══ CONFIG ═══ */
+const BOT_TOKEN = '8564514766:AAEXi5C6MzvB4466QI3e1LKJHDcwjwx5RX4';
+  const ADMIN_ID  = '7359558983';
 
-/* ─── TG ─── */
-let tgUserId = null;
+/* ═══ TELEGRAM ═══ */
+let tg = null, tgUser = null;
 try {
-  const tg = window.Telegram?.WebApp;
-  if (tg?.initDataUnsafe?.user?.id) { tgUserId = String(tg.initDataUnsafe.user.id); tg.expand(); }
+  tg = window.Telegram?.WebApp;
+  if (tg) { tg.expand(); tg.setHeaderColor('#05080F'); }
+  tgUser = tg?.initDataUnsafe?.user;
 } catch(e){}
 
-/* ─── LANG ─── */
-let lang = 'uz';
-let starsLocked = false;
-
-const T = {
-  uz: {
-    wText   : '<span>OMAD TOUR</span> da ko\'rganingizdan bagoyatda xursandmiz! 🎉',
-    nachat  : 'Boshlash',
-    starsLbl: 'Bizni baholang',
-    starsTx : 'Rahmat! Bahoyingiz saqlandi ✅',
-    orderTx : '✅ Buyurtmangiz qabul qilindi!',
-    submit  : 'Yuborish ✉️',
-    orderTit: '📦 Buyurtma',
-  },
-  ru: {
-    wText   : 'Рады видеть вас в <span>OMAD TOUR</span>! 🎉',
-    nachat  : 'Начать',
-    starsLbl: 'Оцените нас',
-    starsTx : 'Спасибо! Ваша оценка сохранена ✅',
-    orderTx : '✅ Ваш заказ принят!',
-    submit  : 'Отправить ✉️',
-    orderTit: '📦 Заказ',
-  }
-};
-
-function selectLang(l) {
-  lang = l;
-  document.querySelectorAll('.lang-btn.uz').forEach(b => b.classList.toggle('selected', l==='uz'));
-  document.querySelectorAll('.lang-btn.ru').forEach(b => b.classList.toggle('selected', l==='ru'));
-  document.getElementById('wText').innerHTML = T[l].wText;
+/* ═══ HAPTIC ═══ */
+function haptic(type='light') {
+  try { tg?.HapticFeedback?.impactOccurred(type); } catch(e){}
+}
+function hapticNotif(type='success') {
+  try { tg?.HapticFeedback?.notificationOccurred(type); } catch(e){}
 }
 
-function switchLang(l) {
-  lang = l;
-  document.querySelectorAll('.lt-btn').forEach(b => {
-    const isUz = b.id && b.id.toLowerCase().includes('uz');
-    const isRu = b.id && b.id.toLowerCase().includes('ru');
-    if (isUz) b.classList.toggle('active', l==='uz');
-    if (isRu) b.classList.toggle('active', l==='ru');
+/* ═══ LANG ═══ */
+let lang = localStorage.getItem('omad_lang') || 'uz';
+let userPoints = parseInt(localStorage.getItem('omad_points') || '120');
+
+function setLang(l) {
+  lang = l; localStorage.setItem('omad_lang', l);
+  document.querySelectorAll('.lt').forEach(b => {
+    const isUz = b.id?.toLowerCase().includes('uz');
+    const isRu = b.id?.toLowerCase().includes('ru');
+    if(isUz) b.classList.toggle('on', l==='uz');
+    if(isRu) b.classList.toggle('on', l==='ru');
   });
   document.querySelectorAll('[data-uz]').forEach(el => {
-    el.innerHTML = el.getAttribute('data-' + l) || el.getAttribute('data-uz');
+    const val = el.getAttribute('data-'+l) || el.getAttribute('data-uz');
+    if(val) el.textContent = val;
   });
-  const sl = document.querySelector('.stars-label');
-  if (sl) sl.textContent = T[l].starsLbl;
-  const st = document.getElementById('starsThanks');
-  if (st && st.style.display!=='none') st.textContent = T[l].starsTx;
-  const sm = document.getElementById('submitMsg');
-  if (sm && sm.style.display!=='none') sm.textContent = T[l].orderTx;
+  // chat bubble
+  document.querySelectorAll('.msg-bubble[data-uz]').forEach(el=>{
+    el.textContent = el.getAttribute('data-'+l)||el.getAttribute('data-uz');
+  });
+  // chat placeholder
+  const ci = document.getElementById('chatInput');
+  if(ci) ci.placeholder = l==='uz'?'Xabar yozing...':'Напишите сообщение...';
+  haptic('light');
 }
 
-/* ─── NAV ─── */
-function goHome() { showScreen('home'); }
-function goScreen(id) { showScreen(id); }
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+/* ═══ ONBOARDING ═══ */
+let obIdx = 0;
+const obSlideEls = document.querySelectorAll('.ob-slide');
+const obDotEls   = document.querySelectorAll('.ob-dot');
+
+// particles
+(function(){
+  const wrap = document.getElementById('obParticles');
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div');
+    p.className='ob-p';
+    const s=20+Math.random()*60;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*4}s;opacity:${0.05+Math.random()*0.12}`;
+    wrap.appendChild(p);
+  }
+})();
+
+function goSlide(n){
+  obSlideEls[obIdx].classList.remove('active');
+  obSlideEls[obIdx].classList.add('exit');
+  setTimeout(()=>obSlideEls[obIdx-1>=0?obIdx:0].classList.remove('exit'),500);
+  obIdx=n;
+  obSlideEls[obIdx].classList.add('active');
+  obDotEls.forEach((d,i)=>d.classList.toggle('active',i===obIdx));
+  const btn=document.getElementById('obNext');
+  btn.textContent = obIdx===obSlideEls.length-1 ? (lang==='uz'?'Boshlash 🚀':'Начать 🚀') : 'Davom etish →';
+  haptic('light');
+}
+function nextSlide(){
+  haptic('light');
+  if(obIdx<obSlideEls.length-1){
+    const prev=obIdx;
+    obIdx++;
+    obSlideEls[prev].classList.remove('active');
+    obSlideEls[prev].classList.add('exit');
+    setTimeout(()=>obSlideEls[prev].classList.remove('exit'),500);
+    obSlideEls[obIdx].classList.add('active');
+    obDotEls.forEach((d,i)=>d.classList.toggle('active',i===obIdx));
+    if(obIdx===obSlideEls.length-1){
+      document.getElementById('obNext').textContent=lang==='uz'?'Boshlash 🚀':'Начать 🚀';
+    }
+  } else { finishOnboarding(); }
+}
+function finishOnboarding(){
+  hapticNotif('success');
+  localStorage.setItem('omad_ob','1');
+  const ob=document.getElementById('onboarding');
+  ob.style.transition='opacity .5s, transform .5s';
+  ob.style.opacity='0'; ob.style.transform='scale(0.95)';
+  setTimeout(()=>{ ob.style.display='none'; startApp(); },500);
+}
+
+/* ═══ APP START ═══ */
+function startApp(){
+  document.getElementById('bottomNav').style.display='flex';
+  // set username
+  if(tgUser?.first_name){
+    document.getElementById('heroName').textContent=tgUser.first_name;
+  }
+  updatePoints();
+  buildBarChart();
+  setLang(lang);
+}
+
+// skip onboarding if already seen
+if(localStorage.getItem('omad_ob')==='1'){
+  document.getElementById('onboarding').style.display='none';
+  startApp();
+}
+
+/* ═══ NAVIGATION ═══ */
+let activeMain = 'home';
+let innerOpen  = null;
+const mainScreens = ['home','loyalty','chat','stats','notifs'];
+
+function navTo(id, btn){
+  haptic('light');
+  if(innerOpen){ closeInnerSilent(); }
+  mainScreens.forEach(s=>{ document.getElementById(s).classList.remove('active'); });
   document.getElementById(id).classList.add('active');
-  document.getElementById(id).scrollTop = 0;
-  switchLang(lang);
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeMain = id;
+  if(id==='chat'){ document.getElementById('chatBadge').classList.remove('show'); scrollChatDown(); }
+  if(id==='notifs'){ document.getElementById('notifBadge').classList.remove('show'); }
+  setLang(lang);
 }
 
-/* ─── STARS ─── */
-function rateStar(n){
-  if(starsLocked) return;
-  starsLocked=true;
-  document.querySelectorAll('.star-btn').forEach((s,i)=>{ if(i<n) s.classList.add('lit'); });
-  const t=document.getElementById('starsThanks');
-  t.textContent=T[lang].starsTx; t.style.display='block';
+function openInner(id){
+  haptic('medium');
+  mainScreens.forEach(s=>document.getElementById(s).classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  innerOpen = id;
+  document.getElementById('bottomNav').style.display='none';
+  setLang(lang);
+}
+function closeInner(){
+  haptic('light');
+  closeInnerSilent();
+}
+function closeInnerSilent(){
+  if(innerOpen){ document.getElementById(innerOpen).classList.remove('active'); innerOpen=null; }
+  document.getElementById(activeMain).classList.add('active');
+  document.getElementById('bottomNav').style.display='flex';
+  setLang(lang);
 }
 
-/* ─── FLAG ─── */
-function toggleFlagDrop(){
+/* ═══ TOAST ═══ */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+/* ═══ LOYALTY / POINTS ═══ */
+function updatePoints(){
+  document.getElementById('heroPoints').textContent=userPoints;
+  document.getElementById('loyaltyPoints').textContent=userPoints;
+  const pct = Math.min((userPoints/500)*100,100);
+  document.getElementById('loyaltyBar').style.width=pct+'%';
+}
+function redeemReward(btn, cost, name){
+  if(userPoints < cost){ showToast(lang==='uz'?'Ball yetarli emas!':'Недостаточно баллов!'); hapticNotif('error'); return; }
+  userPoints -= cost;
+  localStorage.setItem('omad_points', userPoints);
+  updatePoints();
+  btn.textContent = '✅';
+  btn.disabled=true;
+  hapticNotif('success');
+  showToast(lang==='uz'?`${name} muvaffaqiyatli olindi!`:`${name} успешно получено!`);
+}
+
+/* ═══ CHAT ═══ */
+const autoReplies_uz = [
+  'Albatta! Qanday xizmat kerak? ✈️',
+  'Tushundim. Hozir operatorimiz siz bilan bog\'lanadi.',
+  'Bilet narxlari haqida: +7 981 193 9094 ga qo\'ng\'iroq qiling.',
+  'Rahmat murojaat uchun! Tez orada javob beramiz 🙏',
+  'Bu savolga batafsil javob berish uchun bizga qo\'ng\'iroq qiling.'
+];
+const autoReplies_ru = [
+  'Конечно! Какой именно сервис вас интересует? ✈️',
+  'Понял. Наш оператор свяжется с вами.',
+  'По ценам на билеты звоните: +7 981 193 9094',
+  'Спасибо за обращение! Ответим в ближайшее время 🙏',
+  'Для подробного ответа позвоните нам.'
+];
+let replyIdx=0;
+
+function sendChat(){
+  const inp=document.getElementById('chatInput');
+  const txt=inp.value.trim();
+  if(!txt) return;
+  haptic('light');
+  addChatMsg(txt,'user');
+  inp.value='';
+  // typing
+  const typing=document.createElement('div');
+  typing.className='chat-msg agent';
+  typing.innerHTML='<div class="typing-dot"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  document.getElementById('chatMessages').appendChild(typing);
+  scrollChatDown();
+  setTimeout(()=>{
+    typing.remove();
+    const replies = lang==='uz' ? autoReplies_uz : autoReplies_ru;
+    addChatMsg(replies[replyIdx % replies.length],'agent');
+    replyIdx++;
+    hapticNotif('success');
+  },1200+Math.random()*800);
+}
+
+function addChatMsg(text, type){
+  const wrap=document.createElement('div');
+  wrap.className=`chat-msg ${type}`;
+  const now=new Date();
+  const t=`${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+  if(type==='agent') wrap.innerHTML=`<div class="agent-name">OMAD TOUR</div><div class="msg-bubble">${text}</div><div class="msg-time">${t}</div>`;
+  else wrap.innerHTML=`<div class="msg-bubble">${text}</div><div class="msg-time">${t}</div>`;
+  document.getElementById('chatMessages').appendChild(wrap);
+  scrollChatDown();
+}
+function scrollChatDown(){
+  const cm=document.getElementById('chatMessages');
+  setTimeout(()=>cm.scrollTop=cm.scrollHeight,50);
+}
+
+/* ═══ BAR CHART ═══ */
+function buildBarChart(){
+  const data=[45,62,55,78,90,105,88,120,95,110,130,148];
+  const labels=['Y','F','M','A','M','I','I','A','S','O','N','D'];
+  const max=Math.max(...data);
+  const chart=document.getElementById('barChart');
+  chart.innerHTML='';
+  data.forEach((v,i)=>{
+    const item=document.createElement('div');
+    item.className='bar-item';
+    const pct=Math.round((v/max)*100);
+    item.innerHTML=`<div class="bar-fill" style="height:0px" data-h="${pct}"></div><div class="bar-lbl">${labels[i]}</div>`;
+    chart.appendChild(item);
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('.bar-fill').forEach(b=>{
+      b.style.height=(parseInt(b.dataset.h)*0.72)+'px';
+    });
+  },300);
+}
+
+/* ═══ NOTIFICATIONS ═══ */
+function readNotif(el){
+  haptic('light');
+  el.classList.remove('unread');
+  const badge=el.querySelector('.ni-badge');
+  if(badge) badge.remove();
+}
+
+/* ═══ FLAG ═══ */
+function toggleFlag(){
   document.getElementById('flagDrop').classList.toggle('open');
-  document.getElementById('flagSelect').classList.toggle('open');
+  document.getElementById('flagSel').classList.toggle('open');
 }
 function setFlag(c){
   document.getElementById('flagDrop').classList.remove('open');
-  document.getElementById('flagSelect').classList.remove('open');
-  const emoji=c==='ru'?'🇷🇺':'🇺🇿', code=c==='ru'?'+7':'+998';
-  document.getElementById('flagEmoji').textContent=emoji;
-  document.getElementById('flagCode').textContent=code;
+  document.getElementById('flagSel').classList.remove('open');
+  document.getElementById('flagEm').textContent=c==='ru'?'🇷🇺':'🇺🇿';
+  document.getElementById('flagCd').textContent=c==='ru'?'+7':'+998';
+  haptic('light');
 }
 document.addEventListener('click',e=>{
-  const d=document.getElementById('flagDrop'), s=document.getElementById('flagSelect');
-  if(d&&s&&!s.contains(e.target)){ d.classList.remove('open'); s.classList.remove('open'); }
+  const d=document.getElementById('flagDrop'),s=document.getElementById('flagSel');
+  if(d&&s&&!s.contains(e.target)){d.classList.remove('open');s.classList.remove('open');}
 });
 
-/* ─── ORDER ─── */
+/* ═══ ORDER ═══ */
 async function submitOrder(){
-  const name  = document.getElementById('orderName').value.trim();
-  const phone = document.getElementById('orderPhone').value.trim();
-  const code  = document.getElementById('flagCode').textContent;
-  const note  = document.getElementById('orderNote').value.trim();
-  if(!name)  { document.getElementById('orderName').focus();  alert(lang==='uz'?'Ismingizni kiriting!':'Введите имя!'); return; }
-  if(!phone) { document.getElementById('orderPhone').focus(); alert(lang==='uz'?'Telefon kiriting!':'Введите телефон!'); return; }
+  const name=document.getElementById('oName').value.trim();
+  const phone=document.getElementById('oPhone').value.trim();
+  const code=document.getElementById('flagCd').textContent;
+  const note=document.getElementById('oNote').value.trim();
+  if(!name){document.getElementById('oName').focus();hapticNotif('error');showToast(lang==='uz'?'Ismingizni kiriting!':'Введите имя!');return;}
+  if(!phone){document.getElementById('oPhone').focus();hapticNotif('error');showToast(lang==='uz'?'Telefon kiriting!':'Введите телефон!');return;}
+  haptic('medium');
   const text=`📦 Yangi buyurtma\n\n👤 Ism: ${name}\n📞 Tel: ${code}${phone}\n📝 Xizmat: ${note||'—'}`;
-  try {
+  try{
     await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({chat_id:ADMIN_ID, text})
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:ADMIN_ID,text})
     });
-  } catch(e){}
-  const m=document.getElementById('submitMsg');
-  m.textContent=T[lang].orderTx; m.style.display='block';
-  document.getElementById('orderName').value='';
-  document.getElementById('orderPhone').value='';
-  document.getElementById('orderNote').value='';
-  setTimeout(()=>{m.style.display='none';},4000);
+  }catch(e){}
+  hapticNotif('success');
+  // add points
+  userPoints += 5;
+  localStorage.setItem('omad_points', userPoints);
+  updatePoints();
+  const ok=document.getElementById('submitOk');
+  ok.textContent=lang==='uz'?'✅ Buyurtmangiz qabul qilindi! +5 ball':'✅ Ваш заказ принят! +5 баллов';
+  ok.style.display='block';
+  document.getElementById('oName').value='';
+  document.getElementById('oPhone').value='';
+  document.getElementById('oNote').value='';
+  showToast(lang==='uz'?'Buyurtma yuborildi! +5 ball':'Заказ отправлен! +5 баллов');
+  setTimeout(()=>ok.style.display='none',4000);
 }
 
-/* ─── INIT ─── */
-window.addEventListener('DOMContentLoaded',()=>{ selectLang('uz'); });
+/* ═══ INIT ═══ */
+window.addEventListener('DOMContentLoaded',()=>{ setLang(lang); });
 </script>
 </body>
 </html>
