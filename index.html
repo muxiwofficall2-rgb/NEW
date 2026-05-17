@@ -249,28 +249,6 @@
   }
   .phone-big:active { transform:scale(.96); background:rgba(37,99,235,.18); }
 
-  /* ── SPIN ── */
-  .spin-section { background:var(--card); border-radius:var(--radius); border:1px solid rgba(37,99,235,.15); padding:18px; }
-  .spin-title { text-align:center; font-size:.97rem; font-weight:800; color:var(--accent2); margin-bottom:16px; }
-  .spin-wrap { display:flex; flex-direction:column; align-items:center; gap:16px; }
-  .spin-container { position:relative; width:260px; height:260px; }
-  .spin-pointer { position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-size:1.6rem; z-index:5; filter:drop-shadow(0 2px 6px rgba(37,99,235,.6)); }
-  #spinCanvas { border-radius:50%; box-shadow:0 0 30px rgba(37,99,235,.3),0 0 60px rgba(37,99,235,.1); display:block; }
-  .spin-btn {
-    padding:14px 48px; background:linear-gradient(90deg,#1D4ED8,#2563EB,#3B82F6);
-    border:none; border-radius:var(--radius);
-    font-family:'Nunito',sans-serif; font-size:1rem; font-weight:800;
-    color:#fff; cursor:pointer; box-shadow:0 4px 18px rgba(37,99,235,.4); transition:.15s;
-  }
-  .spin-btn:disabled { opacity:.4; cursor:not-allowed; }
-  .spin-btn:not(:disabled):active { transform:scale(.97); }
-  .spin-result {
-    text-align:center; padding:14px 22px; background:rgba(37,99,235,.12);
-    border-radius:var(--radius); border:1.5px solid var(--accent);
-    font-size:1.05rem; font-weight:700; color:var(--accent2); display:none;
-  }
-  .spin-used-msg { font-size:.83rem; color:var(--muted); text-align:center; display:none; }
-
   /* ── PRICE TABLE ── */
   .price-table { background:var(--card); border-radius:var(--radius); border:1px solid rgba(37,99,235,.1); overflow:hidden; }
   .price-section { padding:14px 17px 10px; border-bottom:1px solid rgba(255,255,255,.04); }
@@ -498,24 +476,6 @@
       </div>
     </a>
 
-    <!-- SPIN -->
-    <div class="spin-section">
-      <div class="spin-title" data-uz="🎡 Skidka g'ildiragi — 1 marta aylanting!" data-ru="🎡 Колесо скидок — крутите 1 раз!">
-        🎡 Skidka g'ildiragi — 1 marta aylanting!
-      </div>
-      <div class="spin-wrap">
-        <div class="spin-container">
-          <div class="spin-pointer">▼</div>
-          <canvas id="spinCanvas" width="260" height="260"></canvas>
-        </div>
-        <button class="spin-btn" id="spinBtn" onclick="doSpin()">🎰 Aylantirish / Крутить</button>
-        <div class="spin-used-msg" id="spinUsed"
-             data-uz="Siz allaqachon aylantirdingiz!"
-             data-ru="Вы уже крутили!">Siz allaqachon aylantirdingiz!</div>
-        <div class="spin-result" id="spinResult"></div>
-      </div>
-    </div>
-
     <div class="phones-big">
       <a href="tel:+79811939094" class="phone-big">📞 +7 981 193 9094</a>
       <a href="tel:+79379499094" class="phone-big">📞 +7 937 949 9094</a>
@@ -673,9 +633,8 @@
 <!-- ═══════════════ JS ═══════════════ -->
 <script>
 /* ─── CONFIG ─── */
-const BOT_TOKEN  = 'YOUR_BOT_TOKEN_HERE'; // <-- bot tokeningizni shu yerga
+const BOT_TOKEN  = '8564514766:AAEXi5C6MzvB4466QI3e1LKJHDcwjwx5RX4';
 const ADMIN_ID   = '7359558983';
-const OWNER_ID   = '7359558983';
 
 /* ─── TG ─── */
 let tgUserId = null;
@@ -687,16 +646,11 @@ try {
 /* ─── LANG ─── */
 let lang = 'uz';
 let starsLocked = false;
-let spinAnimating = false;
-let riggedIdx = 0;
 
 const T = {
   uz: {
     wText   : '<span>OMAD TOUR</span> da ko\'rganingizdan bagoyatda xursandmiz! 🎉',
     nachat  : 'Boshlash',
-    spinLbl : '🎡 Skidka g\'ildiragi — 1 marta aylanting!',
-    spinBtn : '🎰 Aylantirish',
-    spinUsed: 'Siz allaqachon aylantirdingiz!',
     starsLbl: 'Bizni baholang',
     starsTx : 'Rahmat! Bahoyingiz saqlandi ✅',
     orderTx : '✅ Buyurtmangiz qabul qilindi!',
@@ -706,9 +660,6 @@ const T = {
   ru: {
     wText   : 'Рады видеть вас в <span>OMAD TOUR</span>! 🎉',
     nachat  : 'Начать',
-    spinLbl : '🎡 Колесо скидок — крутите 1 раз!',
-    spinBtn : '🎰 Крутить',
-    spinUsed: 'Вы уже крутили!',
     starsLbl: 'Оцените нас',
     starsTx : 'Спасибо! Ваша оценка сохранена ✅',
     orderTx : '✅ Ваш заказ принят!',
@@ -726,22 +677,15 @@ function selectLang(l) {
 
 function switchLang(l) {
   lang = l;
-  // toggle buttons — find all lt-btn pairs inside active screen + welcome
   document.querySelectorAll('.lt-btn').forEach(b => {
     const isUz = b.id && b.id.toLowerCase().includes('uz');
     const isRu = b.id && b.id.toLowerCase().includes('ru');
     if (isUz) b.classList.toggle('active', l==='uz');
     if (isRu) b.classList.toggle('active', l==='ru');
   });
-  // translate
   document.querySelectorAll('[data-uz]').forEach(el => {
     el.innerHTML = el.getAttribute('data-' + l) || el.getAttribute('data-uz');
   });
-  // dynamic texts
-  const su = document.getElementById('spinUsed');
-  if (su) su.textContent = T[l].spinUsed;
-  const sb = document.getElementById('spinBtn');
-  if (sb && !sb.disabled && su?.style.display==='none') sb.textContent = T[l].spinBtn;
   const sl = document.querySelector('.stars-label');
   if (sl) sl.textContent = T[l].starsLbl;
   const st = document.getElementById('starsThanks');
@@ -752,123 +696,12 @@ function switchLang(l) {
 
 /* ─── NAV ─── */
 function goHome() { showScreen('home'); }
-function goScreen(id) { showScreen(id); if(id==='avia') initSpin(); }
+function goScreen(id) { showScreen(id); }
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.getElementById(id).scrollTop = 0;
   switchLang(lang);
-}
-
-/* ─── SPIN ─── */
-const SEGS = [
-  {label:'0%',  bg:'#0E1B35', fg:'#334155'},
-  {label:'2%',  bg:'#0E2236', fg:'#60A5FA'},
-  {label:'0%',  bg:'#0E1B35', fg:'#334155'},
-  {label:'3%',  bg:'#0D2040', fg:'#93C5FD'},
-  {label:'0%',  bg:'#0E1B35', fg:'#334155'},
-  {label:'1%',  bg:'#0E2236', fg:'#60A5FA'},
-  {label:'0%',  bg:'#0E1B35', fg:'#334155'},
-  {label:'2%',  bg:'#0D2040', fg:'#93C5FD'},
-];
-const WIN_MAP = [1,3,5,7]; // segment indices for 2%,3%,1%,2%
-
-function spinKey() { return 'spinUsed_' + (tgUserId || 'guest'); }
-function isSpinUsed() { return tgUserId !== OWNER_ID && localStorage.getItem(spinKey()) === '1'; }
-function markSpin()  { if (tgUserId !== OWNER_ID) localStorage.setItem(spinKey(), '1'); }
-
-function initSpin() {
-  drawWheel(0);
-  const btn = document.getElementById('spinBtn');
-  const used = document.getElementById('spinUsed');
-  const res  = document.getElementById('spinResult');
-  if (isSpinUsed()) {
-    btn.style.display = 'none';
-    used.style.display = 'block';
-    res.style.display  = 'none';
-  } else {
-    btn.style.display  = '';
-    btn.disabled = false;
-    btn.textContent = T[lang].spinBtn;
-    used.style.display = 'none';
-    res.style.display  = 'none';
-  }
-}
-
-function drawWheel(rot) {
-  const c = document.getElementById('spinCanvas');
-  if (!c) return;
-  const ctx = c.getContext('2d');
-  const cx=130, cy=130, r=118, n=SEGS.length, arc=2*Math.PI/n;
-  ctx.clearRect(0,0,260,260);
-
-  // outer glow ring
-  const g = ctx.createRadialGradient(cx,cy,r-2,cx,cy,r+8);
-  g.addColorStop(0,'rgba(37,99,235,0.0)');
-  g.addColorStop(1,'rgba(37,99,235,0.25)');
-  ctx.beginPath(); ctx.arc(cx,cy,r+8,0,2*Math.PI);
-  ctx.fillStyle=g; ctx.fill();
-
-  for(let i=0;i<n;i++){
-    const s=rot+i*arc-Math.PI/2, e=s+arc;
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,s,e); ctx.closePath();
-    ctx.fillStyle=SEGS[i].bg; ctx.fill();
-    ctx.strokeStyle='rgba(37,99,235,0.3)'; ctx.lineWidth=1.5; ctx.stroke();
-
-    ctx.save();
-    ctx.translate(cx,cy); ctx.rotate(s+arc/2);
-    ctx.textAlign='right';
-    ctx.fillStyle=SEGS[i].fg;
-    ctx.font='bold 17px Nunito,sans-serif';
-    ctx.fillText(SEGS[i].label, r-12, 6);
-    ctx.restore();
-  }
-  // center
-  ctx.beginPath(); ctx.arc(cx,cy,24,0,2*Math.PI);
-  ctx.fillStyle='#1D4ED8'; ctx.fill();
-  ctx.beginPath(); ctx.arc(cx,cy,19,0,2*Math.PI);
-  ctx.fillStyle='#080C14'; ctx.fill();
-  ctx.fillStyle='#93C5FD'; ctx.font='bold 8px Nunito,sans-serif';
-  ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('OMAD', cx, cy-3.5);
-  ctx.fillText('TOUR', cx, cy+5.5);
-}
-
-function doSpin() {
-  if (spinAnimating || isSpinUsed()) return;
-  spinAnimating = true;
-  document.getElementById('spinBtn').disabled = true;
-
-  const pick = WIN_MAP[riggedIdx % WIN_MAP.length];
-  riggedIdx++;
-  const n=SEGS.length, arc=2*Math.PI/n;
-  const targetAngle = -(pick*arc + arc/2) + Math.PI/2;
-  const spins = 5 + Math.random()*3;
-  const totalRot = spins*2*Math.PI + (((targetAngle%(2*Math.PI))+(2*Math.PI))%(2*Math.PI));
-  let start=null, dur=4200;
-
-  function step(ts) {
-    if(!start) start=ts;
-    const t = Math.min((ts-start)/dur,1);
-    const ease = 1-Math.pow(1-t,4);
-    drawWheel(ease*totalRot);
-    if(t<1){ requestAnimationFrame(step); return; }
-
-    spinAnimating=false;
-    markSpin();
-    if(tgUserId!==OWNER_ID){
-      document.getElementById('spinBtn').style.display='none';
-      document.getElementById('spinUsed').style.display='block';
-    } else {
-      document.getElementById('spinBtn').disabled=false;
-    }
-    const prizes=['2%','3%','1%','2%'];
-    const pz = prizes[( (pick===1?0:pick===3?1:pick===5?2:3) )];
-    const msg = lang==='uz' ? `🎉 Tabriklaymiz! Sizga ${pz} skidka berildi!` : `🎉 Поздравляем! Вам скидка ${pz}!`;
-    const el = document.getElementById('spinResult');
-    el.textContent=msg; el.style.display='block';
-  }
-  requestAnimationFrame(step);
 }
 
 /* ─── STARS ─── */
@@ -921,7 +754,7 @@ async function submitOrder(){
 }
 
 /* ─── INIT ─── */
-window.addEventListener('DOMContentLoaded',()=>{ selectLang('uz'); drawWheel(0); });
+window.addEventListener('DOMContentLoaded',()=>{ selectLang('uz'); });
 </script>
 </body>
 </html>
