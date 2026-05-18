@@ -7,1417 +7,845 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg:       #05080F;
-  --bg2:      #090D18;
-  --surface:  #0D1220;
-  --surface2: #111826;
-  --border:   rgba(99,179,255,0.1);
-  --accent:   #3B82F6;
-  --accent2:  #60A5FA;
-  --accent3:  #93C5FD;
-  --gold:     #F59E0B;
-  --gold2:    #FCD34D;
-  --green:    #10B981;
-  --red:      #EF4444;
-  --text:     #EEF2FF;
-  --muted:    #4B5A7A;
-  --muted2:   #8899BB;
-  --r:        20px;
-  --r2:       14px;
+:root{
+  --bg:#05080F;--bg2:#090D18;--surf:#0D1220;--surf2:#111826;
+  --brd:rgba(99,179,255,0.1);--acc:#3B82F6;--acc2:#60A5FA;--acc3:#93C5FD;
+  --gold:#F59E0B;--gold2:#FCD34D;--green:#10B981;--red:#EF4444;
+  --txt:#EEF2FF;--mut:#4B5A7A;--mut2:#8899BB;
+  --r:20px;--r2:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow:hidden;user-select:none;}
+html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;overflow:hidden;user-select:none;}
 
-/* ═══ ONBOARDING ═══ */
-#onboarding{
-  position:fixed;inset:0;z-index:1000;
-  background:var(--bg);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-.ob-particles{position:absolute;inset:0;overflow:hidden;}
-.ob-p{
-  position:absolute;border-radius:50%;
-  background:radial-gradient(circle,rgba(59,130,246,0.6),transparent);
-  animation:obFloat linear infinite;
-}
-@keyframes obFloat{
-  0%{transform:translateY(100vh) scale(0);opacity:0;}
-  10%{opacity:1;}
-  90%{opacity:1;}
-  100%{transform:translateY(-20vh) scale(1.5);opacity:0;}
-}
-.ob-content{
-  position:relative;z-index:2;
-  display:flex;flex-direction:column;align-items:center;gap:0;
-  width:100%;max-width:380px;padding:32px 28px;
-}
-.ob-logo-wrap{
-  width:110px;height:110px;border-radius:50%;
-  background:conic-gradient(from 0deg,#1D4ED8,#3B82F6,#60A5FA,#93C5FD,#1D4ED8);
-  display:flex;align-items:center;justify-content:center;
-  animation:obSpin 8s linear infinite,obGlow 3s ease-in-out infinite alternate;
-  margin-bottom:28px;
-  position:relative;
-}
-.ob-logo-wrap::before{
-  content:'';position:absolute;inset:-3px;border-radius:50%;
-  background:conic-gradient(from 0deg,#1D4ED8,#3B82F6,#60A5FA,#93C5FD,#1D4ED8);
-  filter:blur(8px);opacity:0.5;z-index:-1;
-  animation:obSpin 8s linear infinite reverse;
-}
-.ob-logo-inner{
-  width:90px;height:90px;border-radius:50%;
-  background:var(--bg);
-  display:flex;align-items:center;justify-content:center;
-}
+/* ══ ONBOARDING ══ */
+#ob{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+.ob-pts{position:absolute;inset:0;overflow:hidden;}
+.ob-p{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.5),transparent);animation:obF linear infinite;}
+@keyframes obF{0%{transform:translateY(100vh) scale(0);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translateY(-20vh) scale(1.4);opacity:0;}}
+.ob-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;max-width:390px;padding:28px 24px;}
+.ob-ring{width:100px;height:100px;border-radius:50%;background:conic-gradient(from 0deg,#1D4ED8,#3B82F6,#60A5FA,#1D4ED8);display:flex;align-items:center;justify-content:center;animation:obSpin 7s linear infinite,obGlow 3s ease-in-out infinite alternate;margin-bottom:24px;position:relative;}
+.ob-ring::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(from 0deg,#1D4ED8,#60A5FA,#1D4ED8);filter:blur(10px);opacity:.4;z-index:-1;animation:obSpin 7s linear infinite reverse;}
+.ob-rin{width:80px;height:80px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;}
+.ob-rin svg{width:42px;height:42px;}
 @keyframes obSpin{to{transform:rotate(360deg);}}
-@keyframes obGlow{
-  0%{box-shadow:0 0 20px rgba(59,130,246,0.4);}
-  100%{box-shadow:0 0 60px rgba(59,130,246,0.8),0 0 100px rgba(59,130,246,0.3);}
-}
-.ob-logo-inner svg{width:46px;height:46px;}
-.ob-slides{width:100%;position:relative;height:180px;overflow:hidden;margin-bottom:32px;}
-.ob-slide{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:12px;opacity:0;transform:translateX(60px);
-  transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;
-}
-.ob-slide.active{opacity:1;transform:translateX(0);pointer-events:auto;}
-.ob-slide.exit{opacity:0;transform:translateX(-60px);}
-.ob-emoji{font-size:3rem;filter:drop-shadow(0 0 20px rgba(59,130,246,0.6));}
-.ob-title{font-family:'Syne',serif;font-size:1.55rem;font-weight:900;text-align:center;
-  background:linear-gradient(135deg,#fff,var(--accent2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.ob-desc{font-size:.9rem;color:var(--muted2);text-align:center;line-height:1.7;max-width:280px;}
-.ob-dots{display:flex;gap:8px;margin-bottom:20px;}
-.ob-dot{width:8px;height:8px;border-radius:4px;background:var(--muted);transition:.4s;cursor:pointer;}
-.ob-dot.active{width:28px;background:var(--accent);}
-.ob-next{
-  width:100%;padding:16px;border-radius:var(--r);
-  background:linear-gradient(135deg,#1D4ED8,#3B82F6);
-  border:none;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;
-  color:#fff;cursor:pointer;letter-spacing:.5px;
-  box-shadow:0 8px 32px rgba(59,130,246,0.4);
-  transition:.2s;
-}
-.ob-next:active{transform:scale(0.97);}
-.ob-skip{
-  margin-top:14px;font-size:.83rem;color:var(--muted);
-  background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
-}
+@keyframes obGlow{0%{box-shadow:0 0 20px rgba(59,130,246,.3);}100%{box-shadow:0 0 60px rgba(59,130,246,.7),0 0 100px rgba(59,130,246,.2);}}
+.ob-slides{width:100%;height:175px;position:relative;overflow:hidden;margin-bottom:28px;}
+.ob-sl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;opacity:0;transform:translateX(50px);transition:all .45s cubic-bezier(.34,1.4,.64,1);pointer-events:none;}
+.ob-sl.act{opacity:1;transform:none;pointer-events:auto;}
+.ob-sl.ex{opacity:0;transform:translateX(-50px);}
+.ob-em{font-size:2.8rem;filter:drop-shadow(0 0 18px rgba(59,130,246,.5));}
+.ob-t{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:900;text-align:center;background:linear-gradient(135deg,#fff,var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.ob-d{font-size:.88rem;color:var(--mut2);text-align:center;line-height:1.7;max-width:275px;}
+.ob-dots{display:flex;gap:7px;margin-bottom:18px;}
+.ob-dot{width:7px;height:7px;border-radius:4px;background:var(--mut);transition:.4s;cursor:pointer;}
+.ob-dot.act{width:26px;background:var(--acc);}
+.ob-btn{width:100%;padding:15px;border-radius:var(--r);background:linear-gradient(135deg,#1D4ED8,#3B82F6);border:none;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#fff;cursor:pointer;letter-spacing:.4px;box-shadow:0 8px 28px rgba(59,130,246,.4);transition:.2s;}
+.ob-btn:active{transform:scale(.97);}
+.ob-skip{margin-top:12px;font-size:.8rem;color:var(--mut);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
 
-/* ═══ SCREENS ═══ */
-.screen{position:fixed;inset:0;display:none;flex-direction:column;background:var(--bg);overflow-y:auto;overflow-x:hidden;}
-.screen.active{display:flex;animation:screenIn .35s cubic-bezier(0.34,1.2,0.64,1);}
-@keyframes screenIn{from{opacity:0;transform:translateY(20px) scale(0.98);}to{opacity:1;transform:none;}}
+/* ══ SCREENS ══ */
+.scr{position:fixed;inset:0;display:none;flex-direction:column;background:var(--bg);overflow-y:auto;overflow-x:hidden;}
+.scr.act{display:flex;animation:scrIn .35s cubic-bezier(.34,1.2,.64,1);}
+@keyframes scrIn{from{opacity:0;transform:translateY(18px) scale(.98);}to{opacity:1;transform:none;}}
 
-/* ═══ BOTTOM NAV ═══ */
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:rgba(9,13,24,0.95);
-  backdrop-filter:blur(20px);
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;
-  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
-}
-.nav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
-  padding:8px 4px;cursor:pointer;border:none;background:none;
-  position:relative;transition:.2s;
-}
-.nav-icon{font-size:1.4rem;transition:.3s;filter:grayscale(1) opacity(0.4);}
-.nav-label{font-size:.65rem;font-weight:600;color:var(--muted);transition:.3s;letter-spacing:.3px;}
-.nav-item.active .nav-icon{filter:none;transform:translateY(-2px);}
-.nav-item.active .nav-label{color:var(--accent2);}
-.nav-badge{
-  position:absolute;top:6px;right:calc(50% - 16px);
-  background:var(--red);color:#fff;font-size:.6rem;font-weight:800;
-  padding:2px 5px;border-radius:10px;min-width:16px;text-align:center;
-  display:none;
-}
-.nav-badge.show{display:block;}
-.nav-pip{
-  position:absolute;top:6px;right:calc(50% - 18px);
-  width:8px;height:8px;border-radius:50%;
-  background:var(--accent);display:none;
-  box-shadow:0 0 8px var(--accent);
-}
-.nav-pip.show{display:block;}
+/* ══ BOTTOM NAV ══ */
+#bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(9,13,24,.97);backdrop-filter:blur(24px);border-top:1px solid var(--brd);display:none;align-items:center;padding:8px 4px calc(8px + env(safe-area-inset-bottom));}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;border:none;background:none;position:relative;}
+.ni-ico{font-size:1.35rem;transition:.3s;filter:grayscale(1) opacity(.35);}
+.ni-lbl{font-size:.62rem;font-weight:600;color:var(--mut);transition:.3s;letter-spacing:.3px;}
+.ni.act .ni-ico{filter:none;transform:translateY(-2px);}
+.ni.act .ni-lbl{color:var(--acc2);}
+.nbdg{position:absolute;top:5px;right:calc(50% - 18px);background:var(--red);color:#fff;font-size:.58rem;font-weight:800;padding:2px 5px;border-radius:10px;min-width:15px;text-align:center;display:none;}
+.nbdg.on{display:block;}
 
-/* ═══ HEADER ═══ */
-.page-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 18px 12px;
-  background:rgba(9,13,24,0.9);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:50;
-}
-.header-logo{display:flex;align-items:center;gap:10px;}
-.header-logo-ring{
-  width:36px;height:36px;border-radius:50%;
-  background:linear-gradient(135deg,#1D4ED8,#60A5FA);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 14px rgba(59,130,246,0.4);
-}
-.header-logo-ring svg{width:20px;height:20px;}
-.header-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:900;
-  background:linear-gradient(90deg,#60A5FA,#EEF2FF);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.lang-toggle{display:flex;gap:5px;}
-.lt{padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);
-  background:none;color:var(--muted);font-size:.75rem;font-weight:700;
-  cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif;}
-.lt.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+/* ══ HEADERS ══ */
+.ph{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 11px;background:rgba(9,13,24,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:50;}
+.ph-logo{display:flex;align-items:center;gap:9px;}
+.ph-ring{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(59,130,246,.35);}
+.ph-ring svg{width:19px;height:19px;}
+.ph-t{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:900;background:linear-gradient(90deg,#60A5FA,#EEF2FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.lts{display:flex;gap:5px;}
+.lt{padding:6px 11px;border-radius:20px;border:1.5px solid var(--brd);background:none;color:var(--mut);font-size:.72rem;font-weight:700;cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif;}
+.lt.on{background:var(--acc);border-color:var(--acc);color:#fff;}
+.ih{display:flex;align-items:center;gap:11px;padding:13px 15px;background:rgba(9,13,24,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:50;}
+.bk{width:34px;height:34px;border-radius:50%;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);color:var(--acc2);font-size:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;}
+.bk:active{background:rgba(59,130,246,.2);}
+.ih-t{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--acc2);flex:1;}
 
-/* ═══ PAGE BODY ═══ */
-.page-body{padding:16px 16px 100px;display:flex;flex-direction:column;gap:14px;}
+/* ══ PAGE BODY ══ */
+.pb{padding:14px 14px 100px;display:flex;flex-direction:column;gap:13px;}
 
-/* ═══ HOME ═══ */
-.hero-card{
-  border-radius:var(--r);overflow:hidden;position:relative;
-  background:linear-gradient(135deg,#0A1628,#0F1E3A);
-  border:1px solid rgba(59,130,246,0.2);
-  padding:24px 20px;
-}
-.hero-card::before{
-  content:'';position:absolute;top:-60px;right:-60px;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle,rgba(59,130,246,0.15),transparent 70%);
-}
-.hero-greeting{font-size:.8rem;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
-.hero-name{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:900;
-  background:linear-gradient(135deg,#fff,var(--accent2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  margin-bottom:4px;}
-.hero-sub{font-size:.85rem;color:var(--muted2);}
-.hero-points{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-top:14px;padding:8px 14px;
-  background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);
-  border-radius:30px;
-}
-.hp-icon{font-size:1rem;}
-.hp-val{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--gold2);}
-.hp-lbl{font-size:.75rem;color:var(--gold);opacity:.8;}
+/* ══ HOME COMPONENTS ══ */
+.hero{border-radius:var(--r);overflow:hidden;position:relative;background:linear-gradient(135deg,#0A1628,#0F1E3A);border:1px solid rgba(59,130,246,.2);padding:22px 18px;}
+.hero::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.12),transparent 70%);}
+.h-gr{font-size:.77rem;color:var(--mut2);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.h-nm{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,#fff,var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:3px;}
+.h-sb{font-size:.83rem;color:var(--mut2);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.smi{background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);padding:15px 13px;display:flex;flex-direction:column;gap:3px;}
+.smi-v{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;}
+.smi-l{font-size:.7rem;color:var(--mut2);}
+.smi-t{font-size:.68rem;color:var(--green);margin-top:1px;}
+.mc{display:flex;align-items:center;gap:13px;padding:15px 16px;background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);cursor:pointer;transition:.18s;}
+.mc:active{transform:scale(.98);background:var(--surf2);}
+.mc-ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.18);}
+.mc-b{flex:1;}
+.mc-t{font-size:.92rem;font-weight:600;}
+.mc-s{font-size:.74rem;color:var(--mut2);margin-top:2px;}
+.mc-a{color:var(--acc2);opacity:.5;font-size:1.1rem;}
+.prow{display:flex;gap:9px;}
+.pchip{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:12px 6px;background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);font-size:.72rem;font-weight:600;color:var(--acc2);text-decoration:none;transition:.15s;}
+.pchip:active{transform:scale(.96);}
+.acard{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px;position:relative;overflow:hidden;}
+.acard::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.08),transparent 70%);}
+.a-lb{font-size:.7rem;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;}
+.a-ci{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:3px;}
+.a-st{font-size:.85rem;color:var(--mut2);}
+.a-nt{font-size:.77rem;color:var(--mut);margin-top:3px;}
+.sec-t{font-family:'Syne',sans-serif;font-size:.75rem;font-weight:800;color:var(--mut2);text-transform:uppercase;letter-spacing:1.4px;display:flex;align-items:center;gap:7px;}
+.sec-t::after{content:'';flex:1;height:1px;background:var(--brd);}
 
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.stat-mini{
-  background:var(--surface);border-radius:var(--r2);
-  border:1px solid var(--border);padding:16px 14px;
-  display:flex;flex-direction:column;gap:4px;
-}
-.sm-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--text);}
-.sm-lbl{font-size:.72rem;color:var(--muted2);}
-.sm-trend{font-size:.7rem;color:var(--green);margin-top:2px;}
+/* ══ INNER COMPONENTS ══ */
+.icard{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px;}
+.icard p{font-size:.88rem;line-height:1.75;color:var(--mut2);}
+.lrow{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);text-decoration:none;color:var(--txt);font-size:.88rem;font-weight:600;transition:.15s;cursor:pointer;}
+.lrow:active{background:var(--surf2);transform:scale(.98);}
+.l-ic{font-size:1.25rem;flex-shrink:0;}
+.l-sb{font-size:.7rem;color:var(--mut);margin-bottom:2px;}
+.pbig{display:flex;gap:9px;flex-wrap:wrap;}
+.pb2{flex:1;min-width:130px;display:flex;align-items:center;justify-content:center;gap:7px;padding:13px;border-radius:13px;background:rgba(59,130,246,.08);border:1.5px solid rgba(59,130,246,.2);font-size:.83rem;font-weight:700;color:var(--acc2);text-decoration:none;transition:.15s;}
+.pb2:active{transform:scale(.96);}
 
-.menu-card{
-  display:flex;align-items:center;gap:14px;
-  padding:16px 18px;background:var(--surface);
-  border-radius:var(--r);border:1px solid var(--border);
-  cursor:pointer;transition:.2s;position:relative;overflow:hidden;
-}
-.menu-card::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,transparent,rgba(59,130,246,0.04));
-  opacity:0;transition:.2s;
-}
-.menu-card:active{transform:scale(0.98);background:var(--surface2);}
-.mc-icon{
-  width:48px;height:48px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;flex-shrink:0;
-  background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);
-}
-.mc-body{flex:1;}
-.mc-title{font-size:.95rem;font-weight:600;color:var(--text);}
-.mc-sub{font-size:.76rem;color:var(--muted2);margin-top:2px;}
-.mc-arr{color:var(--accent2);font-size:1.1rem;opacity:0.5;}
-
-.phones-row{display:flex;gap:10px;}
-.phone-chip{
-  flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
-  padding:13px 8px;background:var(--surface);border-radius:var(--r2);
-  border:1px solid var(--border);
-  font-size:.76rem;font-weight:600;color:var(--accent2);
-  text-decoration:none;transition:.15s;
-}
-.phone-chip:active{background:rgba(59,130,246,0.12);transform:scale(0.96);}
-
-.addr-card{
-  background:var(--surface);border-radius:var(--r);
-  border:1px solid var(--border);padding:18px;
-  position:relative;overflow:hidden;
-}
-.addr-glow{
-  position:absolute;top:-40px;right:-40px;
-  width:120px;height:120px;border-radius:50%;
-  background:radial-gradient(circle,rgba(59,130,246,0.1),transparent 70%);
-}
-.addr-lbl{font-size:.72rem;font-weight:700;color:var(--accent2);
-  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;}
-.addr-city{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:4px;}
-.addr-street{font-size:.87rem;color:var(--muted2);}
-.addr-note{font-size:.8rem;color:var(--muted);margin-top:4px;}
-
-/* ═══ INNER SCREENS ═══ */
-.inner-header{
-  display:flex;align-items:center;gap:12px;
-  padding:14px 16px;
-  background:rgba(9,13,24,0.9);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:50;
-}
-.back-btn{
-  width:36px;height:36px;border-radius:50%;
-  background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);
-  color:var(--accent2);font-size:1.25rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;
-}
-.back-btn:active{background:rgba(59,130,246,0.2);}
-.inner-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--accent2);flex:1;}
-
-.info-card{
-  background:var(--surface);border-radius:var(--r);
-  border:1px solid var(--border);padding:18px;
-}
-.info-card p{font-size:.9rem;line-height:1.75;color:var(--muted2);}
-
-.link-row{
-  display:flex;align-items:center;gap:13px;
-  padding:15px 17px;background:var(--surface);
-  border-radius:var(--r2);border:1px solid var(--border);
-  text-decoration:none;color:var(--text);
-  font-size:.9rem;font-weight:600;transition:.15s;cursor:pointer;
-}
-.link-row:active{background:var(--surface2);transform:scale(0.98);border-color:rgba(59,130,246,0.3);}
-.link-icon{font-size:1.3rem;flex-shrink:0;}
-.link-sub{font-size:.72rem;color:var(--muted);margin-bottom:2px;}
-
-/* ═══ LOYALTY ═══ */
-.loyalty-hero{
-  background:linear-gradient(135deg,#1A0F00,#2D1800);
-  border:1px solid rgba(245,158,11,0.25);
-  border-radius:var(--r);padding:22px;position:relative;overflow:hidden;
-}
-.loyalty-hero::before{
-  content:'';position:absolute;top:-30px;right:-30px;
-  width:150px;height:150px;border-radius:50%;
-  background:radial-gradient(circle,rgba(245,158,11,0.15),transparent 70%);
-}
-.lh-crown{font-size:2.5rem;margin-bottom:8px;filter:drop-shadow(0 0 12px rgba(245,158,11,0.6));}
-.lh-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:900;
-  background:linear-gradient(135deg,#F59E0B,#FCD34D);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  margin-bottom:4px;}
-.lh-sub{font-size:.83rem;color:rgba(245,158,11,0.7);}
-.lh-points-big{
-  font-family:'Syne',sans-serif;font-size:3rem;font-weight:900;
-  color:var(--gold2);margin:16px 0 4px;
-  text-shadow:0 0 30px rgba(245,158,11,0.4);
-}
-.lh-pts-lbl{font-size:.78rem;color:var(--gold);opacity:.8;text-transform:uppercase;letter-spacing:1px;}
-
-.progress-bar-wrap{margin:16px 0;}
-.pb-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted2);margin-bottom:8px;}
-.pb-track{height:8px;background:rgba(245,158,11,0.12);border-radius:4px;overflow:hidden;}
-.pb-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#F59E0B,#FCD34D);transition:width 1s cubic-bezier(0.34,1.56,0.64,1);}
-
-.level-badges{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
-.level-badge{
-  flex-shrink:0;padding:10px 16px;border-radius:30px;
-  border:1.5px solid;font-size:.78rem;font-weight:700;
-  display:flex;align-items:center;gap:6px;
-  font-family:'DM Sans',sans-serif;
-}
-.lb-bronze{border-color:rgba(180,100,30,0.4);background:rgba(180,100,30,0.1);color:#CD7F32;}
-.lb-silver{border-color:rgba(160,160,160,0.4);background:rgba(160,160,160,0.1);color:#C0C0C0;}
-.lb-gold{border-color:rgba(245,158,11,0.5);background:rgba(245,158,11,0.12);color:var(--gold2);}
-.lb-platinum{border-color:rgba(99,179,255,0.4);background:rgba(99,179,255,0.1);color:var(--accent2);}
-.lb-active{transform:scale(1.05);}
-
-.rewards-list{display:flex;flex-direction:column;gap:10px;}
-.reward-item{
-  display:flex;align-items:center;gap:14px;
-  padding:14px 16px;background:var(--surface);
-  border-radius:var(--r2);border:1px solid var(--border);
-}
-.ri-icon{font-size:1.5rem;flex-shrink:0;}
-.ri-body{flex:1;}
-.ri-title{font-size:.88rem;font-weight:600;color:var(--text);}
-.ri-cost{font-size:.75rem;color:var(--gold);margin-top:2px;}
-.ri-btn{
-  padding:7px 14px;border-radius:20px;
-  background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);
-  color:var(--gold2);font-size:.75rem;font-weight:700;cursor:pointer;
-  font-family:'DM Sans',sans-serif;transition:.15s;
-}
-.ri-btn:active{background:rgba(245,158,11,0.25);}
-.ri-btn:disabled{opacity:.35;cursor:not-allowed;}
-
-/* ═══ CHAT ═══ */
-.chat-wrap{display:flex;flex-direction:column;height:100%;}
-.chat-messages{flex:1;padding:14px 14px 0;display:flex;flex-direction:column;gap:12px;overflow-y:auto;}
-.chat-msg{display:flex;flex-direction:column;max-width:80%;}
-.chat-msg.user{align-self:flex-end;align-items:flex-end;}
-.chat-msg.agent{align-self:flex-start;align-items:flex-start;}
-.msg-bubble{
-  padding:11px 15px;border-radius:18px;
-  font-size:.88rem;line-height:1.5;
-}
-.chat-msg.user .msg-bubble{
-  background:linear-gradient(135deg,#1D4ED8,#3B82F6);
-  color:#fff;border-bottom-right-radius:4px;
-}
-.chat-msg.agent .msg-bubble{
-  background:var(--surface2);color:var(--text);
-  border:1px solid var(--border);border-bottom-left-radius:4px;
-}
-.msg-time{font-size:.65rem;color:var(--muted);margin-top:4px;padding:0 4px;}
-.agent-name{font-size:.7rem;color:var(--accent2);font-weight:700;margin-bottom:4px;padding-left:4px;}
-.typing-dot{display:flex;gap:4px;padding:11px 15px;background:var(--surface2);border-radius:18px;border-bottom-left-radius:4px;border:1px solid var(--border);width:fit-content;}
-.td{width:6px;height:6px;border-radius:50%;background:var(--muted2);animation:tdAnim 1.2s infinite;}
-.td:nth-child(2){animation-delay:.2s;}
-.td:nth-child(3){animation-delay:.4s;}
-@keyframes tdAnim{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
-.chat-input-row{
-  padding:12px 14px calc(12px + env(safe-area-inset-bottom));
-  background:rgba(9,13,24,0.95);
-  backdrop-filter:blur(20px);
-  border-top:1px solid var(--border);
-  display:flex;gap:10px;align-items:center;
-}
-.chat-input{
-  flex:1;padding:12px 16px;
-  background:var(--surface);border:1.5px solid var(--border);
-  border-radius:25px;color:var(--text);
-  font-family:'DM Sans',sans-serif;font-size:.9rem;
-  outline:none;transition:.2s;
-}
-.chat-input:focus{border-color:var(--accent);}
-.chat-input::placeholder{color:var(--muted);}
-.chat-send{
-  width:42px;height:42px;border-radius:50%;
-  background:linear-gradient(135deg,#1D4ED8,#3B82F6);
-  border:none;color:#fff;font-size:1.1rem;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:.15s;
-  box-shadow:0 4px 12px rgba(59,130,246,0.35);
-}
-.chat-send:active{transform:scale(0.92);}
-.online-badge{
-  display:flex;align-items:center;gap:6px;
-  font-size:.75rem;color:var(--green);
-}
-.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
-
-/* ═══ STATS / DASHBOARD ═══ */
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.stat-card{
-  background:var(--surface);border-radius:var(--r);
-  border:1px solid var(--border);padding:18px 16px;
-}
-.sc-icon{font-size:1.5rem;margin-bottom:10px;}
-.sc-val{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:900;color:var(--text);}
-.sc-lbl{font-size:.73rem;color:var(--muted2);margin-top:4px;}
-.sc-trend{font-size:.72rem;margin-top:6px;}
-.sc-trend.up{color:var(--green);}
-.sc-trend.dn{color:var(--red);}
-
-.chart-card{
-  background:var(--surface);border-radius:var(--r);
-  border:1px solid var(--border);padding:18px;
-}
-.chart-title{font-size:.8rem;font-weight:700;color:var(--muted2);
-  text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px;}
-.bar-chart{display:flex;align-items:flex-end;gap:8px;height:80px;}
-.bar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.bar-fill{
-  width:100%;border-radius:6px 6px 0 0;
-  background:linear-gradient(180deg,#3B82F6,#1D4ED8);
-  transition:height 1s cubic-bezier(0.34,1.56,0.64,1);
-  min-height:4px;
-}
-.bar-lbl{font-size:.6rem;color:var(--muted);text-align:center;}
-
-.activity-list{display:flex;flex-direction:column;gap:10px;}
-.act-item{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 14px;background:var(--surface);
-  border-radius:var(--r2);border:1px solid var(--border);
-}
-.act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.act-body{flex:1;}
-.act-title{font-size:.85rem;color:var(--text);}
-.act-time{font-size:.72rem;color:var(--muted);margin-top:2px;}
-.act-val{font-size:.83rem;font-weight:700;color:var(--accent2);}
-
-/* ═══ NOTIFICATIONS ═══ */
-.notif-list{display:flex;flex-direction:column;gap:10px;}
-.notif-item{
-  display:flex;align-items:flex-start;gap:13px;
-  padding:15px 16px;background:var(--surface);
-  border-radius:var(--r);border:1px solid var(--border);
-  position:relative;overflow:hidden;cursor:pointer;transition:.15s;
-}
-.notif-item:active{background:var(--surface2);}
-.notif-item.unread::after{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:linear-gradient(180deg,var(--accent),var(--accent2));
-  border-radius:3px 0 0 3px;
-}
-.ni-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
-.ni-body{flex:1;}
-.ni-title{font-size:.88rem;font-weight:600;color:var(--text);}
-.ni-text{font-size:.78rem;color:var(--muted2);margin-top:3px;line-height:1.5;}
-.ni-time{font-size:.68rem;color:var(--muted);margin-top:6px;}
-.ni-badge{
-  position:absolute;top:12px;right:12px;
-  width:8px;height:8px;border-radius:50%;background:var(--accent);
-  box-shadow:0 0 6px var(--accent);
-}
-
-/* ═══ OFIS XIZMATLARI ═══ */
-.price-table{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;}
-.ps{padding:14px 16px 10px;border-bottom:1px solid rgba(255,255,255,.04);}
+/* ══ PRICE TABLE ══ */
+.ptbl{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);overflow:hidden;}
+.ps{padding:13px 15px 9px;border-bottom:1px solid rgba(255,255,255,.04);}
 .ps:last-child{border:none;}
-.ps-head{font-size:.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-.ps-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.03);}
-.ps-row:last-child{border:none;}
-.ps-name{font-size:.86rem;color:var(--muted2);}
-.ps-price{font-size:.86rem;font-weight:700;color:var(--accent3);}
+.ps-h{font-size:.7rem;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;}
+.ps-r{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+.ps-r:last-child{border:none;}
+.ps-n{font-size:.84rem;color:var(--mut2);}
+.ps-p{font-size:.84rem;font-weight:700;color:var(--acc3);}
 
-.order-form{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:18px;display:flex;flex-direction:column;gap:14px;}
-.form-label{font-size:.73rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px;}
-.form-req{color:var(--red);}
-.form-input{width:100%;padding:13px 15px;background:rgba(5,8,15,0.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:.2s;}
-.form-input::placeholder{color:var(--muted);}
-.form-input:focus{border-color:var(--accent);background:rgba(59,130,246,0.04);}
-.phone-wrap{display:flex;gap:8px;}
-.flag-sel{display:flex;align-items:center;gap:5px;padding:11px 12px;background:rgba(5,8,15,0.8);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;font-size:.86rem;font-weight:700;color:var(--text);flex-shrink:0;white-space:nowrap;transition:.2s;position:relative;}
-.flag-sel.open{border-color:var(--accent);}
-.flag-drop{position:absolute;top:calc(100%+6px);left:0;z-index:50;background:var(--bg2);border:1.5px solid rgba(59,130,246,0.3);border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5);display:none;min-width:160px;}
-.flag-drop.open{display:block;}
-.fd-o{padding:12px 16px;cursor:pointer;font-size:.86rem;font-weight:600;display:flex;gap:8px;color:var(--text);transition:.15s;}
-.fd-o:hover{background:rgba(59,130,246,0.12);color:var(--accent2);}
-.form-textarea{width:100%;padding:12px 15px;background:rgba(5,8,15,0.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;resize:none;min-height:76px;transition:.2s;}
-.form-textarea:focus{border-color:var(--accent);}
-.form-textarea::placeholder{color:var(--muted);}
-.submit-btn{padding:15px;background:linear-gradient(135deg,#1D4ED8,#3B82F6);border:none;border-radius:var(--r);font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:#fff;cursor:pointer;transition:.15s;box-shadow:0 4px 16px rgba(59,130,246,0.35);}
-.submit-btn:active{transform:scale(0.98);}
-.submit-ok{text-align:center;font-size:.85rem;color:var(--green);display:none;}
+/* ══ ORDER FORM ══ */
+.oform{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px;display:flex;flex-direction:column;gap:13px;}
+.fl{font-size:.7rem;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px;}
+.freq{color:var(--red);}
+.fi{width:100%;padding:12px 14px;background:rgba(5,8,15,.8);border:1.5px solid var(--brd);border-radius:11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:.2s;}
+.fi::placeholder{color:var(--mut);}
+.fi:focus{border-color:var(--acc);}
+.fw{display:flex;gap:7px;}
+.fls{display:flex;align-items:center;gap:5px;padding:10px 11px;background:rgba(5,8,15,.8);border:1.5px solid var(--brd);border-radius:11px;cursor:pointer;font-size:.84rem;font-weight:700;color:var(--txt);flex-shrink:0;white-space:nowrap;position:relative;}
+.fls.op{border-color:var(--acc);}
+.fdrop{position:absolute;top:calc(100%+5px);left:0;z-index:50;background:var(--bg2);border:1.5px solid rgba(59,130,246,.3);border-radius:11px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.5);display:none;min-width:155px;}
+.fdrop.op{display:block;}
+.fdo{padding:11px 15px;cursor:pointer;font-size:.84rem;font-weight:600;display:flex;gap:7px;color:var(--txt);transition:.15s;}
+.fdo:hover{background:rgba(59,130,246,.1);}
+.fta{width:100%;padding:11px 14px;background:rgba(5,8,15,.8);border:1.5px solid var(--brd);border-radius:11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;resize:none;min-height:72px;transition:.2s;}
+.fta:focus{border-color:var(--acc);}
+.fta::placeholder{color:var(--mut);}
+.sbtn{padding:14px;background:linear-gradient(135deg,#1D4ED8,#3B82F6);border:none;border-radius:var(--r);font-family:'Syne',sans-serif;font-size:.92rem;font-weight:800;color:#fff;cursor:pointer;transition:.15s;box-shadow:0 4px 14px rgba(59,130,246,.3);}
+.sbtn:active{transform:scale(.98);}
+.sok{text-align:center;font-size:.83rem;color:var(--green);display:none;padding:4px 0;}
 
-/* ═══ VIZA / GURUH ═══ */
-.phones-big{display:flex;gap:10px;flex-wrap:wrap;}
-.phone-big{flex:1;min-width:140px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:14px;background:rgba(59,130,246,0.08);border:1.5px solid rgba(59,130,246,0.2);font-size:.85rem;font-weight:700;color:var(--accent2);text-decoration:none;transition:.15s;}
-.phone-big:active{transform:scale(0.96);background:rgba(59,130,246,0.15);}
+/* ══ CHAT ══ */
+.chat-wrap{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden;}
+.chat-msgs{flex:1;padding:13px 13px 8px;display:flex;flex-direction:column;gap:11px;overflow-y:auto;}
+.cmsg{display:flex;flex-direction:column;max-width:82%;}
+.cmsg.u{align-self:flex-end;align-items:flex-end;}
+.cmsg.a{align-self:flex-start;align-items:flex-start;}
+.cmsg.nt{align-self:flex-start;align-items:flex-start;}
+.bbl{padding:10px 14px;border-radius:17px;font-size:.87rem;line-height:1.5;}
+.cmsg.u .bbl{background:linear-gradient(135deg,#1D4ED8,#3B82F6);color:#fff;border-bottom-right-radius:4px;}
+.cmsg.a .bbl{background:var(--surf2);color:var(--txt);border:1px solid var(--brd);border-bottom-left-radius:4px;}
+.cmsg.nt .bbl{background:rgba(245,158,11,.1);color:var(--gold2);border:1px solid rgba(245,158,11,.2);border-bottom-left-radius:4px;}
+.mtime{font-size:.63rem;color:var(--mut);margin-top:3px;padding:0 3px;}
+.anm{font-size:.68rem;color:var(--acc2);font-weight:700;margin-bottom:3px;padding-left:3px;}
+.typing-bbl{display:flex;gap:4px;padding:10px 14px;background:var(--surf2);border-radius:17px;border-bottom-left-radius:4px;border:1px solid var(--brd);}
+.td{width:5px;height:5px;border-radius:50%;background:var(--mut2);animation:tda 1.2s infinite;}
+.td:nth-child(2){animation-delay:.2s;}.td:nth-child(3){animation-delay:.4s;}
+@keyframes tda{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+.chat-bar{padding:11px 13px calc(11px + env(safe-area-inset-bottom));background:rgba(9,13,24,.97);backdrop-filter:blur(20px);border-top:1px solid var(--brd);display:flex;gap:9px;align-items:center;flex-shrink:0;}
+.ci{flex:1;padding:11px 15px;background:var(--surf);border:1.5px solid var(--brd);border-radius:24px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:.2s;}
+.ci:focus{border-color:var(--acc);}
+.ci::placeholder{color:var(--mut);}
+.cs{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#3B82F6);border:none;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 10px rgba(59,130,246,.3);transition:.15s;}
+.cs:active{transform:scale(.92);}
+.online{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--green);}
+.odot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:plse 2s infinite;}
+@keyframes plse{0%,100%{opacity:1;}50%{opacity:.35;}}
 
-/* ═══ SECTION TITLE ═══ */
-.section-title{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:800;
-  color:var(--muted2);text-transform:uppercase;letter-spacing:1.5px;
-  display:flex;align-items:center;gap:8px;}
-.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+/* ══ STATS ══ */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.scard{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px 15px;}
+.sc-ic{font-size:1.4rem;margin-bottom:9px;}
+.sc-v{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:900;}
+.sc-l{font-size:.7rem;color:var(--mut2);margin-top:3px;}
+.sc-tr{font-size:.7rem;margin-top:5px;}
+.sc-tr.up{color:var(--green);}
+.chart-c{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px;}
+.ch-t{font-size:.75rem;font-weight:700;color:var(--mut2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;}
+.bch{display:flex;align-items:flex-end;gap:7px;height:75px;}
+.bi{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.bf{width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,#3B82F6,#1D4ED8);transition:height 1s cubic-bezier(.34,1.4,.64,1);min-height:3px;}
+.bl{font-size:.58rem;color:var(--mut);}
+.act-list{display:flex;flex-direction:column;gap:9px;}
+.act-i{display:flex;align-items:center;gap:11px;padding:12px 13px;background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);}
+.act-d{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.act-b{flex:1;}
+.act-ti{font-size:.83rem;}
+.act-tm{font-size:.7rem;color:var(--mut);margin-top:1px;}
 
-/* ═══ TOAST ═══ */
-.toast{
-  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:30px;padding:10px 20px;
-  font-size:.85rem;font-weight:600;color:var(--text);
-  opacity:0;transition:.3s;z-index:200;white-space:nowrap;
-  box-shadow:0 8px 32px rgba(0,0,0,0.5);
-  pointer-events:none;
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* ══ NOTIFS ══ */
+.nlist{display:flex;flex-direction:column;gap:9px;}
+.nitem{display:flex;align-items:flex-start;gap:12px;padding:14px 15px;background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);position:relative;overflow:hidden;cursor:pointer;transition:.15s;}
+.nitem:active{background:var(--surf2);}
+.nitem.unr::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--acc),var(--acc2));border-radius:3px 0 0 3px;}
+.n-ic{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
+.n-b{flex:1;}
+.n-ti{font-size:.86rem;font-weight:600;}
+.n-tx{font-size:.76rem;color:var(--mut2);margin-top:2px;line-height:1.5;}
+.n-tm{font-size:.66rem;color:var(--mut);margin-top:5px;}
+.n-bd{position:absolute;top:11px;right:11px;width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 5px var(--acc);}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(18px);background:var(--surf2);border:1px solid var(--brd);border-radius:28px;padding:10px 20px;font-size:.83rem;font-weight:600;color:var(--txt);opacity:0;transition:.3s;z-index:300;white-space:nowrap;box-shadow:0 8px 28px rgba(0,0,0,.5);pointer-events:none;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ══ UNREAD DOT ══ */
+.unr-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 6px var(--acc);margin-left:6px;vertical-align:middle;}
 
 ::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-thumb{background:rgba(59,130,246,0.2);border-radius:2px;}
+::-webkit-scrollbar-thumb{background:rgba(59,130,246,.18);border-radius:2px;}
 </style>
 </head>
 <body>
 
-<!-- ═══════════ ONBOARDING ═══════════ -->
-<div id="onboarding">
-  <div class="ob-particles" id="obParticles"></div>
-  <div class="ob-content">
-    <div class="ob-logo-wrap">
-      <div class="ob-logo-inner">
-        <svg viewBox="0 0 46 46" fill="none">
-          <circle cx="23" cy="23" r="15" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-          <path d="M11 23 Q23 8 35 23 Q23 38 11 23Z" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="1"/>
-          <circle cx="23" cy="23" r="5" fill="white"/>
-          <path d="M23 8L23 12M23 34L23 38M8 23L12 23M34 23L38 23" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+<!-- ══════════════ ONBOARDING ══════════════ -->
+<div id="ob">
+  <div class="ob-pts" id="obPts"></div>
+  <div class="ob-inner">
+    <div class="ob-ring">
+      <div class="ob-rin">
+        <svg viewBox="0 0 42 42" fill="none">
+          <circle cx="21" cy="21" r="14" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+          <path d="M10 21 Q21 7 32 21 Q21 35 10 21Z" fill="rgba(255,255,255,.15)" stroke="white" stroke-width="1"/>
+          <circle cx="21" cy="21" r="4.5" fill="white"/>
+          <path d="M21 7L21 11M21 31L21 35M7 21L11 21M31 21L35 21" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
     </div>
-
-    <div class="ob-slides" id="obSlides">
-      <div class="ob-slide active">
-        <div class="ob-emoji">✈️</div>
-        <div class="ob-title">OMAD TOUR</div>
-        <div class="ob-desc">Sankt-Peterburgdagi eng ishonchli sayohat agentligi. Bilet, viza, hujjat — hammasi bir joyda.</div>
-      </div>
-      <div class="ob-slide">
-        <div class="ob-emoji">🏆</div>
-        <div class="ob-title">Ball yig'ing!</div>
-        <div class="ob-desc">Har bir xizmatdan ball oling va maxsus chegirmalardan foydalaning. Qanchalik ko'p — shunchalik yaxshi!</div>
-      </div>
-      <div class="ob-slide">
-        <div class="ob-emoji">💬</div>
-        <div class="ob-title">Jonli muloqot</div>
-        <div class="ob-desc">Operatorlarimiz har kuni 9:00 – 20:00 gacha sizning savollaringizga javob berishga tayyor.</div>
-      </div>
-      <div class="ob-slide">
-        <div class="ob-emoji">🚀</div>
-        <div class="ob-title">Tayyor!</div>
-        <div class="ob-desc">Hamma narsa sizning qo'lingizda. Boshlaylik!</div>
-      </div>
+    <div class="ob-slides">
+      <div class="ob-sl act"><div class="ob-em">✈️</div><div class="ob-t">OMAD TOUR</div><div class="ob-d">Sankt-Peterburgdagi eng ishonchli sayohat agentligi. Bilet, viza, hujjat — hammasi bir joyda.</div></div>
+      <div class="ob-sl"><div class="ob-em">💬</div><div class="ob-t">Jonli muloqot</div><div class="ob-d">Operatorlarimiz sizning savollaringizga real vaqtda javob beradi. Bizga yozing!</div></div>
+      <div class="ob-sl"><div class="ob-em">🔔</div><div class="ob-t">Bildirishnomalar</div><div class="ob-d">Yangi narxlar, aksiyalar va muhim yangiliklar haqida birinchi bo'lib xabardor bo'ling.</div></div>
+      <div class="ob-sl"><div class="ob-em">🚀</div><div class="ob-t">Tayyor!</div><div class="ob-d">Hamma narsa sizning qo'lingizda. Boshlaylik!</div></div>
     </div>
-
-    <div class="ob-dots" id="obDots">
-      <div class="ob-dot active" onclick="goSlide(0)"></div>
-      <div class="ob-dot" onclick="goSlide(1)"></div>
-      <div class="ob-dot" onclick="goSlide(2)"></div>
-      <div class="ob-dot" onclick="goSlide(3)"></div>
+    <div class="ob-dots" id="obDts">
+      <div class="ob-dot act" onclick="goSl(0)"></div>
+      <div class="ob-dot" onclick="goSl(1)"></div>
+      <div class="ob-dot" onclick="goSl(2)"></div>
+      <div class="ob-dot" onclick="goSl(3)"></div>
     </div>
-
-    <button class="ob-next" id="obNext" onclick="nextSlide()">Davom etish →</button>
-    <button class="ob-skip" onclick="finishOnboarding()">O'tkazib yuborish</button>
+    <button class="ob-btn" id="obBtn" onclick="nextSl()">Davom etish →</button>
+    <button class="ob-skip" onclick="finOb()">O'tkazib yuborish</button>
   </div>
 </div>
 
-<!-- ═══════════ TOAST ═══════════ -->
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ═══════════ BOTTOM NAV ═══════════ -->
-<div class="bottom-nav" id="bottomNav" style="display:none;">
-  <button class="nav-item active" onclick="navTo('home',this)">
-    <span class="nav-icon">🏠</span>
-    <span class="nav-label" data-uz="Bosh sahifa" data-ru="Главная">Bosh sahifa</span>
+<!-- ══════════════ BOTTOM NAV ══════════════ -->
+<nav id="bnav">
+  <button class="ni act" onclick="navTo('home',this)">
+    <span class="ni-ico">🏠</span>
+    <span class="ni-lbl" data-uz="Bosh" data-ru="Главная">Bosh</span>
   </button>
-  <button class="nav-item" onclick="navTo('loyalty',this)">
-    <span class="nav-icon">🏆</span>
-    <span class="nav-label" data-uz="Ballar" data-ru="Баллы">Ballar</span>
-    <div class="nav-pip show" id="loyaltyPip"></div>
+  <button class="ni" onclick="navTo('chat',this)">
+    <span class="ni-ico">💬</span>
+    <span class="ni-lbl" data-uz="Chat" data-ru="Чат">Chat</span>
+    <div class="nbdg" id="chatBdg">1</div>
   </button>
-  <button class="nav-item" onclick="navTo('chat',this)">
-    <span class="nav-icon">💬</span>
-    <span class="nav-label" data-uz="Chat" data-ru="Чат">Chat</span>
-    <div class="nav-badge show" id="chatBadge">1</div>
+  <button class="ni" onclick="navTo('stats',this)">
+    <span class="ni-ico">📊</span>
+    <span class="ni-lbl" data-uz="Statistika" data-ru="Статистика">Statistika</span>
   </button>
-  <button class="nav-item" onclick="navTo('stats',this)">
-    <span class="nav-icon">📊</span>
-    <span class="nav-label" data-uz="Statistika" data-ru="Статистика">Statistika</span>
+  <button class="ni" onclick="navTo('notifs',this)">
+    <span class="ni-ico">🔔</span>
+    <span class="ni-lbl" data-uz="Xabarlar" data-ru="Уведомления">Xabarlar</span>
+    <div class="nbdg on" id="notifBdg">3</div>
   </button>
-  <button class="nav-item" onclick="navTo('notifs',this)">
-    <span class="nav-icon">🔔</span>
-    <span class="nav-label" data-uz="Xabarlar" data-ru="Уведомления">Xabarlar</span>
-    <div class="nav-badge show" id="notifBadge">3</div>
-  </button>
-</div>
+</nav>
 
-<!-- ═══════════ HOME ═══════════ -->
-<div class="screen active" id="home">
-  <div class="page-header">
-    <div class="header-logo">
-      <div class="header-logo-ring">
-        <svg viewBox="0 0 20 20" fill="none">
-          <circle cx="10" cy="10" r="6.5" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-          <path d="M4.5 10 Q10 4 15.5 10 Q10 16 4.5 10Z" fill="rgba(255,255,255,.2)" stroke="white" stroke-width=".7"/>
-          <circle cx="10" cy="10" r="2.2" fill="white"/>
+<!-- ══════════════ HOME ══════════════ -->
+<div class="scr act" id="home">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-ring">
+        <svg viewBox="0 0 19 19" fill="none">
+          <circle cx="9.5" cy="9.5" r="6" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+          <path d="M4 9.5 Q9.5 3.5 15 9.5 Q9.5 15.5 4 9.5Z" fill="rgba(255,255,255,.2)" stroke="white" stroke-width=".7"/>
+          <circle cx="9.5" cy="9.5" r="2" fill="white"/>
         </svg>
       </div>
-      <span class="header-title">OMAD TOUR</span>
+      <span class="ph-t">OMAD TOUR</span>
     </div>
-    <div class="lang-toggle">
-      <button class="lt on" id="hLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="hLtRu" onclick="setLang('ru')">RU</button>
+    <div class="lts">
+      <button class="lt on" id="hUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="hRu" onclick="setLang('ru')">RU</button>
     </div>
   </div>
-  <div class="page-body">
-    <div class="hero-card">
-      <div class="hero-greeting" data-uz="Xush kelibsiz 👋" data-ru="Добро пожаловать 👋">Xush kelibsiz 👋</div>
-      <div class="hero-name" id="heroName">OMAD TOUR</div>
-      <div class="hero-sub" data-uz="Sankt-Peterburgdagi sayohat sherigingiz" data-ru="Ваш туристический партнёр в Санкт-Петербурге">Sankt-Peterburgdagi sayohat sherigingiz</div>
-      <div class="hero-points">
-        <span class="hp-icon">⭐</span>
-        <span class="hp-val" id="heroPoints">120</span>
-        <span class="hp-lbl" data-uz="ball" data-ru="баллов">ball</span>
-      </div>
+  <div class="pb">
+    <div class="hero">
+      <div class="h-gr" data-uz="Xush kelibsiz 👋" data-ru="Добро пожаловать 👋">Xush kelibsiz 👋</div>
+      <div class="h-nm" id="heroName">OMAD TOUR</div>
+      <div class="h-sb" data-uz="Sankt-Peterburgdagi sayohat sherigingiz" data-ru="Ваш туристический партнёр в СПб">Sankt-Peterburgdagi sayohat sherigingiz</div>
     </div>
-
-    <div class="grid-2">
-      <div class="stat-mini">
-        <div class="sm-val">4.9</div>
-        <div class="sm-lbl" data-uz="Reyting" data-ru="Рейтинг">Reyting</div>
-        <div class="sm-trend">⭐⭐⭐⭐⭐</div>
-      </div>
-      <div class="stat-mini">
-        <div class="sm-val">2k+</div>
-        <div class="sm-lbl" data-uz="Mijozlar" data-ru="Клиентов">Mijozlar</div>
-        <div class="sm-trend">↑ Har oy o'smoqda</div>
-      </div>
+    <div class="g2">
+      <div class="smi"><div class="smi-v">4.9</div><div class="smi-l" data-uz="Reyting" data-ru="Рейтинг">Reyting</div><div class="smi-t">⭐⭐⭐⭐⭐</div></div>
+      <div class="smi"><div class="smi-v">2k+</div><div class="smi-l" data-uz="Mijozlar" data-ru="Клиентов">Mijozlar</div><div class="smi-t">↑ O'smoqda</div></div>
     </div>
-
-    <div class="section-title" data-uz="Xizmatlar" data-ru="Услуги">Xizmatlar</div>
-
-    <div class="menu-card" onclick="openInner('avia')">
-      <div class="mc-icon">✈️</div>
-      <div class="mc-body">
-        <div class="mc-title" data-uz="Aviakassa" data-ru="Авиакасса">Aviakassa</div>
-        <div class="mc-sub" data-uz="Arzon chipta narxlari" data-ru="Дешёвые билеты">Arzon chipta narxlari</div>
-      </div>
-      <span class="mc-arr">›</span>
+    <div class="sec-t" data-uz="Xizmatlar" data-ru="Услуги">Xizmatlar</div>
+    <div class="mc" onclick="openInner('avia')"><div class="mc-ic">✈️</div><div class="mc-b"><div class="mc-t" data-uz="Aviakassa" data-ru="Авиакасса">Aviakassa</div><div class="mc-s" data-uz="Arzon chipta narxlari" data-ru="Дешёвые билеты">Arzon chipta narxlari</div></div><span class="mc-a">›</span></div>
+    <div class="mc" onclick="openInner('viza')"><div class="mc-ic">🛂</div><div class="mc-b"><div class="mc-t" data-uz="Viza bo'limi" data-ru="Визовый отдел">Viza bo'limi</div><div class="mc-s" data-uz="Viza ma'lumotlari" data-ru="Информация о визе">Viza ma'lumotlari</div></div><span class="mc-a">›</span></div>
+    <div class="mc" onclick="openInner('guruh')"><div class="mc-ic">👥</div><div class="mc-b"><div class="mc-t" data-uz="Guruhlarimiz" data-ru="Наши группы">Guruhlarimiz</div><div class="mc-s" data-uz="Narxlar va yangiliklar" data-ru="Цены и новости">Narxlar va yangiliklar</div></div><span class="mc-a">›</span></div>
+    <div class="mc" onclick="openInner('ofis')"><div class="mc-ic">🖨️</div><div class="mc-b"><div class="mc-t" data-uz="Ofis xizmatlari" data-ru="Офисные услуги">Ofis xizmatlari</div><div class="mc-s" data-uz="Nusxa, skaner, foto..." data-ru="Копия, скан, фото...">Nusxa, skaner, foto...</div></div><span class="mc-a">›</span></div>
+    <div class="prow">
+      <a href="tel:+79811939094" class="pchip" onclick="haptic('light')">📞 +7 981 193 9094</a>
+      <a href="tel:+79379499094" class="pchip" onclick="haptic('light')">📞 +7 937 949 9094</a>
     </div>
-    <div class="menu-card" onclick="openInner('viza')">
-      <div class="mc-icon">🛂</div>
-      <div class="mc-body">
-        <div class="mc-title" data-uz="Viza bo'limi" data-ru="Визовый отдел">Viza bo'limi</div>
-        <div class="mc-sub" data-uz="Viza ma'lumotlari" data-ru="Информация о визе">Viza ma'lumotlari</div>
-      </div>
-      <span class="mc-arr">›</span>
-    </div>
-    <div class="menu-card" onclick="openInner('guruh')">
-      <div class="mc-icon">👥</div>
-      <div class="mc-body">
-        <div class="mc-title" data-uz="Guruhlarimiz" data-ru="Наши группы">Guruhlarimiz</div>
-        <div class="mc-sub" data-uz="Narxlar va yangiliklar" data-ru="Цены и новости">Narxlar va yangiliklar</div>
-      </div>
-      <span class="mc-arr">›</span>
-    </div>
-    <div class="menu-card" onclick="openInner('ofis')">
-      <div class="mc-icon">🖨️</div>
-      <div class="mc-body">
-        <div class="mc-title" data-uz="Ofis xizmatlari" data-ru="Офисные услуги">Ofis xizmatlari</div>
-        <div class="mc-sub" data-uz="Nusxa, skaner, foto..." data-ru="Копия, скан, фото...">Nusxa, skaner, foto...</div>
-      </div>
-      <span class="mc-arr">›</span>
-    </div>
-
-    <div class="phones-row">
-      <a href="tel:+79811939094" class="phone-chip" onclick="haptic('light')">📞 +7 981 193 9094</a>
-      <a href="tel:+79379499094" class="phone-chip" onclick="haptic('light')">📞 +7 937 949 9094</a>
-    </div>
-
-    <div class="addr-card">
-      <div class="addr-glow"></div>
-      <div class="addr-lbl" data-uz="📍 Bizning manzil" data-ru="📍 Наш адрес">📍 Bizning manzil</div>
-      <div class="addr-city">🏙 Санкт-Петербург</div>
-      <div class="addr-street">4-я Красноармейская улица, дом 3</div>
-      <div class="addr-note">🔢 Домофон: 22В</div>
+    <div class="acard">
+      <div class="a-lb" data-uz="📍 Bizning manzil" data-ru="📍 Наш адрес">📍 Bizning manzil</div>
+      <div class="a-ci">🏙 Санкт-Петербург</div>
+      <div class="a-st">4-я Красноармейская улица, дом 3</div>
+      <div class="a-nt">🔢 Домофон: 22В</div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ LOYALTY ═══════════ -->
-<div class="screen" id="loyalty">
-  <div class="page-header">
-    <div class="header-logo">
-      <span style="font-size:1.3rem;">🏆</span>
-      <span class="header-title" data-uz="Loyalty dastur" data-ru="Программа лояльности">Loyalty dastur</span>
-    </div>
-    <div class="lang-toggle">
-      <button class="lt on" id="lLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="lLtRu" onclick="setLang('ru')">RU</button>
-    </div>
-  </div>
-  <div class="page-body">
-    <div class="loyalty-hero">
-      <div class="lh-crown">👑</div>
-      <div class="lh-title" data-uz="Sizning darajangiz: OLTIN" data-ru="Ваш уровень: ЗОЛОТО">Sizning darajangiz: OLTIN</div>
-      <div class="lh-sub" data-uz="Platinumgacha 380 ball qoldi" data-ru="До Platinum осталось 380 баллов">Platinumgacha 380 ball qoldi</div>
-      <div class="lh-points-big" id="loyaltyPoints">120</div>
-      <div class="lh-pts-lbl" data-uz="umumiy ball" data-ru="всего баллов">umumiy ball</div>
-      <div class="progress-bar-wrap">
-        <div class="pb-labels">
-          <span>Bronze (0)</span><span>Platinum (500)</span>
-        </div>
-        <div class="pb-track">
-          <div class="pb-fill" id="loyaltyBar" style="width:24%"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="level-badges">
-      <div class="level-badge lb-bronze">🥉 Bronze <span style="opacity:.6">0–99</span></div>
-      <div class="level-badge lb-silver">🥈 Silver <span style="opacity:.6">100–249</span></div>
-      <div class="level-badge lb-gold lb-active">🥇 Gold <span style="opacity:.6">250–499</span></div>
-      <div class="level-badge lb-platinum">💎 Platinum <span style="opacity:.6">500+</span></div>
-    </div>
-
-    <div class="section-title" data-uz="Mukofotlar" data-ru="Награды">Mukofotlar</div>
-
-    <div class="rewards-list">
-      <div class="reward-item">
-        <div class="ri-icon">✈️</div>
-        <div class="ri-body">
-          <div class="ri-title" data-uz="Biletga 5% chegirma" data-ru="Скидка 5% на билет">Biletga 5% chegirma</div>
-          <div class="ri-cost">🌟 50 ball</div>
-        </div>
-        <button class="ri-btn" onclick="redeemReward(this,50,'5% chegirma')">Olish</button>
-      </div>
-      <div class="reward-item">
-        <div class="ri-icon">📸</div>
-        <div class="ri-body">
-          <div class="ri-title" data-uz="Bepul foto 3×4" data-ru="Бесплатное фото 3×4">Bepul foto 3×4</div>
-          <div class="ri-cost">🌟 30 ball</div>
-        </div>
-        <button class="ri-btn" onclick="redeemReward(this,30,'Bepul foto')">Olish</button>
-      </div>
-      <div class="reward-item">
-        <div class="ri-icon">🛂</div>
-        <div class="ri-body">
-          <div class="ri-title" data-uz="Viza maslahat — bepul" data-ru="Визовая консультация бесплатно">Viza maslahat — bepul</div>
-          <div class="ri-cost">🌟 80 ball</div>
-        </div>
-        <button class="ri-btn" onclick="redeemReward(this,80,'Viza maslahat')">Olish</button>
-      </div>
-      <div class="reward-item">
-        <div class="ri-icon">💎</div>
-        <div class="ri-body">
-          <div class="ri-title" data-uz="VIP xizmat (navbatsiz)" data-ru="VIP обслуживание (без очереди)">VIP xizmat (navbatsiz)</div>
-          <div class="ri-cost">🌟 200 ball</div>
-        </div>
-        <button class="ri-btn" onclick="redeemReward(this,200,'VIP xizmat')" disabled>Yetarli emas</button>
-      </div>
-    </div>
-
-    <div class="section-title" data-uz="Ball qanday yig'iladi?" data-ru="Как накопить баллы?">Ball qanday yig'iladi?</div>
-    <div class="info-card">
-      <p data-uz="• Har bir bilet xarididan: 10 ball&#10;• Ofis xizmatlaridan: 5 ball&#10;• Do'st taklif qilganda: 20 ball&#10;• Sharh qoldirganda: 5 ball" data-ru="• За каждый купленный билет: 10 баллов&#10;• За офисные услуги: 5 баллов&#10;• За приглашение друга: 20 баллов&#10;• За оставленный отзыв: 5 баллов">• Har bir bilet xarididan: 10 ball
-• Ofis xizmatlaridan: 5 ball
-• Do'st taklif qilganda: 20 ball
-• Sharh qoldirganda: 5 ball</p>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════ CHAT ═══════════ -->
-<div class="screen" id="chat" style="padding-bottom:0;">
-  <div class="inner-header">
-    <div style="display:flex;align-items:center;gap:10px;flex:1;">
-      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">👩</div>
+<!-- ══════════════ CHAT ══════════════ -->
+<div class="scr" id="chat" style="padding-bottom:0;">
+  <div class="ih" style="background:rgba(9,13,24,.95);">
+    <div style="display:flex;align-items:center;gap:9px;flex:1;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">🧑‍💼</div>
       <div>
-        <div style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--text);">OMAD TOUR</div>
-        <div class="online-badge"><div class="online-dot"></div><span data-uz="Onlayn" data-ru="Онлайн">Onlayn</span></div>
+        <div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;">OMAD TOUR</div>
+        <div class="online"><div class="odot"></div><span data-uz="Operator onlayn" data-ru="Оператор онлайн">Operator onlayn</span></div>
       </div>
     </div>
-    <div class="lang-toggle">
-      <button class="lt on" id="cLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="cLtRu" onclick="setLang('ru')">RU</button>
+    <div class="lts">
+      <button class="lt on" id="cUz" onclick="setLang('uz')">UZ</button>
+      <button class="lt" id="cRu" onclick="setLang('ru')">RU</button>
     </div>
   </div>
   <div class="chat-wrap">
-    <div class="chat-messages" id="chatMessages">
-      <div class="chat-msg agent">
-        <div class="agent-name">OMAD TOUR operatori</div>
-        <div class="msg-bubble" data-uz="Salom! 👋 OMAD TOUR ga xush kelibsiz. Sizga qanday yordam bera olaman?" data-ru="Здравствуйте! 👋 Добро пожаловать в OMAD TOUR. Чем могу помочь?">Salom! 👋 OMAD TOUR ga xush kelibsiz. Sizga qanday yordam bera olaman?</div>
-        <div class="msg-time">09:00</div>
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="cmsg a">
+        <div class="anm">OMAD TOUR</div>
+        <div class="bbl" id="initBbl">Salom! 👋 OMAD TOUR ga xush kelibsiz. Savolingizni yozing, tez orada javob beramiz.</div>
+        <div class="mtime" id="initTime"></div>
       </div>
     </div>
-    <div class="chat-input-row">
-      <input class="chat-input" id="chatInput" placeholder="Xabar yozing..." onkeydown="if(event.key==='Enter')sendChat()"/>
-      <button class="chat-send" onclick="sendChat()">➤</button>
+    <div class="chat-bar">
+      <input class="ci" id="ci" placeholder="Xabar yozing..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+      <button class="cs" onclick="sendMsg()">➤</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ STATS ═══════════ -->
-<div class="screen" id="stats">
-  <div class="page-header">
-    <div class="header-logo">
-      <span style="font-size:1.3rem;">📊</span>
-      <span class="header-title" data-uz="Statistika" data-ru="Статистика">Statistika</span>
+<!-- ══════════════ STATS ══════════════ -->
+<div class="scr" id="stats">
+  <div class="ph">
+    <div class="ph-logo"><span style="font-size:1.2rem;">📊</span><span class="ph-t" style="margin-left:4px;" data-uz="Statistika" data-ru="Статистика">Statistika</span></div>
+    <div class="lts"><button class="lt on" id="sUz" onclick="setLang('uz')">UZ</button><button class="lt" id="sRu" onclick="setLang('ru')">RU</button></div>
+  </div>
+  <div class="pb">
+    <div class="sgrid">
+      <div class="scard"><div class="sc-ic">👥</div><div class="sc-v">2,148</div><div class="sc-l" data-uz="Jami mijozlar" data-ru="Всего клиентов">Jami mijozlar</div><div class="sc-tr up">↑ +12% bu oy</div></div>
+      <div class="scard"><div class="sc-ic">✈️</div><div class="sc-v">847</div><div class="sc-l" data-uz="Sotilgan biletlar" data-ru="Продано билетов">Sotilgan biletlar</div><div class="sc-tr up">↑ +8% bu oy</div></div>
+      <div class="scard"><div class="sc-ic">⭐</div><div class="sc-v">4.9</div><div class="sc-l" data-uz="O'rtacha reyting" data-ru="Средний рейтинг">O'rtacha reyting</div><div class="sc-tr up">↑ Ajoyib</div></div>
+      <div class="scard"><div class="sc-ic">💬</div><div class="sc-v">98%</div><div class="sc-l" data-uz="Hal qilingan" data-ru="Решено">Hal qilingan</div><div class="sc-tr up">↑ Zo'r!</div></div>
     </div>
-    <div class="lang-toggle">
-      <button class="lt on" id="sLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="sLtRu" onclick="setLang('ru')">RU</button>
+    <div class="chart-c">
+      <div class="ch-t" data-uz="Oylik mijozlar" data-ru="Клиенты по месяцам">Oylik mijozlar</div>
+      <div class="bch" id="bch"></div>
+    </div>
+    <div class="sec-t" data-uz="So'nggi faollik" data-ru="Последняя активность">So'nggi faollik</div>
+    <div class="act-list">
+      <div class="act-i"><div class="act-d" style="background:var(--green)"></div><div class="act-b"><div class="act-ti" data-uz="Yangi buyurtma — Ofis xizmati" data-ru="Новый заказ — Офис">Yangi buyurtma — Ofis xizmati</div><div class="act-tm">Bugun, 14:32</div></div></div>
+      <div class="act-i"><div class="act-d" style="background:var(--acc)"></div><div class="act-b"><div class="act-ti" data-uz="Bilet bronlandi — SPb→TAS" data-ru="Бронь — СПб→ТАШ">Bilet bronlandi — SPb→TAS</div><div class="act-tm">Kecha, 11:15</div></div></div>
+      <div class="act-i"><div class="act-d" style="background:var(--gold)"></div><div class="act-b"><div class="act-ti" data-uz="Yangi mijoz ro'yxatdan o'tdi" data-ru="Новый клиент">Yangi mijoz ro'yxatdan o'tdi</div><div class="act-tm">3 kun oldin</div></div></div>
     </div>
   </div>
-  <div class="page-body">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="sc-icon">👥</div>
-        <div class="sc-val" id="scClients">2,148</div>
-        <div class="sc-lbl" data-uz="Jami mijozlar" data-ru="Всего клиентов">Jami mijozlar</div>
-        <div class="sc-trend up">↑ +12% bu oy</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-icon">✈️</div>
-        <div class="sc-val" id="scTickets">847</div>
-        <div class="sc-lbl" data-uz="Sotilgan biletlar" data-ru="Продано билетов">Sotilgan biletlar</div>
-        <div class="sc-trend up">↑ +8% bu oy</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-icon">⭐</div>
-        <div class="sc-val">4.9</div>
-        <div class="sc-lbl" data-uz="O'rtacha reyting" data-ru="Средний рейтинг">O'rtacha reyting</div>
-        <div class="sc-trend up">↑ 0.1 o'sish</div>
-      </div>
-      <div class="stat-card">
-        <div class="sc-icon">💬</div>
-        <div class="sc-val">98%</div>
-        <div class="sc-lbl" data-uz="Murojaat hal qilingan" data-ru="Обращений решено">Murojaat hal qilingan</div>
-        <div class="sc-trend up">↑ Ajoyib!</div>
-      </div>
-    </div>
+</div>
 
-    <div class="chart-card">
-      <div class="chart-title" data-uz="Oylik mijozlar" data-ru="Клиенты по месяцам">Oylik mijozlar</div>
-      <div class="bar-chart" id="barChart"></div>
-    </div>
-
-    <div class="section-title" data-uz="So'nggi faollik" data-ru="Последняя активность">So'nggi faollik</div>
-    <div class="activity-list">
-      <div class="act-item">
-        <div class="act-dot" style="background:var(--green)"></div>
-        <div class="act-body">
-          <div class="act-title" data-uz="Yangi buyurtma — Ofis xizmati" data-ru="Новый заказ — Офисные услуги">Yangi buyurtma — Ofis xizmati</div>
-          <div class="act-time">Bugun, 14:32</div>
-        </div>
-        <div class="act-val">+5 ⭐</div>
+<!-- ══════════════ NOTIFS ══════════════ -->
+<div class="scr" id="notifs">
+  <div class="ph">
+    <div class="ph-logo"><span style="font-size:1.2rem;">🔔</span><span class="ph-t" style="margin-left:4px;" data-uz="Xabarlar" data-ru="Уведомления">Xabarlar</span></div>
+    <div class="lts"><button class="lt on" id="nUz" onclick="setLang('uz')">UZ</button><button class="lt" id="nRu" onclick="setLang('ru')">RU</button></div>
+  </div>
+  <div class="pb">
+    <div class="nlist" id="nlist">
+      <div class="nitem unr" onclick="rdNotif(this)">
+        <div class="n-bd"></div><div class="n-ic">✈️</div>
+        <div class="n-b"><div class="n-ti" data-uz="Yangi chegirma: SPb→Toshkent" data-ru="Скидка: СПб→Ташкент">Yangi chegirma: SPb→Toshkent</div><div class="n-tx" data-uz="Bu hafta faqat 8,900 ₽ dan! Joylar cheklangan." data-ru="Только на этой неделе от 8 900 ₽! Мест ограничено.">Bu hafta faqat 8,900 ₽ dan! Joylar cheklangan.</div><div class="n-tm">Bugun 10:00</div></div>
       </div>
-      <div class="act-item">
-        <div class="act-dot" style="background:var(--accent)"></div>
-        <div class="act-body">
-          <div class="act-title" data-uz="Bilet bronlandi — SPb→TAS" data-ru="Бронь билета — СПб→ТАШ">Bilet bronlandi — SPb→TAS</div>
-          <div class="act-time">Kecha, 11:15</div>
-        </div>
-        <div class="act-val">+10 ⭐</div>
+      <div class="nitem unr" onclick="rdNotif(this)">
+        <div class="n-bd"></div><div class="n-ic">📢</div>
+        <div class="n-b"><div class="n-ti" data-uz="Guruh jo'nashi" data-ru="Отправление группы">Guruh jo'nashi</div><div class="n-tx" data-uz="15-may: SPb→Toshkent guruh. 3 joy qoldi!" data-ru="15 мая: СПб→Таш группа. 3 места!">15-may: SPb→Toshkent guruh. 3 joy qoldi!</div><div class="n-tm">Kecha 18:45</div></div>
       </div>
-      <div class="act-item">
-        <div class="act-dot" style="background:var(--gold)"></div>
-        <div class="act-body">
-          <div class="act-title" data-uz="Do'st taklif qilindi" data-ru="Приглашён друг">Do'st taklif qilindi</div>
-          <div class="act-time">3 kun oldin</div>
-        </div>
-        <div class="act-val">+20 ⭐</div>
+      <div class="nitem unr" onclick="rdNotif(this)">
+        <div class="n-bd"></div><div class="n-ic">🛂</div>
+        <div class="n-b"><div class="n-ti" data-uz="Viza yangiligi" data-ru="Новость о визах">Viza yangiligi</div><div class="n-tx" data-uz="Schengen viza muddati uzaytirildi." data-ru="Срок шенгенской визы продлён.">Schengen viza muddati uzaytirildi.</div><div class="n-tm">2 kun oldin</div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ NOTIFICATIONS ═══════════ -->
-<div class="screen" id="notifs">
-  <div class="page-header">
-    <div class="header-logo">
-      <span style="font-size:1.3rem;">🔔</span>
-      <span class="header-title" data-uz="Xabarlar" data-ru="Уведомления">Xabarlar</span>
-    </div>
-    <div class="lang-toggle">
-      <button class="lt on" id="nLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="nLtRu" onclick="setLang('ru')">RU</button>
-    </div>
-  </div>
-  <div class="page-body">
-    <div class="notif-list" id="notifList">
-      <div class="notif-item unread" onclick="readNotif(this)">
-        <div class="ni-badge"></div>
-        <div class="ni-icon">✈️</div>
-        <div class="ni-body">
-          <div class="ni-title" data-uz="Yangi chegirma: SPb→Toshkent" data-ru="Новая скидка: СПб→Ташкент">Yangi chegirma: SPb→Toshkent</div>
-          <div class="ni-text" data-uz="Bu hafta faqat 8,900 ₽ dan! Joylar cheklangan." data-ru="Только на этой неделе от 8 900 ₽! Мест ограничено.">Bu hafta faqat 8,900 ₽ dan! Joylar cheklangan.</div>
-          <div class="ni-time">Bugun 10:00</div>
-        </div>
-      </div>
-      <div class="notif-item unread" onclick="readNotif(this)">
-        <div class="ni-badge"></div>
-        <div class="ni-icon">🏆</div>
-        <div class="ni-body">
-          <div class="ni-title" data-uz="Tabriklaymiz! 20 ball qo'shildi" data-ru="Поздравляем! Начислено 20 баллов">Tabriklaymiz! 20 ball qo'shildi</div>
-          <div class="ni-text" data-uz="Do'stingiz ro'yxatdan o'tdi. Bonus ballaringiz hisoblandi!" data-ru="Ваш друг зарегистрировался. Бонусные баллы начислены!">Do'stingiz ro'yxatdan o'tdi. Bonus ballaringiz hisoblandi!</div>
-          <div class="ni-time">Kecha 18:45</div>
-        </div>
-      </div>
-      <div class="notif-item unread" onclick="readNotif(this)">
-        <div class="ni-badge"></div>
-        <div class="ni-icon">🛂</div>
-        <div class="ni-body">
-          <div class="ni-title" data-uz="Viza haqida yangilik" data-ru="Новости о визах">Viza haqida yangilik</div>
-          <div class="ni-text" data-uz="Schengen viza muddati 2 yilgacha uzaytirilishi mumkin bo'ldi." data-ru="Шенгенская виза теперь может выдаваться на срок до 2 лет.">Schengen viza muddati 2 yilgacha uzaytirilishi mumkin bo'ldi.</div>
-          <div class="ni-time">2 kun oldin</div>
-        </div>
-      </div>
-      <div class="notif-item" onclick="readNotif(this)">
-        <div class="ni-icon">📦</div>
-        <div class="ni-body">
-          <div class="ni-title" data-uz="Buyurtmangiz qabul qilindi" data-ru="Ваш заказ принят">Buyurtmangiz qabul qilindi</div>
-          <div class="ni-text" data-uz="Ofis xizmati buyurtmangiz ko'rib chiqilmoqda." data-ru="Ваш заказ на офисные услуги рассматривается.">Ofis xizmati buyurtmangiz ko'rib chiqilmoqda.</div>
-          <div class="ni-time">5 kun oldin</div>
-        </div>
-      </div>
-    </div>
+<!-- ══════════════ INNER: AVIA ══════════════ -->
+<div class="scr" id="avia">
+  <div class="ih"><button class="bk" onclick="closeInner()">‹</button><div class="ih-t">✈️ Aviakassa</div><div class="lts"><button class="lt on" id="aUz" onclick="setLang('uz')">UZ</button><button class="lt" id="aRu" onclick="setLang('ru')">RU</button></div></div>
+  <div class="pb">
+    <div class="icard"><p data-uz="Siz aviakassa bo'limidasiz. Biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishing va bron qiling." data-ru="Вы в разделе авиакасса. Свяжитесь с нами, ознакомьтесь с ценами и оформите бронирование.">Siz aviakassa bo'limidasiz. Biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishing va bron qiling.</p></div>
+    <a href="https://t.me/OMAD_TOUR9094" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">💬</span><div><div class="l-sb">Telegram</div><div>@OMAD_TOUR9094</div></div></a>
+    <a href="https://wa.me/79811939094" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">📱</span><div><div class="l-sb">WhatsApp</div><div>+7 981 193 9094</div></div></a>
+    <a href="https://max.ru/u/f9LHodD0cOLLpEmAWC_I3iUUWcn5IO6DFYg0IVz4jEXfm6BJP6OL-L7V0jk" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">🔗</span><div><div class="l-sb">MAX</div><div>max.ru — OMAD TOUR</div></div></a>
+    <div class="pbig"><a href="tel:+79811939094" class="pb2" onclick="haptic('medium')">📞 +7 981 193 9094</a><a href="tel:+79379499094" class="pb2" onclick="haptic('medium')">📞 +7 937 949 9094</a></div>
   </div>
 </div>
 
-<!-- ═══════════ INNER: AVIA ═══════════ -->
-<div class="screen" id="avia">
-  <div class="inner-header">
-    <button class="back-btn" onclick="closeInner()">‹</button>
-    <div class="inner-title">✈️ Aviakassa</div>
-    <div class="lang-toggle">
-      <button class="lt on" id="aLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="aLtRu" onclick="setLang('ru')">RU</button>
-    </div>
-  </div>
-  <div class="page-body">
-    <div class="info-card">
-      <p data-uz="Siz aviakassa bo'limidasiz. Bu yerda siz biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishib borishingiz va bron qilish imkoniyatiga egasiz." data-ru="Вы находитесь в разделе авиакасса. Здесь вы можете связаться с нами, ознакомиться с выгодными ценами на авиабилеты и оформить бронирование.">Siz aviakassa bo'limidasiz. Bu yerda siz biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishib borishingiz va bron qilish imkoniyatiga egasiz.</p>
-    </div>
-    <a href="https://t.me/OMAD_TOUR9094" target="_blank" class="link-row" onclick="haptic('light')">
-      <span class="link-icon">💬</span>
-      <div><div class="link-sub">Telegram</div><div>@OMAD_TOUR9094</div></div>
-    </a>
-    <a href="https://wa.me/79811939094" target="_blank" class="link-row" onclick="haptic('light')">
-      <span class="link-icon">📱</span>
-      <div><div class="link-sub">WhatsApp</div><div>+7 981 193 9094</div></div>
-    </a>
-    <a href="https://max.ru/u/f9LHodD0cOLLpEmAWC_I3iUUWcn5IO6DFYg0IVz4jEXfm6BJP6OL-L7V0jk" target="_blank" class="link-row" onclick="haptic('light')">
-      <span class="link-icon">🔗</span>
-      <div><div class="link-sub">MAX</div><div>max.ru — OMAD TOUR</div></div>
-    </a>
-    <div class="phones-big">
-      <a href="tel:+79811939094" class="phone-big" onclick="haptic('medium')">📞 +7 981 193 9094</a>
-      <a href="tel:+79379499094" class="phone-big" onclick="haptic('medium')">📞 +7 937 949 9094</a>
-    </div>
+<!-- ══════════════ INNER: VIZA ══════════════ -->
+<div class="scr" id="viza">
+  <div class="ih"><button class="bk" onclick="closeInner()">‹</button><div class="ih-t">🛂 Viza bo'limi</div><div class="lts"><button class="lt on" id="vUz" onclick="setLang('uz')">UZ</button><button class="lt" id="vRu" onclick="setLang('ru')">RU</button></div></div>
+  <div class="pb">
+    <div class="icard"><p data-uz="Viza bo'limida viza javoblarini bilib olishingiz va konsullik bo'limiga murojat qilishingiz mumkin." data-ru="В визовом отделе вы можете узнать ответы по визам и обратиться в консульский отдел.">Viza bo'limida viza javoblarini bilib olishingiz va konsullik bo'limiga murojat qilishingiz mumkin.</p></div>
+    <a href="https://visa.mfa.uz/ruxsat/view" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">📋</span><div><div class="l-sb" data-uz="Viza javoblari" data-ru="Ответы по визам">Viza javoblari</div><div>visa.mfa.uz</div></div></a>
+    <a href="https://t.me/+i8I6ByH_CUVhOWQy" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">🏛️</span><div><div class="l-sb" data-uz="Bosh konsulxona SPb" data-ru="Генконсульство СПб">Bosh konsulxona SPb</div><div data-uz="Telegram kanal" data-ru="Telegram канал">Telegram kanal</div></div></a>
   </div>
 </div>
 
-<!-- ═══════════ INNER: VIZA ═══════════ -->
-<div class="screen" id="viza">
-  <div class="inner-header">
-    <button class="back-btn" onclick="closeInner()">‹</button>
-    <div class="inner-title">🛂 Viza bo'limi</div>
-    <div class="lang-toggle">
-      <button class="lt on" id="vLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="vLtRu" onclick="setLang('ru')">RU</button>
-    </div>
-  </div>
-  <div class="page-body">
-    <div class="info-card">
-      <p data-uz="Siz viza bo'limidasiz. Bu yerda viza javoblarini bilib olishingiz va konsullik bo'limiga murojat qilishingiz mumkin." data-ru="Вы находитесь в визовом отделе. Здесь вы можете узнать ответы по визам и обратиться в консульский отдел.">Siz viza bo'limidasiz. Bu yerda viza javoblarini bilib olishingiz va konsullik bo'limiga murojat qilishingiz mumkin.</p>
-    </div>
-    <a href="https://visa.mfa.uz/ruxsat/view" target="_blank" class="link-row" onclick="haptic('light')">
-      <span class="link-icon">📋</span>
-      <div><div class="link-sub" data-uz="Viza javoblari" data-ru="Ответы по визам">Viza javoblari</div><div>visa.mfa.uz</div></div>
-    </a>
-    <a href="https://t.me/+i8I6ByH_CUVhOWQy" target="_blank" class="link-row" onclick="haptic('light')">
-      <span class="link-icon">🏛️</span>
-      <div><div class="link-sub" data-uz="Bosh konsulxona SPb" data-ru="Генконсульство СПб">Bosh konsulxona SPb</div><div data-uz="Telegram kanal" data-ru="Telegram канал">Telegram kanal</div></div>
-    </a>
+<!-- ══════════════ INNER: GURUH ══════════════ -->
+<div class="scr" id="guruh">
+  <div class="ih"><button class="bk" onclick="closeInner()">‹</button><div class="ih-t">👥 Guruhlarimiz</div><div class="lts"><button class="lt on" id="gUz" onclick="setLang('uz')">UZ</button><button class="lt" id="gRu" onclick="setLang('ru')">RU</button></div></div>
+  <div class="pb">
+    <div class="icard"><p data-uz="Bu yerda biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin." data-ru="Здесь вы можете узнать актуальные цены на билеты по дням.">Bu yerda biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin.</p></div>
+    <a href="https://t.me/+OW_pzYSHjIA5NmQy" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">📢</span><div><div class="l-sb" data-uz="Telegram guruh" data-ru="Telegram группа">Telegram guruh</div><div>OMAD TOUR Telegram</div></div></a>
+    <a href="https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">💬</span><div><div class="l-sb" data-uz="WhatsApp guruh" data-ru="WhatsApp группа">WhatsApp guruh</div><div>OMAD TOUR WhatsApp</div></div></a>
+    <a href="https://max.ru/join/M4-SsjF594_qN-XYZd8YabTAqxvGFRzd30p_N2hRh7c" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">🔗</span><div><div class="l-sb">MAX guruh</div><div>OMAD TOUR MAX</div></div></a>
   </div>
 </div>
 
-<!-- ═══════════ INNER: GURUH ═══════════ -->
-<div class="screen" id="guruh">
-  <div class="inner-header">
-    <button class="back-btn" onclick="closeInner()">‹</button>
-    <div class="inner-title">👥 Guruhlarimiz</div>
-    <div class="lang-toggle">
-      <button class="lt on" id="gLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="gLtRu" onclick="setLang('ru')">RU</button>
+<!-- ══════════════ INNER: OFIS ══════════════ -->
+<div class="scr" id="ofis">
+  <div class="ih"><button class="bk" onclick="closeInner()">‹</button><div class="ih-t">🖨️ Ofis xizmatlari</div><div class="lts"><button class="lt on" id="oUz" onclick="setLang('uz')">UZ</button><button class="lt" id="oRu" onclick="setLang('ru')">RU</button></div></div>
+  <div class="pb">
+    <div class="ptbl">
+      <div class="ps"><div class="ps-h" data-uz="Nusxa ko'chirish" data-ru="Копирование">Nusxa ko'chirish</div><div class="ps-r"><span class="ps-n" data-uz="Qora-oq" data-ru="Чёрно-белая">Qora-oq</span><span class="ps-p">35 ₽</span></div><div class="ps-r"><span class="ps-n" data-uz="Ikki tomonlama" data-ru="Двухсторонняя">Ikki tomonlama</span><span class="ps-p">50 ₽</span></div><div class="ps-r"><span class="ps-n" data-uz="Rangli" data-ru="Цветная">Rangli</span><span class="ps-p">50 ₽</span></div><div class="ps-r"><span class="ps-n" data-uz="Skan" data-ru="Скан">Skan</span><span class="ps-p">50 ₽</span></div></div>
+      <div class="ps"><div class="ps-h" data-uz="Fotosurat" data-ru="Фотография">Fotosurat</div><div class="ps-r"><span class="ps-n">Фото 3×4</span><span class="ps-p">400 ₽</span></div><div class="ps-r"><span class="ps-n" data-uz="Elektron foto" data-ru="Фото эл.">Elektron foto</span><span class="ps-p">250 ₽</span></div><div class="ps-r"><span class="ps-n">Фото 2×3</span><span class="ps-p">400 ₽</span></div></div>
+      <div class="ps"><div class="ps-h" data-uz="Hujjatlar" data-ru="Документы">Hujjatlar</div><div class="ps-r"><span class="ps-n">Загранпаспорт</span><span class="ps-p">1000 ₽</span></div><div class="ps-r"><span class="ps-n">Возвращение</span><span class="ps-p">500 ₽</span></div><div class="ps-r"><span class="ps-n">Консульский учёт</span><span class="ps-p">500 ₽</span></div><div class="ps-r"><span class="ps-n">Транзитная виза</span><span class="ps-p">1000 ₽</span></div></div>
     </div>
-  </div>
-  <div class="page-body">
-    <div class="info-card">
-      <p data-uz="Bu yerda siz biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin." data-ru="Здесь вы можете узнать актуальные цены на билеты по дням.">Bu yerda siz biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin.</p>
-    </div>
-    <a href="https://t.me/+OW_pzYSHjIA5NmQy" target="_blank" class="link-row" onclick="haptic('light')">
-      <span class="link-icon">📢</span>
-      <div><div class="link-sub" data-uz="Telegram guruh" data-ru="Telegram группа">Telegram guruh</div><div>OMAD TOUR Telegram</div></div>
-    </a>
-    <a href="https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t" target="_blank" class="link-row" onclick="haptic('light')">
-      <span class="link-icon">💬</span>
-      <div><div class="link-sub" data-uz="WhatsApp guruh" data-ru="WhatsApp группа">WhatsApp guruh</div><div>OMAD TOUR WhatsApp</div></div>
-    </a>
-    <a href="https://max.ru/join/M4-SsjF594_qN-XYZd8YabTAqxvGFRzd30p_N2hRh7c" target="_blank" class="link-row" onclick="haptic('light')">
-      <span class="link-icon">🔗</span>
-      <div><div class="link-sub">MAX guruh</div><div>OMAD TOUR MAX</div></div>
-    </a>
-  </div>
-</div>
-
-<!-- ═══════════ INNER: OFIS ═══════════ -->
-<div class="screen" id="ofis">
-  <div class="inner-header">
-    <button class="back-btn" onclick="closeInner()">‹</button>
-    <div class="inner-title">🖨️ Ofis xizmatlari</div>
-    <div class="lang-toggle">
-      <button class="lt on" id="oLtUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="oLtRu" onclick="setLang('ru')">RU</button>
-    </div>
-  </div>
-  <div class="page-body">
-    <div class="price-table">
-      <div class="ps">
-        <div class="ps-head" data-uz="Nusxa ko'chirish" data-ru="Копирование">Nusxa ko'chirish</div>
-        <div class="ps-row"><span class="ps-name" data-uz="Qora-oq" data-ru="Чёрно-белая">Qora-oq</span><span class="ps-price">35 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Ikki tomonlama" data-ru="Двухсторонняя">Ikki tomonlama</span><span class="ps-price">50 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Rangli" data-ru="Цветная">Rangli</span><span class="ps-price">50 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Skan" data-ru="Скан">Skan</span><span class="ps-price">50 ₽</span></div>
-      </div>
-      <div class="ps">
-        <div class="ps-head" data-uz="Fotosurat" data-ru="Фотография">Fotosurat</div>
-        <div class="ps-row"><span class="ps-name">Фото 3×4</span><span class="ps-price">400 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Elektron foto" data-ru="Фото электронная">Elektron foto</span><span class="ps-price">250 ₽</span></div>
-        <div class="ps-row"><span class="ps-name">Фото 2×3</span><span class="ps-price">400 ₽</span></div>
-      </div>
-      <div class="ps">
-        <div class="ps-head" data-uz="Hujjatlar" data-ru="Документы">Hujjatlar</div>
-        <div class="ps-row"><span class="ps-name">Загранпаспорт</span><span class="ps-price">1000 ₽</span></div>
-        <div class="ps-row"><span class="ps-name" data-uz="Qaytish" data-ru="Возвращение">Возвращение</span><span class="ps-price">500 ₽</span></div>
-        <div class="ps-row"><span class="ps-name">Консульский учёт</span><span class="ps-price">500 ₽</span></div>
-        <div class="ps-row"><span class="ps-name">Транзитная виза</span><span class="ps-price">1000 ₽</span></div>
-      </div>
-    </div>
-
-    <div class="order-form">
-      <div style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--accent2);" data-uz="📦 Buyurtma" data-ru="📦 Заказ">📦 Buyurtma</div>
+    <div class="oform">
+      <div style="font-family:'Syne',sans-serif;font-size:.92rem;font-weight:800;color:var(--acc2);" data-uz="📦 Buyurtma" data-ru="📦 Заказ">📦 Buyurtma</div>
+      <div><div class="fl" data-uz="Ismingiz *" data-ru="Ваше имя *">Ismingiz <span class="freq">*</span></div><input class="fi" id="oNm" type="text" autocomplete="off"/></div>
       <div>
-        <div class="form-label" data-uz="Ismingiz *" data-ru="Ваше имя *">Ismingiz <span class="form-req">*</span></div>
-        <input class="form-input" id="oName" type="text" autocomplete="off"/>
-      </div>
-      <div>
-        <div class="form-label" data-uz="Tel raqam *" data-ru="Телефон *">Tel raqam <span class="form-req">*</span></div>
-        <div class="phone-wrap">
+        <div class="fl" data-uz="Tel raqam *" data-ru="Телефон *">Tel raqam <span class="freq">*</span></div>
+        <div class="fw">
           <div style="position:relative;">
-            <div class="flag-sel" id="flagSel" onclick="toggleFlag()">
-              <span id="flagEm">🇷🇺</span><span id="flagCd">+7</span><span style="font-size:.65rem;color:var(--muted);">▾</span>
-            </div>
-            <div class="flag-drop" id="flagDrop">
-              <div class="fd-o" onclick="setFlag('ru')">🇷🇺 +7 Россия</div>
-              <div class="fd-o" onclick="setFlag('uz')">🇺🇿 +998 Ўзбекистон</div>
+            <div class="fls" id="fls" onclick="tgFlag()">
+              <span id="fEm">🇷🇺</span><span id="fCd">+7</span><span style="font-size:.62rem;color:var(--mut);">▾</span>
+              <div class="fdrop" id="fdrop">
+                <div class="fdo" onclick="setFlag('ru')">🇷🇺 +7 Россия</div>
+                <div class="fdo" onclick="setFlag('uz')">🇺🇿 +998 Ўзбекистон</div>
+              </div>
             </div>
           </div>
-          <input class="form-input" id="oPhone" type="tel" style="flex:1;" placeholder="900 000 00 00"/>
+          <input class="fi" id="oPh" type="tel" style="flex:1;" placeholder="900 000 00 00"/>
         </div>
       </div>
-      <div>
-        <div class="form-label" data-uz="Xizmat / savol" data-ru="Услуга / вопрос">Xizmat / savol</div>
-        <textarea class="form-textarea" id="oNote" rows="3" placeholder="..."></textarea>
-      </div>
-      <button class="submit-btn" onclick="submitOrder()" data-uz="Yuborish ✉️" data-ru="Отправить ✉️">Yuborish ✉️</button>
-      <div class="submit-ok" id="submitOk"></div>
+      <div><div class="fl" data-uz="Xizmat / savol" data-ru="Услуга / вопрос">Xizmat / savol</div><textarea class="fta" id="oNt" rows="3"></textarea></div>
+      <button class="sbtn" onclick="submitOrder()" data-uz="Yuborish ✉️" data-ru="Отправить ✉️">Yuborish ✉️</button>
+      <div class="sok" id="sok"></div>
     </div>
   </div>
 </div>
 
+<!-- ══════════════ JAVASCRIPT ══════════════ -->
 <script>
-/* ═══ CONFIG ═══ */
-const BOT_TOKEN = '8564514766:AAEXi5C6MzvB4466QI3e1LKJHDcwjwx5RX4';
-  const ADMIN_ID  = '7359558983';
+/* ══ CONFIG ══
+   Faqat shu 2 ta qatorni o'zgartiring:
+   - BOT: botingiz token
+   - ADMIN: sizning Telegram ID
+   - CHAT_TAG: xabarlarni ajratish uchun noyob nom (inglizcha, bo'sh joy yo'q)
+*/
+const BOT      = '8564514766:AAEXi5C6MzvB4466QI3e1LKJHDcwjwx5RX4';
+const ADMIN    = '7359558983';
+const CHAT_TAG = 'OMADTOUR'; // xabar tagida ko'rinadi
 
-/* ═══ TELEGRAM ═══ */
+/* ══ TIZIM QANDAY ISHLAYDI ══
+  1. Foydalanuvchi chatda yozadi
+  2. Bot orqali SIZGA xabar keladi:
+     💬 [OMADTOUR] Yangi xabar
+     👤 Ism | @username | ID: 12345
+     📝 Savol matni
+     ➡️ Javob: /javob12345 [javobingiz]
+  3. Siz /javob12345 Salom! deb yuboresiz
+  4. Mini App 3 soniyada javobni ko'rsatadi
+
+  BILDIRISHNOMA YUBORISH (Xabarlar bo'limiga):
+  /xabar [matn]  → barcha foydalanuvchilarga
+*/
+
+const TG_API = `https://api.telegram.org/bot${BOT}`;
+
+/* ══ TELEGRAM WebApp ══ */
 let tg = null, tgUser = null;
 try {
   tg = window.Telegram?.WebApp;
   if (tg) { tg.expand(); tg.setHeaderColor('#05080F'); }
   tgUser = tg?.initDataUnsafe?.user;
-} catch(e){}
+} catch(e) {}
 
-/* ═══ HAPTIC ═══ */
-function haptic(type='light') {
-  try { tg?.HapticFeedback?.impactOccurred(type); } catch(e){}
-}
-function hapticNotif(type='success') {
-  try { tg?.HapticFeedback?.notificationOccurred(type); } catch(e){}
-}
+const myId       = tgUser?.id         ? String(tgUser.id) : 'g' + Math.random().toString(36).slice(2, 9);
+const myUsername = tgUser?.username   || '';
+const myName     = tgUser?.first_name || 'Mehmon';
 
-/* ═══ LANG ═══ */
+/* ══ HAPTIC ══ */
+function haptic(t='light')  { try { tg?.HapticFeedback?.impactOccurred(t); } catch(e) {} }
+function hapticN(t='success'){ try { tg?.HapticFeedback?.notificationOccurred(t); } catch(e) {} }
+
+/* ══ LANG ══ */
 let lang = localStorage.getItem('omad_lang') || 'uz';
-let userPoints = parseInt(localStorage.getItem('omad_points') || '120');
 
 function setLang(l) {
-  lang = l; localStorage.setItem('omad_lang', l);
+  lang = l;
+  localStorage.setItem('omad_lang', l);
   document.querySelectorAll('.lt').forEach(b => {
-    const isUz = b.id?.toLowerCase().includes('uz');
-    const isRu = b.id?.toLowerCase().includes('ru');
-    if(isUz) b.classList.toggle('on', l==='uz');
-    if(isRu) b.classList.toggle('on', l==='ru');
+    const id = b.id || '';
+    if (id.slice(-2) === 'Uz') b.classList.toggle('on', l === 'uz');
+    if (id.slice(-2) === 'Ru') b.classList.toggle('on', l === 'ru');
   });
   document.querySelectorAll('[data-uz]').forEach(el => {
-    const val = el.getAttribute('data-'+l) || el.getAttribute('data-uz');
-    if(val) el.textContent = val;
+    const v = el.getAttribute('data-' + l) || el.getAttribute('data-uz');
+    if (v) { if (el.children.length === 0) el.textContent = v; else el.innerHTML = v; }
   });
-  // chat bubble
-  document.querySelectorAll('.msg-bubble[data-uz]').forEach(el=>{
-    el.textContent = el.getAttribute('data-'+l)||el.getAttribute('data-uz');
-  });
-  // chat placeholder
-  const ci = document.getElementById('chatInput');
-  if(ci) ci.placeholder = l==='uz'?'Xabar yozing...':'Напишите сообщение...';
-  haptic('light');
+  const ci = document.getElementById('ci');
+  if (ci) ci.placeholder = l === 'uz' ? 'Xabar yozing...' : 'Напишите сообщение...';
 }
 
-/* ═══ ONBOARDING ═══ */
-let obIdx = 0;
-const obSlideEls = document.querySelectorAll('.ob-slide');
-const obDotEls   = document.querySelectorAll('.ob-dot');
+/* ══ ONBOARDING ══ */
+let obI = 0;
+const obSls = document.querySelectorAll('.ob-sl');
+const obDs  = document.querySelectorAll('.ob-dot');
 
-// particles
-(function(){
-  const wrap = document.getElementById('obParticles');
-  for(let i=0;i<12;i++){
-    const p=document.createElement('div');
-    p.className='ob-p';
-    const s=20+Math.random()*60;
-    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*4}s;opacity:${0.05+Math.random()*0.12}`;
-    wrap.appendChild(p);
+// Particles
+(function() {
+  const w = document.getElementById('obPts');
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement('div');
+    p.className = 'ob-p';
+    const s = 18 + Math.random() * 55;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*4}s;opacity:${.04+Math.random()*.1}`;
+    w.appendChild(p);
   }
 })();
 
-function goSlide(n){
-  obSlideEls[obIdx].classList.remove('active');
-  obSlideEls[obIdx].classList.add('exit');
-  setTimeout(()=>obSlideEls[obIdx-1>=0?obIdx:0].classList.remove('exit'),500);
-  obIdx=n;
-  obSlideEls[obIdx].classList.add('active');
-  obDotEls.forEach((d,i)=>d.classList.toggle('active',i===obIdx));
-  const btn=document.getElementById('obNext');
-  btn.textContent = obIdx===obSlideEls.length-1 ? (lang==='uz'?'Boshlash 🚀':'Начать 🚀') : 'Davom etish →';
+function goSl(n) {
+  obSls[obI].classList.remove('act'); obSls[obI].classList.add('ex');
+  const prev = obI; obI = n;
+  setTimeout(() => obSls[prev].classList.remove('ex'), 500);
+  obSls[obI].classList.add('act');
+  obDs.forEach((d, i) => d.classList.toggle('act', i === obI));
+  document.getElementById('obBtn').textContent =
+    obI === obSls.length - 1 ? (lang === 'uz' ? 'Boshlash 🚀' : 'Начать 🚀') : 'Davom etish →';
   haptic('light');
 }
-function nextSlide(){
-  haptic('light');
-  if(obIdx<obSlideEls.length-1){
-    const prev=obIdx;
-    obIdx++;
-    obSlideEls[prev].classList.remove('active');
-    obSlideEls[prev].classList.add('exit');
-    setTimeout(()=>obSlideEls[prev].classList.remove('exit'),500);
-    obSlideEls[obIdx].classList.add('active');
-    obDotEls.forEach((d,i)=>d.classList.toggle('active',i===obIdx));
-    if(obIdx===obSlideEls.length-1){
-      document.getElementById('obNext').textContent=lang==='uz'?'Boshlash 🚀':'Начать 🚀';
-    }
-  } else { finishOnboarding(); }
+function nextSl() { haptic('light'); if (obI < obSls.length - 1) goSl(obI + 1); else finOb(); }
+function finOb() {
+  hapticN('success');
+  localStorage.setItem('omad_ob', '1');
+  const o = document.getElementById('ob');
+  o.style.transition = 'opacity .5s,transform .5s';
+  o.style.opacity = '0'; o.style.transform = 'scale(.96)';
+  setTimeout(() => { o.style.display = 'none'; startApp(); }, 480);
 }
-function finishOnboarding(){
-  hapticNotif('success');
-  localStorage.setItem('omad_ob','1');
-  const ob=document.getElementById('onboarding');
-  ob.style.transition='opacity .5s, transform .5s';
-  ob.style.opacity='0'; ob.style.transform='scale(0.95)';
-  setTimeout(()=>{ ob.style.display='none'; startApp(); },500);
-}
-
-/* ═══ APP START ═══ */
-function startApp(){
-  document.getElementById('bottomNav').style.display='flex';
-  // set username
-  if(tgUser?.first_name){
-    document.getElementById('heroName').textContent=tgUser.first_name;
-  }
-  updatePoints();
-  buildBarChart();
-  setLang(lang);
-}
-
-// skip onboarding if already seen
-if(localStorage.getItem('omad_ob')==='1'){
-  document.getElementById('onboarding').style.display='none';
+if (localStorage.getItem('omad_ob') === '1') {
+  document.getElementById('ob').style.display = 'none';
   startApp();
 }
 
-/* ═══ NAVIGATION ═══ */
-let activeMain = 'home';
-let innerOpen  = null;
-const mainScreens = ['home','loyalty','chat','stats','notifs'];
+/* ══ APP START ══ */
+function startApp() {
+  document.getElementById('bnav').style.display = 'flex';
+  if (myName && myName !== 'Mehmon') document.getElementById('heroName').textContent = myName;
+  const t = document.getElementById('initTime');
+  if (t) t.textContent = nowTime();
+  buildChart();
+  setLang(lang);
+  // show initial chat badge
+  document.getElementById('chatBdg').classList.add('on');
+  // start polling
+  startPoll();
+}
 
-function navTo(id, btn){
+/* ══ NAVIGATION ══ */
+let activeMain = 'home', innerOpen = null;
+const mains = ['home', 'chat', 'stats', 'notifs'];
+
+function navTo(id, btn) {
   haptic('light');
-  if(innerOpen){ closeInnerSilent(); }
-  mainScreens.forEach(s=>{ document.getElementById(s).classList.remove('active'); });
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  if (innerOpen) closeInnerSilent();
+  mains.forEach(s => document.getElementById(s).classList.remove('act'));
+  document.getElementById(id).classList.add('act');
+  document.querySelectorAll('.ni').forEach(b => b.classList.remove('act'));
+  btn.classList.add('act');
   activeMain = id;
-  if(id==='chat'){ document.getElementById('chatBadge').classList.remove('show'); scrollChatDown(); }
-  if(id==='notifs'){ document.getElementById('notifBadge').classList.remove('show'); }
+  if (id === 'chat') {
+    document.getElementById('chatBdg').classList.remove('on');
+    document.getElementById('chatBdg').textContent = '0';
+    scrollDown();
+  }
+  if (id === 'notifs') {
+    document.getElementById('notifBdg').classList.remove('on');
+    document.getElementById('notifBdg').textContent = '0';
+  }
   setLang(lang);
 }
 
-function openInner(id){
+function openInner(id) {
   haptic('medium');
-  mainScreens.forEach(s=>document.getElementById(s).classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  mains.forEach(s => document.getElementById(s).classList.remove('act'));
+  document.getElementById(id).classList.add('act');
   innerOpen = id;
-  document.getElementById('bottomNav').style.display='none';
+  document.getElementById('bnav').style.display = 'none';
   setLang(lang);
 }
-function closeInner(){
-  haptic('light');
-  closeInnerSilent();
-}
-function closeInnerSilent(){
-  if(innerOpen){ document.getElementById(innerOpen).classList.remove('active'); innerOpen=null; }
-  document.getElementById(activeMain).classList.add('active');
-  document.getElementById('bottomNav').style.display='flex';
+function closeInner() { haptic('light'); closeInnerSilent(); }
+function closeInnerSilent() {
+  if (innerOpen) { document.getElementById(innerOpen).classList.remove('act'); innerOpen = null; }
+  document.getElementById(activeMain).classList.add('act');
+  document.getElementById('bnav').style.display = 'flex';
   setLang(lang);
 }
 
-/* ═══ TOAST ═══ */
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+/* ══ TOAST ══ */
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 2600);
 }
 
-/* ═══ LOYALTY / POINTS ═══ */
-function updatePoints(){
-  document.getElementById('heroPoints').textContent=userPoints;
-  document.getElementById('loyaltyPoints').textContent=userPoints;
-  const pct = Math.min((userPoints/500)*100,100);
-  document.getElementById('loyaltyBar').style.width=pct+'%';
-}
-function redeemReward(btn, cost, name){
-  if(userPoints < cost){ showToast(lang==='uz'?'Ball yetarli emas!':'Недостаточно баллов!'); hapticNotif('error'); return; }
-  userPoints -= cost;
-  localStorage.setItem('omad_points', userPoints);
-  updatePoints();
-  btn.textContent = '✅';
-  btn.disabled=true;
-  hapticNotif('success');
-  showToast(lang==='uz'?`${name} muvaffaqiyatli olindi!`:`${name} успешно получено!`);
+/* ══ TIME ══ */
+function nowTime() {
+  const n = new Date();
+  return `${n.getHours().toString().padStart(2,'0')}:${n.getMinutes().toString().padStart(2,'0')}`;
 }
 
-/* ═══ CHAT ═══ */
-const autoReplies_uz = [
-  'Albatta! Qanday xizmat kerak? ✈️',
-  'Tushundim. Hozir operatorimiz siz bilan bog\'lanadi.',
-  'Bilet narxlari haqida: +7 981 193 9094 ga qo\'ng\'iroq qiling.',
-  'Rahmat murojaat uchun! Tez orada javob beramiz 🙏',
-  'Bu savolga batafsil javob berish uchun bizga qo\'ng\'iroq qiling.'
-];
-const autoReplies_ru = [
-  'Конечно! Какой именно сервис вас интересует? ✈️',
-  'Понял. Наш оператор свяжется с вами.',
-  'По ценам на билеты звоните: +7 981 193 9094',
-  'Спасибо за обращение! Ответим в ближайшее время 🙏',
-  'Для подробного ответа позвоните нам.'
-];
-let replyIdx=0;
+/* ══ CHAT — xabar yuborish ══ */
+function addMsg(text, type, name) {
+  const w = document.createElement('div');
+  w.className = `cmsg ${type}`;
+  const tm = nowTime();
+  if (type === 'a') {
+    w.innerHTML = `<div class="anm">${name || 'OMAD TOUR'}</div><div class="bbl">${escHtml(text)}</div><div class="mtime">${tm}</div>`;
+  } else if (type === 'nt') {
+    w.innerHTML = `<div class="anm">🔔 Xabar</div><div class="bbl">${escHtml(text)}</div><div class="mtime">${tm}</div>`;
+  } else {
+    w.innerHTML = `<div class="bbl">${escHtml(text)}</div><div class="mtime">${tm}</div>`;
+  }
+  document.getElementById('chatMsgs').appendChild(w);
+  scrollDown();
+}
 
-function sendChat(){
-  const inp=document.getElementById('chatInput');
-  const txt=inp.value.trim();
-  if(!txt) return;
+function scrollDown() {
+  const c = document.getElementById('chatMsgs');
+  setTimeout(() => c.scrollTop = c.scrollHeight, 60);
+}
+
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function sendMsg() {
+  const inp = document.getElementById('ci');
+  const txt = inp.value.trim();
+  if (!txt) return;
   haptic('light');
-  addChatMsg(txt,'user');
-  inp.value='';
-  // typing
-  const typing=document.createElement('div');
-  typing.className='chat-msg agent';
-  typing.innerHTML='<div class="typing-dot"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
-  document.getElementById('chatMessages').appendChild(typing);
-  scrollChatDown();
-  setTimeout(()=>{
-    typing.remove();
-    const replies = lang==='uz' ? autoReplies_uz : autoReplies_ru;
-    addChatMsg(replies[replyIdx % replies.length],'agent');
-    replyIdx++;
-    hapticNotif('success');
-  },1200+Math.random()*800);
-}
+  addMsg(txt, 'u');
+  inp.value = '';
 
-function addChatMsg(text, type){
-  const wrap=document.createElement('div');
-  wrap.className=`chat-msg ${type}`;
-  const now=new Date();
-  const t=`${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-  if(type==='agent') wrap.innerHTML=`<div class="agent-name">OMAD TOUR</div><div class="msg-bubble">${text}</div><div class="msg-time">${t}</div>`;
-  else wrap.innerHTML=`<div class="msg-bubble">${text}</div><div class="msg-time">${t}</div>`;
-  document.getElementById('chatMessages').appendChild(wrap);
-  scrollChatDown();
-}
-function scrollChatDown(){
-  const cm=document.getElementById('chatMessages');
-  setTimeout(()=>cm.scrollTop=cm.scrollHeight,50);
-}
+  // Admin ga Telegram orqali xabar yuborish
+  // Admin /javobID [matn] bilan javob beradi
+  const text =
+    `💬 [${CHAT_TAG}] *Yangi xabar*\n\n` +
+    `👤 ${myName}${myUsername ? ' | @' + myUsername : ''}\n` +
+    `🆔 ID: ${myId}\n\n` +
+    `📝 ${txt}\n\n` +
+    `_Javob berish uchun:_\n/javob${myId} [javobingiz]`;
 
-/* ═══ BAR CHART ═══ */
-function buildBarChart(){
-  const data=[45,62,55,78,90,105,88,120,95,110,130,148];
-  const labels=['Y','F','M','A','M','I','I','A','S','O','N','D'];
-  const max=Math.max(...data);
-  const chart=document.getElementById('barChart');
-  chart.innerHTML='';
-  data.forEach((v,i)=>{
-    const item=document.createElement('div');
-    item.className='bar-item';
-    const pct=Math.round((v/max)*100);
-    item.innerHTML=`<div class="bar-fill" style="height:0px" data-h="${pct}"></div><div class="bar-lbl">${labels[i]}</div>`;
-    chart.appendChild(item);
-  });
-  setTimeout(()=>{
-    document.querySelectorAll('.bar-fill').forEach(b=>{
-      b.style.height=(parseInt(b.dataset.h)*0.72)+'px';
+  try {
+    await fetch(`${TG_API}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: ADMIN, text, parse_mode: 'Markdown' })
     });
-  },300);
+  } catch(e) {}
 }
 
-/* ═══ NOTIFICATIONS ═══ */
-function readNotif(el){
-  haptic('light');
-  el.classList.remove('unread');
-  const badge=el.querySelector('.ni-badge');
-  if(badge) badge.remove();
+/* ══ POLLING — adminning javoblarini olish ══
+   Bot getUpdates orqali admin /javobID xabarlarini kuzatib boramiz.
+   update_id localStorage da saqlanadi.
+*/
+let lastUpdateId = parseInt(localStorage.getItem('omad_uid') || '0');
+
+async function startPoll() {
+  poll();
 }
 
-/* ═══ FLAG ═══ */
-function toggleFlag(){
-  document.getElementById('flagDrop').classList.toggle('open');
-  document.getElementById('flagSel').classList.toggle('open');
+async function poll() {
+  try {
+    const url = `${TG_API}/getUpdates?timeout=20&offset=${lastUpdateId + 1}&allowed_updates=["message"]`;
+    const res = await fetch(url);
+    if (!res.ok) { setTimeout(poll, 5000); return; }
+    const data = await res.json();
+    if (data.ok && data.result.length) {
+      for (const upd of data.result) {
+        if (upd.update_id > lastUpdateId) lastUpdateId = upd.update_id;
+        const msg = upd.message;
+        if (!msg) continue;
+        const fromId = String(msg.chat?.id || '');
+        const text = msg.text || '';
+
+        // Faqat admindan kelgan xabarlar
+        if (fromId !== ADMIN) continue;
+
+        // /javobID [matn] — chat javob
+        const javobMatch = text.match(/^\/javob(\S+)\s+([\s\S]+)$/i);
+        if (javobMatch && javobMatch[1] === myId) {
+          const replyText = javobMatch[2].trim();
+          addMsg(replyText, 'a', 'OMAD TOUR');
+          hapticN('success');
+          if (activeMain !== 'chat') bumpBadge('chatBdg');
+        }
+
+        // /xabar [matn] — barcha foydalanuvchilarga bildirishnoma
+        const xabarMatch = text.match(/^\/xabar\s+([\s\S]+)$/i);
+        if (xabarMatch) {
+          const notifText = xabarMatch[1].trim();
+          addMsg(notifText, 'nt', '🔔 Bildirishnoma');
+          addNotif('📢', 'Yangi xabar', notifText);
+          hapticN('success');
+          if (activeMain !== 'chat') bumpBadge('chatBdg');
+          if (activeMain !== 'notifs') bumpBadge('notifBdg');
+        }
+      }
+      localStorage.setItem('omad_uid', lastUpdateId);
+    }
+  } catch(e) {}
+  setTimeout(poll, 3000);
 }
-function setFlag(c){
-  document.getElementById('flagDrop').classList.remove('open');
-  document.getElementById('flagSel').classList.remove('open');
-  document.getElementById('flagEm').textContent=c==='ru'?'🇷🇺':'🇺🇿';
-  document.getElementById('flagCd').textContent=c==='ru'?'+7':'+998';
+
+function bumpBadge(id) {
+  const b = document.getElementById(id);
+  const cur = parseInt(b.textContent) || 0;
+  b.textContent = cur + 1;
+  b.classList.add('on');
+}
+
+/* ══ NOTIFS ══ */
+function rdNotif(el) {
+  haptic('light');
+  el.classList.remove('unr');
+  const bd = el.querySelector('.n-bd');
+  if (bd) bd.remove();
+}
+
+function addNotif(icon, title, text) {
+  const list = document.getElementById('nlist');
+  const tm = nowTime();
+  const item = document.createElement('div');
+  item.className = 'nitem unr';
+  item.onclick = function() { rdNotif(this); };
+  item.innerHTML =
+    `<div class="n-bd"></div>` +
+    `<div class="n-ic">${icon}</div>` +
+    `<div class="n-b">` +
+      `<div class="n-ti">${escHtml(title)}</div>` +
+      `<div class="n-tx">${escHtml(text)}</div>` +
+      `<div class="n-tm">Hozir, ${tm}</div>` +
+    `</div>`;
+  list.prepend(item);
+}
+
+/* ══ CHART ══ */
+function buildChart() {
+  const d  = [45,62,55,78,90,105,88,120,95,110,130,148];
+  const lb = ['Y','F','M','A','M','I','I','A','S','O','N','D'];
+  const mx = Math.max(...d);
+  const c  = document.getElementById('bch');
+  if (!c) return;
+  c.innerHTML = '';
+  d.forEach((v, i) => {
+    const it = document.createElement('div');
+    it.className = 'bi';
+    const pct = Math.round(v / mx * 100);
+    it.innerHTML = `<div class="bf" style="height:0" data-h="${pct}"></div><div class="bl">${lb[i]}</div>`;
+    c.appendChild(it);
+  });
+  setTimeout(() => {
+    document.querySelectorAll('.bf').forEach(b => b.style.height = (parseInt(b.dataset.h) * .68) + 'px');
+  }, 300);
+}
+
+/* ══ FLAG / ORDER ══ */
+function tgFlag() {
+  document.getElementById('fdrop').classList.toggle('op');
+  document.getElementById('fls').classList.toggle('op');
+}
+function setFlag(c) {
+  document.getElementById('fdrop').classList.remove('op');
+  document.getElementById('fls').classList.remove('op');
+  document.getElementById('fEm').textContent = c === 'ru' ? '🇷🇺' : '🇺🇿';
+  document.getElementById('fCd').textContent  = c === 'ru' ? '+7' : '+998';
   haptic('light');
 }
-document.addEventListener('click',e=>{
-  const d=document.getElementById('flagDrop'),s=document.getElementById('flagSel');
-  if(d&&s&&!s.contains(e.target)){d.classList.remove('open');s.classList.remove('open');}
+document.addEventListener('click', e => {
+  const d = document.getElementById('fdrop'), s = document.getElementById('fls');
+  if (d && s && !s.contains(e.target)) { d.classList.remove('op'); s.classList.remove('op'); }
 });
 
-/* ═══ ORDER ═══ */
-async function submitOrder(){
-  const name=document.getElementById('oName').value.trim();
-  const phone=document.getElementById('oPhone').value.trim();
-  const code=document.getElementById('flagCd').textContent;
-  const note=document.getElementById('oNote').value.trim();
-  if(!name){document.getElementById('oName').focus();hapticNotif('error');showToast(lang==='uz'?'Ismingizni kiriting!':'Введите имя!');return;}
-  if(!phone){document.getElementById('oPhone').focus();hapticNotif('error');showToast(lang==='uz'?'Telefon kiriting!':'Введите телефон!');return;}
+async function submitOrder() {
+  const nm = document.getElementById('oNm').value.trim();
+  const ph = document.getElementById('oPh').value.trim();
+  const cd = document.getElementById('fCd').textContent;
+  const nt = document.getElementById('oNt').value.trim();
+  if (!nm) { document.getElementById('oNm').focus(); hapticN('error'); toast(lang==='uz'?'Ismingizni kiriting!':'Введите имя!'); return; }
+  if (!ph) { document.getElementById('oPh').focus(); hapticN('error'); toast(lang==='uz'?'Telefon kiriting!':'Введите телефон!'); return; }
   haptic('medium');
-  const text=`📦 Yangi buyurtma\n\n👤 Ism: ${name}\n📞 Tel: ${code}${phone}\n📝 Xizmat: ${note||'—'}`;
-  try{
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({chat_id:ADMIN_ID,text})
+  const txt =
+    `📦 *Yangi buyurtma*\n\n` +
+    `👤 Ism: ${nm}\n📞 Tel: ${cd}${ph}\n` +
+    `📝 Xizmat: ${nt || '—'}\n` +
+    `🔗 TG: ${myUsername ? '@' + myUsername : 'ID: ' + myId}`;
+  try {
+    await fetch(`${TG_API}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: ADMIN, text: txt, parse_mode: 'Markdown' })
     });
-  }catch(e){}
-  hapticNotif('success');
-  // add points
-  userPoints += 5;
-  localStorage.setItem('omad_points', userPoints);
-  updatePoints();
-  const ok=document.getElementById('submitOk');
-  ok.textContent=lang==='uz'?'✅ Buyurtmangiz qabul qilindi! +5 ball':'✅ Ваш заказ принят! +5 баллов';
-  ok.style.display='block';
-  document.getElementById('oName').value='';
-  document.getElementById('oPhone').value='';
-  document.getElementById('oNote').value='';
-  showToast(lang==='uz'?'Buyurtma yuborildi! +5 ball':'Заказ отправлен! +5 баллов');
-  setTimeout(()=>ok.style.display='none',4000);
+  } catch(e) {}
+  hapticN('success');
+  const ok = document.getElementById('sok');
+  ok.textContent = lang === 'uz' ? '✅ Buyurtmangiz qabul qilindi!' : '✅ Ваш заказ принят!';
+  ok.style.display = 'block';
+  document.getElementById('oNm').value = '';
+  document.getElementById('oPh').value = '';
+  document.getElementById('oNt').value = '';
+  toast(lang === 'uz' ? 'Buyurtma yuborildi!' : 'Заказ отправлен!');
+  setTimeout(() => ok.style.display = 'none', 4000);
 }
 
-/* ═══ INIT ═══ */
-window.addEventListener('DOMContentLoaded',()=>{ setLang(lang); });
+/* ══ INIT ══ */
+window.addEventListener('DOMContentLoaded', () => setLang(lang));
 </script>
 </body>
 </html>
