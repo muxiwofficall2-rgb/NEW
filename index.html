@@ -41,8 +41,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .ob-dot.act{width:28px;background:var(--acc);}
 .ob-btn{width:100%;padding:16px;border-radius:var(--r);background:linear-gradient(135deg,#1D4ED8,#2563EB,#3B82F6);border:none;font-family:'Syne',sans-serif;font-size:1.02rem;font-weight:800;color:#fff;cursor:pointer;letter-spacing:.5px;box-shadow:0 8px 30px rgba(59,130,246,.42);transition:.2s;}
 .ob-btn:active{transform:scale(.97);}
-.ob-skip{margin-top:13px;font-size:.8rem;color:var(--mut);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.15s;}
-.ob-skip:active{color:var(--mut2);}
+.ob-skip{margin-top:13px;font-size:.8rem;color:var(--mut);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
 
 /* ══ SCREENS ══ */
 .scr{position:fixed;inset:0;display:none;flex-direction:column;background:var(--bg);overflow-y:auto;overflow-x:hidden;}
@@ -50,18 +49,16 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 @keyframes scrIn{from{opacity:0;transform:translateY(20px) scale(.978);}to{opacity:1;transform:none;}}
 
 /* ══ BOTTOM NAV ══ */
-#bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(7,10,18,.97);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-top:1px solid var(--brd);display:none;align-items:center;padding:7px 2px calc(7px + env(safe-area-inset-bottom));}
+#bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(7,10,18,.97);backdrop-filter:blur(28px);border-top:1px solid var(--brd);display:none;align-items:center;padding:7px 2px calc(7px + env(safe-area-inset-bottom));}
 .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;border:none;background:none;position:relative;transition:.15s;}
 .ni:active{transform:scale(.93);}
 .ni-ico{font-size:1.35rem;transition:.32s;filter:grayscale(1) opacity(.32);}
 .ni-lbl{font-size:.61rem;font-weight:600;color:var(--mut);transition:.32s;letter-spacing:.3px;}
 .ni.act .ni-ico{filter:none;transform:translateY(-3px);}
 .ni.act .ni-lbl{color:var(--acc2);}
-.nbdg{position:absolute;top:5px;right:calc(50% - 19px);background:var(--red);color:#fff;font-size:.57rem;font-weight:800;padding:2px 5px;border-radius:10px;min-width:15px;text-align:center;display:none;}
-.nbdg.on{display:block;}
 
-/* ══ PAGE HEADER ══ */
-.ph{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px;background:rgba(7,10,18,.94);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:50;}
+/* ══ HEADERS ══ */
+.ph{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px;background:rgba(7,10,18,.94);backdrop-filter:blur(22px);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:50;}
 .ph-logo{display:flex;align-items:center;gap:10px;}
 .ph-ring{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(59,130,246,.38);}
 .ph-ring svg{width:19px;height:19px;}
@@ -69,8 +66,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .lts{display:flex;gap:5px;}
 .lt{padding:6px 12px;border-radius:20px;border:1.5px solid var(--brd);background:none;color:var(--mut);font-size:.72rem;font-weight:700;cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif;}
 .lt.on{background:var(--acc);border-color:var(--acc);color:#fff;}
-
-/* ══ INNER HEADER ══ */
 .ih{display:flex;align-items:center;gap:11px;padding:13px 15px;background:rgba(7,10,18,.94);backdrop-filter:blur(22px);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:50;}
 .bk{width:34px;height:34px;border-radius:50%;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);color:var(--acc2);font-size:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;}
 .bk:active{background:rgba(59,130,246,.22);transform:scale(.92);}
@@ -82,13 +77,11 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 /* ══ HOME ══ */
 .hero{border-radius:var(--r);overflow:hidden;position:relative;background:linear-gradient(135deg,#08152A,#0D1E3C);border:1px solid rgba(59,130,246,.18);padding:22px 18px 20px;}
 .hero::before{content:'';position:absolute;top:-55px;right:-55px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.14),transparent 68%);}
-.hero::after{content:'';position:absolute;bottom:-40px;left:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(96,165,250,.06),transparent 70%);}
 .h-gr{font-size:.76rem;color:var(--mut2);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:5px;}
 .h-nm{font-family:'Syne',sans-serif;font-size:1.55rem;font-weight:900;background:linear-gradient(135deg,#fff 40%,var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:3px;}
 .h-sb{font-size:.83rem;color:var(--mut2);line-height:1.5;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
 .smi{background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);padding:15px 13px;display:flex;flex-direction:column;gap:3px;position:relative;overflow:hidden;}
-.smi::before{content:'';position:absolute;top:-20px;right:-20px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.07),transparent 70%);}
 .smi-v{font-family:'Syne',sans-serif;font-size:1.38rem;font-weight:800;}
 .smi-l{font-size:.7rem;color:var(--mut2);}
 .smi-t{font-size:.67rem;color:var(--green);margin-top:2px;}
@@ -105,9 +98,8 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .mc-a{color:var(--acc2);opacity:.45;font-size:1.15rem;}
 .prow{display:flex;gap:9px;}
 .pchip{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:13px 6px;background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);font-size:.72rem;font-weight:600;color:var(--acc2);text-decoration:none;transition:.15s;}
-.pchip:active{transform:scale(.95);background:rgba(59,130,246,.1);}
+.pchip:active{transform:scale(.95);}
 .acard{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px;position:relative;overflow:hidden;}
-.acard::before{content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.09),transparent 70%);}
 .a-lb{font-size:.7rem;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:1.1px;margin-bottom:10px;}
 .a-ci{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:4px;}
 .a-st{font-size:.85rem;color:var(--mut2);}
@@ -118,40 +110,39 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .prof-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(59,130,246,.2),transparent 70%);}
 .prof-avatar-wrap{position:relative;margin-bottom:16px;z-index:1;}
 .prof-avatar{width:86px;height:86px;border-radius:50%;object-fit:cover;border:3px solid rgba(59,130,246,.4);box-shadow:0 0 0 5px rgba(59,130,246,.1),0 0 30px rgba(59,130,246,.25);}
-.prof-avatar-default{width:86px;height:86px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;font-size:2.2rem;border:3px solid rgba(59,130,246,.4);box-shadow:0 0 0 5px rgba(59,130,246,.1),0 0 30px rgba(59,130,246,.25);}
+.prof-avatar-def{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;border:3px solid rgba(59,130,246,.4);box-shadow:0 0 0 5px rgba(59,130,246,.1),0 0 30px rgba(59,130,246,.25);}
 .prof-online{position:absolute;bottom:4px;right:4px;width:18px;height:18px;border-radius:50%;background:var(--green);border:2.5px solid var(--bg);box-shadow:0 0 8px rgba(16,185,129,.5);}
 .prof-name{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:900;z-index:1;background:linear-gradient(135deg,#fff,var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;}
-.prof-username{font-size:.86rem;color:var(--acc2);z-index:1;margin-bottom:14px;}
+.prof-uname{font-size:.86rem;color:var(--acc2);z-index:1;margin-bottom:14px;}
 .prof-id-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:30px;font-size:.78rem;font-weight:700;color:var(--acc3);z-index:1;cursor:pointer;transition:.15s;}
 .prof-id-chip:active{background:rgba(59,130,246,.2);}
-.prof-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
-.prof-stat{background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.ps-v{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;}
-.ps-l{font-size:.65rem;color:var(--mut2);text-align:center;}
+.pg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.pgs{background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.pgs-v{font-size:1.25rem;}
+.pgs-l{font-size:.63rem;color:var(--mut2);text-align:center;}
 .prof-info{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);overflow:hidden;}
-.pi-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--brd);}
+.pi-row{display:flex;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--brd);}
 .pi-row:last-child{border:none;}
-.pi-icon{font-size:1.15rem;width:28px;text-align:center;flex-shrink:0;}
-.pi-body{flex:1;}
-.pi-label{font-size:.68rem;color:var(--mut2);margin-bottom:2px;text-transform:uppercase;letter-spacing:.6px;}
-.pi-value{font-size:.9rem;font-weight:600;color:var(--txt);}
-.pi-copy{padding:5px 12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:20px;color:var(--acc2);font-size:.7rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.15s;flex-shrink:0;}
-.pi-copy:active{background:rgba(59,130,246,.22);}
+.pi-ic{font-size:1.1rem;width:26px;text-align:center;flex-shrink:0;}
+.pi-b{flex:1;}
+.pi-lb{font-size:.66rem;color:var(--mut2);margin-bottom:2px;text-transform:uppercase;letter-spacing:.6px;}
+.pi-v{font-size:.88rem;font-weight:600;}
+.pi-cp{padding:5px 12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:20px;color:var(--acc2);font-size:.7rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.15s;flex-shrink:0;}
+.pi-cp:active{background:rgba(59,130,246,.22);}
 .lang-card{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:16px;}
-.lc-t{font-size:.75rem;font-weight:700;color:var(--mut2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;}
+.lc-t{font-size:.73rem;font-weight:700;color:var(--mut2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;}
 .lc-row{display:flex;gap:10px;}
 .lc-btn{flex:1;padding:12px;border-radius:var(--r2);border:1.5px solid var(--brd);background:none;color:var(--mut2);font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:7px;}
 .lc-btn.on{background:rgba(59,130,246,.12);border-color:var(--acc);color:var(--acc2);}
-.lc-btn:active{transform:scale(.96);}
 .about-card{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px;}
 .about-logo{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.about-ring{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(59,130,246,.3);}
+.about-ring{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;}
 .about-ring svg{width:21px;height:21px;}
 .about-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:900;background:linear-gradient(90deg,#60A5FA,#EEF2FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .about-desc{font-size:.82rem;color:var(--mut2);line-height:1.65;}
-.about-version{font-size:.7rem;color:var(--mut);margin-top:10px;}
+.about-ver{font-size:.7rem;color:var(--mut);margin-top:10px;}
 
-/* ══ INNER (xizmatlar) ══ */
+/* ══ INNER ══ */
 .icard{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px;}
 .icard p{font-size:.88rem;line-height:1.75;color:var(--mut2);}
 .lrow{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);text-decoration:none;color:var(--txt);font-size:.88rem;font-weight:600;transition:.15s;cursor:pointer;}
@@ -178,14 +169,14 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .freq{color:var(--red);}
 .fi{width:100%;padding:12px 14px;background:rgba(5,8,15,.85);border:1.5px solid var(--brd);border-radius:11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:.2s;}
 .fi::placeholder{color:var(--mut);}
-.fi:focus{border-color:var(--acc);background:rgba(59,130,246,.04);}
+.fi:focus{border-color:var(--acc);}
 .fw{display:flex;gap:7px;}
 .fls{display:flex;align-items:center;gap:5px;padding:10px 11px;background:rgba(5,8,15,.85);border:1.5px solid var(--brd);border-radius:11px;cursor:pointer;font-size:.84rem;font-weight:700;color:var(--txt);flex-shrink:0;white-space:nowrap;position:relative;}
 .fls.op{border-color:var(--acc);}
 .fdrop{position:absolute;top:calc(100%+5px);left:0;z-index:50;background:var(--bg2);border:1.5px solid rgba(59,130,246,.28);border-radius:11px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.55);display:none;min-width:158px;}
 .fdrop.op{display:block;}
 .fdo{padding:11px 15px;cursor:pointer;font-size:.84rem;font-weight:600;display:flex;gap:7px;color:var(--txt);transition:.15s;}
-.fdo:hover,.fdo:active{background:rgba(59,130,246,.1);color:var(--acc2);}
+.fdo:hover{background:rgba(59,130,246,.1);}
 .fta{width:100%;padding:11px 14px;background:rgba(5,8,15,.85);border:1.5px solid var(--brd);border-radius:11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;resize:none;min-height:72px;transition:.2s;}
 .fta:focus{border-color:var(--acc);}
 .fta::placeholder{color:var(--mut);}
@@ -196,7 +187,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 /* ══ STATS ══ */
 .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
 .scard{background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);padding:17px 15px;position:relative;overflow:hidden;}
-.scard::before{content:'';position:absolute;top:-20px;right:-20px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.07),transparent 70%);}
 .sc-ic{font-size:1.45rem;margin-bottom:9px;}
 .sc-v{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:900;}
 .sc-l{font-size:.7rem;color:var(--mut2);margin-top:3px;}
@@ -215,22 +205,75 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .act-ti{font-size:.83rem;}
 .act-tm{font-size:.7rem;color:var(--mut);margin-top:1px;}
 
-/* ══ NOTIFS ══ */
-.nlist{display:flex;flex-direction:column;gap:9px;}
-.nitem{display:flex;align-items:flex-start;gap:12px;padding:14px 15px;background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);position:relative;overflow:hidden;cursor:pointer;transition:.15s;}
-.nitem:active{background:var(--surf2);}
-.nitem.unr::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--acc),var(--acc2));border-radius:3px 0 0 3px;}
-.n-ic{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
-.n-b{flex:1;}
-.n-ti{font-size:.86rem;font-weight:600;}
-.n-tx{font-size:.76rem;color:var(--mut2);margin-top:2px;line-height:1.5;}
-.n-tm{font-size:.66rem;color:var(--mut);margin-top:5px;}
-.n-bd{position:absolute;top:11px;right:11px;width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 5px var(--acc);}
+/* ══ ADMIN LOGIN ══ */
+#adminLogin{position:fixed;inset:0;z-index:900;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+.al-wrap{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:center;gap:20px;}
+.al-icon{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 0 30px rgba(59,130,246,.4);}
+.al-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:900;color:var(--txt);text-align:center;}
+.al-sub{font-size:.82rem;color:var(--mut2);text-align:center;}
+.al-form{width:100%;display:flex;flex-direction:column;gap:12px;}
+.al-inp{width:100%;padding:14px 16px;background:var(--surf);border:1.5px solid var(--brd);border-radius:var(--r2);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.92rem;outline:none;transition:.2s;}
+.al-inp:focus{border-color:var(--acc);}
+.al-inp::placeholder{color:var(--mut);}
+.al-btn{padding:15px;background:linear-gradient(135deg,#1D4ED8,#3B82F6);border:none;border-radius:var(--r);font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:#fff;cursor:pointer;transition:.15s;box-shadow:0 4px 16px rgba(59,130,246,.35);}
+.al-btn:active{transform:scale(.98);}
+.al-err{font-size:.8rem;color:var(--red);text-align:center;display:none;}
+.al-close{font-size:.78rem;color:var(--mut);background:none;border:none;cursor:pointer;margin-top:4px;}
+
+/* ══ ADMIN PANEL ══ */
+#adminPanel{position:fixed;inset:0;z-index:800;background:var(--bg);display:none;flex-direction:column;overflow:hidden;}
+.ap-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(7,10,18,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(239,68,68,.2);}
+.ap-left{display:flex;align-items:center;gap:10px;}
+.ap-badge{padding:4px 12px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:20px;font-size:.72rem;font-weight:700;color:#F87171;letter-spacing:.5px;}
+.ap-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:900;color:var(--txt);}
+.ap-logout{padding:7px 14px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:20px;font-size:.72rem;font-weight:700;color:#F87171;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.15s;}
+.ap-logout:active{background:rgba(239,68,68,.2);}
+.ap-body{flex:1;overflow-y:auto;padding:14px 14px 30px;display:flex;flex-direction:column;gap:14px;}
+
+/* admin cards */
+.ap-hero{background:linear-gradient(135deg,#0A1628,#0F1E3A);border-radius:var(--r);border:1px solid rgba(239,68,68,.15);padding:20px;position:relative;overflow:hidden;}
+.ap-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(239,68,68,.08),transparent 70%);}
+.ap-hero-t{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:900;color:var(--txt);margin-bottom:4px;}
+.ap-hero-s{font-size:.8rem;color:var(--mut2);}
+.ap-grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ap-stat{background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);padding:15px 13px;}
+.ap-stat-v{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:900;color:var(--txt);}
+.ap-stat-l{font-size:.68rem;color:var(--mut2);margin-top:3px;}
+.ap-stat-t{font-size:.68rem;color:var(--green);margin-top:4px;}
+.ap-sec{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:800;color:var(--mut2);text-transform:uppercase;letter-spacing:1.4px;display:flex;align-items:center;gap:7px;}
+.ap-sec::after{content:'';flex:1;height:1px;background:var(--brd);}
+
+/* source stats */
+.src-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+.src-card{background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.src-ic{font-size:1.4rem;}
+.src-v{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;}
+.src-l{font-size:.63rem;color:var(--mut2);text-align:center;}
+.src-bar-wrap{margin-top:4px;width:100%;height:4px;background:rgba(59,130,246,.1);border-radius:2px;}
+.src-bar{height:100%;border-radius:2px;background:var(--acc);transition:width 1s cubic-bezier(.34,1.4,.64,1);}
+
+/* button stats */
+.btn-list{display:flex;flex-direction:column;gap:8px;}
+.btn-stat-row{display:flex;align-items:center;gap:11px;padding:12px 14px;background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);}
+.bsr-ic{font-size:1.1rem;width:28px;text-align:center;flex-shrink:0;}
+.bsr-b{flex:1;}
+.bsr-t{font-size:.85rem;font-weight:600;}
+.bsr-bar{height:5px;background:rgba(59,130,246,.1);border-radius:3px;margin-top:5px;overflow:hidden;}
+.bsr-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width 1.2s cubic-bezier(.34,1.4,.64,1);}
+.bsr-v{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;color:var(--acc2);flex-shrink:0;}
+
+/* users list */
+.users-list{display:flex;flex-direction:column;gap:9px;}
+.user-card{background:var(--surf);border-radius:var(--r2);border:1px solid var(--brd);padding:13px 14px;display:flex;align-items:center;gap:12px;}
+.uc-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1D4ED8,#60A5FA);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;flex-shrink:0;}
+.uc-b{flex:1;}
+.uc-name{font-size:.86rem;font-weight:600;}
+.uc-info{font-size:.7rem;color:var(--mut2);margin-top:2px;}
+.uc-time{font-size:.66rem;color:var(--mut);}
 
 /* ══ TOAST ══ */
 .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(18px);background:var(--surf2);border:1px solid rgba(59,130,246,.2);border-radius:30px;padding:10px 22px;font-size:.82rem;font-weight:600;color:var(--txt);opacity:0;transition:.32s;z-index:400;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.55);pointer-events:none;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
-
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:rgba(59,130,246,.16);border-radius:2px;}
 </style>
@@ -241,37 +284,19 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 <div id="ob">
   <div class="ob-pts" id="obPts"></div>
   <div class="ob-inner">
-    <div class="ob-ring">
-      <div class="ob-rin">
-        <svg viewBox="0 0 44 44" fill="none">
-          <circle cx="22" cy="22" r="15" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
-          <path d="M10 22 Q22 7 34 22 Q22 37 10 22Z" fill="rgba(255,255,255,.15)" stroke="white" stroke-width="1"/>
-          <circle cx="22" cy="22" r="5" fill="white"/>
-          <path d="M22 7L22 12M22 32L22 37M7 22L12 22M32 22L37 22" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-    </div>
+    <div class="ob-ring"><div class="ob-rin">
+      <svg viewBox="0 0 44 44" fill="none">
+        <circle cx="22" cy="22" r="15" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+        <path d="M10 22 Q22 7 34 22 Q22 37 10 22Z" fill="rgba(255,255,255,.15)" stroke="white" stroke-width="1"/>
+        <circle cx="22" cy="22" r="5" fill="white"/>
+        <path d="M22 7L22 12M22 32L22 37M7 22L12 22M32 22L37 22" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div></div>
     <div class="ob-slides">
-      <div class="ob-sl act">
-        <div class="ob-em">✈️</div>
-        <div class="ob-t">OMAD TOUR</div>
-        <div class="ob-d">Sankt-Peterburgdagi eng ishonchli sayohat agentligi. Bilet, viza, hujjat — hammasi bir joyda.</div>
-      </div>
-      <div class="ob-sl">
-        <div class="ob-em">🛂</div>
-        <div class="ob-t">Viza & Hujjat</div>
-        <div class="ob-d">Viza savollari, konsullik xizmatlari va barcha hujjatlar uchun mutaxassislarimiz tayyor.</div>
-      </div>
-      <div class="ob-sl">
-        <div class="ob-em">🔔</div>
-        <div class="ob-t">Bildirishnomalar</div>
-        <div class="ob-d">Yangi narxlar, aksiyalar va muhim yangiliklar haqida birinchi bo'lib xabardor bo'ling.</div>
-      </div>
-      <div class="ob-sl">
-        <div class="ob-em">👤</div>
-        <div class="ob-t">Profilingiz tayyor</div>
-        <div class="ob-d">Telegram akkauntingiz avtomatik ulandi. Keling boshlaylik!</div>
-      </div>
+      <div class="ob-sl act"><div class="ob-em">✈️</div><div class="ob-t">OMAD TOUR</div><div class="ob-d">Sankt-Peterburgdagi eng ishonchli sayohat agentligi. Bilet, viza, hujjat — hammasi bir joyda.</div></div>
+      <div class="ob-sl"><div class="ob-em">🛂</div><div class="ob-t">Viza & Hujjat</div><div class="ob-d">Viza savollari, konsullik xizmatlari va barcha hujjatlar uchun mutaxassislarimiz tayyor.</div></div>
+      <div class="ob-sl"><div class="ob-em">🖨️</div><div class="ob-t">Ofis xizmatlari</div><div class="ob-d">Nusxa, skaner, foto va barcha hujjatlar — bir joyda, tez va arzon.</div></div>
+      <div class="ob-sl"><div class="ob-em">👤</div><div class="ob-t">Profilingiz tayyor!</div><div class="ob-d">Telegram akkauntingiz avtomatik ulandi. Keling boshlaylik!</div></div>
     </div>
     <div class="ob-dots" id="obDts">
       <div class="ob-dot act" onclick="goSl(0)"></div>
@@ -287,6 +312,36 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- ══════════ ADMIN LOGIN ══════════ -->
+<div id="adminLogin">
+  <div class="al-wrap">
+    <div class="al-icon">🔐</div>
+    <div class="al-title">Admin Panel</div>
+    <div class="al-sub">Faqat yaratuvchi kirishi mumkin</div>
+    <div class="al-form">
+      <input class="al-inp" id="alUser" type="text" placeholder="Login" autocomplete="off" autocorrect="off" spellcheck="false"/>
+      <input class="al-inp" id="alPass" type="password" placeholder="Parol"/>
+      <div class="al-err" id="alErr">❌ Login yoki parol noto'g'ri!</div>
+      <button class="al-btn" onclick="doAdminLogin()">Kirish →</button>
+    </div>
+    <button class="al-close" onclick="closeAdminLogin()">← Orqaga</button>
+  </div>
+</div>
+
+<!-- ══════════ ADMIN PANEL ══════════ -->
+<div id="adminPanel">
+  <div class="ap-header">
+    <div class="ap-left">
+      <div class="ap-badge">🔴 ADMIN</div>
+      <div class="ap-title">OMAD TOUR Panel</div>
+    </div>
+    <button class="ap-logout" onclick="adminLogout()">Chiqish</button>
+  </div>
+  <div class="ap-body" id="apBody">
+    <!-- filled by JS -->
+  </div>
+</div>
+
 <!-- ══════════ BOTTOM NAV ══════════ -->
 <nav id="bnav">
   <button class="ni act" onclick="navTo('home',this)">
@@ -296,11 +351,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   <button class="ni" onclick="navTo('stats',this)">
     <span class="ni-ico">📊</span>
     <span class="ni-lbl" data-uz="Statistika" data-ru="Статистика">Statistika</span>
-  </button>
-  <button class="ni" onclick="navTo('notifs',this)">
-    <span class="ni-ico">🔔</span>
-    <span class="ni-lbl" data-uz="Xabarlar" data-ru="Уведомления">Xabarlar</span>
-    <div class="nbdg on" id="notifBdg">3</div>
   </button>
   <button class="ni" onclick="navTo('profile',this)">
     <span class="ni-ico">👤</span>
@@ -333,53 +383,17 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       <div class="h-sb" data-uz="Sankt-Peterburgdagi ishonchli sayohat sherigingiz" data-ru="Ваш надёжный туристический партнёр в Санкт-Петербурге">Sankt-Peterburgdagi ishonchli sayohat sherigingiz</div>
     </div>
     <div class="g2">
-      <div class="smi">
-        <div class="smi-v">4.9 ⭐</div>
-        <div class="smi-l" data-uz="Mijozlar reytingi" data-ru="Рейтинг клиентов">Mijozlar reytingi</div>
-        <div class="smi-t">↑ Har oy o'smoqda</div>
-      </div>
-      <div class="smi">
-        <div class="smi-v">2,148</div>
-        <div class="smi-l" data-uz="Jami mijozlar" data-ru="Всего клиентов">Jami mijozlar</div>
-        <div class="smi-t">↑ +12% bu oy</div>
-      </div>
+      <div class="smi"><div class="smi-v">4.9 ⭐</div><div class="smi-l" data-uz="Mijozlar reytingi" data-ru="Рейтинг">Mijozlar reytingi</div><div class="smi-t">↑ Har oy o'smoqda</div></div>
+      <div class="smi"><div class="smi-v" id="homeTotalUsers">2,148</div><div class="smi-l" data-uz="Jami foydalanuvchilar" data-ru="Всего пользователей">Jami foydalanuvchilar</div><div class="smi-t">↑ +12% bu oy</div></div>
     </div>
     <div class="sec-t" data-uz="Xizmatlar" data-ru="Услуги">Xizmatlar</div>
-    <div class="mc" onclick="openInner('avia')">
-      <div class="mc-ic">✈️</div>
-      <div class="mc-b">
-        <div class="mc-t" data-uz="Aviakassa" data-ru="Авиакасса">Aviakassa</div>
-        <div class="mc-s" data-uz="Arzon chipta narxlari" data-ru="Дешёвые билеты">Arzon chipta narxlari</div>
-      </div>
-      <span class="mc-a">›</span>
-    </div>
-    <div class="mc" onclick="openInner('viza')">
-      <div class="mc-ic">🛂</div>
-      <div class="mc-b">
-        <div class="mc-t" data-uz="Viza bo'limi" data-ru="Визовый отдел">Viza bo'limi</div>
-        <div class="mc-s" data-uz="Viza ma'lumotlari" data-ru="Информация о визе">Viza ma'lumotlari</div>
-      </div>
-      <span class="mc-a">›</span>
-    </div>
-    <div class="mc" onclick="openInner('guruh')">
-      <div class="mc-ic">👥</div>
-      <div class="mc-b">
-        <div class="mc-t" data-uz="Guruhlarimiz" data-ru="Наши группы">Guruhlarimiz</div>
-        <div class="mc-s" data-uz="Narxlar va yangiliklar" data-ru="Цены и новости">Narxlar va yangiliklar</div>
-      </div>
-      <span class="mc-a">›</span>
-    </div>
-    <div class="mc" onclick="openInner('ofis')">
-      <div class="mc-ic">🖨️</div>
-      <div class="mc-b">
-        <div class="mc-t" data-uz="Ofis xizmatlari" data-ru="Офисные услуги">Ofis xizmatlari</div>
-        <div class="mc-s" data-uz="Nusxa, skaner, foto..." data-ru="Копия, скан, фото...">Nusxa, skaner, foto...</div>
-      </div>
-      <span class="mc-a">›</span>
-    </div>
+    <div class="mc" onclick="trackBtn('avia');openInner('avia')"><div class="mc-ic">✈️</div><div class="mc-b"><div class="mc-t" data-uz="Aviakassa" data-ru="Авиакасса">Aviakassa</div><div class="mc-s" data-uz="Arzon chipta narxlari" data-ru="Дешёвые билеты">Arzon chipta narxlari</div></div><span class="mc-a">›</span></div>
+    <div class="mc" onclick="trackBtn('viza');openInner('viza')"><div class="mc-ic">🛂</div><div class="mc-b"><div class="mc-t" data-uz="Viza bo'limi" data-ru="Визовый отдел">Viza bo'limi</div><div class="mc-s" data-uz="Viza ma'lumotlari" data-ru="Информация о визе">Viza ma'lumotlari</div></div><span class="mc-a">›</span></div>
+    <div class="mc" onclick="trackBtn('guruh');openInner('guruh')"><div class="mc-ic">👥</div><div class="mc-b"><div class="mc-t" data-uz="Guruhlarimiz" data-ru="Наши группы">Guruhlarimiz</div><div class="mc-s" data-uz="Narxlar va yangiliklar" data-ru="Цены и новости">Narxlar va yangiliklar</div></div><span class="mc-a">›</span></div>
+    <div class="mc" onclick="trackBtn('ofis');openInner('ofis')"><div class="mc-ic">🖨️</div><div class="mc-b"><div class="mc-t" data-uz="Ofis xizmatlari" data-ru="Офисные услуги">Ofis xizmatlari</div><div class="mc-s" data-uz="Nusxa, skaner, foto..." data-ru="Копия, скан, фото...">Nusxa, skaner, foto...</div></div><span class="mc-a">›</span></div>
     <div class="prow">
-      <a href="tel:+79811939094" class="pchip" onclick="haptic('light')">📞 +7 981 193 9094</a>
-      <a href="tel:+79379499094" class="pchip" onclick="haptic('light')">📞 +7 937 949 9094</a>
+      <a href="tel:+79811939094" class="pchip" onclick="haptic('light');trackBtn('phone1')">📞 +7 981 193 9094</a>
+      <a href="tel:+79379499094" class="pchip" onclick="haptic('light');trackBtn('phone2')">📞 +7 937 949 9094</a>
     </div>
     <div class="acard">
       <div class="a-lb" data-uz="📍 Bizning manzil" data-ru="📍 Наш адрес">📍 Bizning manzil</div>
@@ -393,14 +407,8 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 <!-- ══════════ STATS ══════════ -->
 <div class="scr" id="stats">
   <div class="ph">
-    <div class="ph-logo">
-      <span style="font-size:1.2rem;">📊</span>
-      <span class="ph-t" style="margin-left:6px;" data-uz="Statistika" data-ru="Статистика">Statistika</span>
-    </div>
-    <div class="lts">
-      <button class="lt on" id="sUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="sRu" onclick="setLang('ru')">RU</button>
-    </div>
+    <div class="ph-logo"><span style="font-size:1.2rem;">📊</span><span class="ph-t" style="margin-left:6px;" data-uz="Statistika" data-ru="Статистика">Statistika</span></div>
+    <div class="lts"><button class="lt on" id="sUz" onclick="setLang('uz')">UZ</button><button class="lt" id="sRu" onclick="setLang('ru')">RU</button></div>
   </div>
   <div class="pb">
     <div class="sgrid">
@@ -416,51 +424,8 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
     <div class="sec-t" data-uz="So'nggi faollik" data-ru="Последняя активность">So'nggi faollik</div>
     <div class="act-list">
       <div class="act-i"><div class="act-d" style="background:var(--green)"></div><div class="act-b"><div class="act-ti" data-uz="Yangi buyurtma — Ofis xizmati" data-ru="Новый заказ — Офис">Yangi buyurtma — Ofis xizmati</div><div class="act-tm">Bugun, 14:32</div></div></div>
-      <div class="act-i"><div class="act-d" style="background:var(--acc)"></div><div class="act-b"><div class="act-ti" data-uz="Bilet bronlandi — SPb → Toshkent" data-ru="Бронь — СПб → Ташкент">Bilet bronlandi — SPb → Toshkent</div><div class="act-tm">Kecha, 11:15</div></div></div>
-      <div class="act-i"><div class="act-d" style="background:var(--gold)"></div><div class="act-b"><div class="act-ti" data-uz="Yangi mijoz ro'yxatdan o'tdi" data-ru="Новый клиент зарегистрировался">Yangi mijoz ro'yxatdan o'tdi</div><div class="act-tm">3 kun oldin</div></div></div>
-      <div class="act-i"><div class="act-d" style="background:var(--red)"></div><div class="act-b"><div class="act-ti" data-uz="Viza maslahat — tugallandi" data-ru="Визовая консультация завершена">Viza maslahat — tugallandi</div><div class="act-tm">5 kun oldin</div></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════ NOTIFS ══════════ -->
-<div class="scr" id="notifs">
-  <div class="ph">
-    <div class="ph-logo">
-      <span style="font-size:1.2rem;">🔔</span>
-      <span class="ph-t" style="margin-left:6px;" data-uz="Xabarlar" data-ru="Уведомления">Xabarlar</span>
-    </div>
-    <div class="lts">
-      <button class="lt on" id="nUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="nRu" onclick="setLang('ru')">RU</button>
-    </div>
-  </div>
-  <div class="pb">
-    <div class="nlist" id="nlist">
-      <div class="nitem unr" onclick="rdN(this)">
-        <div class="n-bd"></div><div class="n-ic">✈️</div>
-        <div class="n-b">
-          <div class="n-ti" data-uz="Yangi chegirma: SPb → Toshkent" data-ru="Скидка: СПб → Ташкент">Yangi chegirma: SPb → Toshkent</div>
-          <div class="n-tx" data-uz="Bu hafta faqat 8,900 ₽ dan! Joylar cheklangan, tezroq band qiling." data-ru="Только на этой неделе от 8 900 ₽! Мест ограничено, бронируйте скорее.">Bu hafta faqat 8,900 ₽ dan! Joylar cheklangan, tezroq band qiling.</div>
-          <div class="n-tm">Bugun, 10:00</div>
-        </div>
-      </div>
-      <div class="nitem unr" onclick="rdN(this)">
-        <div class="n-bd"></div><div class="n-ic">📢</div>
-        <div class="n-b">
-          <div class="n-ti" data-uz="Guruh jo'nashi: 15-may" data-ru="Отправление группы: 15 мая">Guruh jo'nashi: 15-may</div>
-          <div class="n-tx" data-uz="SPb → Toshkent guruh yo'nalishi. Atigi 3 joy qoldi!" data-ru="СПб → Ташкент групповой рейс. Осталось всего 3 места!">SPb → Toshkent guruh yo'nalishi. Atigi 3 joy qoldi!</div>
-          <div class="n-tm">Kecha, 18:45</div>
-        </div>
-      </div>
-      <div class="nitem unr" onclick="rdN(this)">
-        <div class="n-bd"></div><div class="n-ic">🛂</div>
-        <div class="n-b">
-          <div class="n-ti" data-uz="Viza yangiligi" data-ru="Новость о визах">Viza yangiligi</div>
-          <div class="n-tx" data-uz="Schengen viza muddati 2 yilgacha uzaytirilishi mumkin bo'ldi." data-ru="Шенгенская виза теперь может выдаваться на срок до 2 лет.">Schengen viza muddati 2 yilgacha uzaytirilishi mumkin bo'ldi.</div>
-          <div class="n-tm">2 kun oldin</div>
-        </div>
-      </div>
+      <div class="act-i"><div class="act-d" style="background:var(--acc)"></div><div class="act-b"><div class="act-ti" data-uz="Bilet bronlandi — SPb→TAS" data-ru="Бронь — СПб→ТАШ">Bilet bronlandi — SPb→TAS</div><div class="act-tm">Kecha, 11:15</div></div></div>
+      <div class="act-i"><div class="act-d" style="background:var(--gold)"></div><div class="act-b"><div class="act-ti" data-uz="Yangi foydalanuvchi" data-ru="Новый пользователь">Yangi foydalanuvchi</div><div class="act-tm">3 kun oldin</div></div></div>
     </div>
   </div>
 </div>
@@ -468,239 +433,107 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 <!-- ══════════ PROFILE ══════════ -->
 <div class="scr" id="profile">
   <div class="ph">
-    <div class="ph-logo">
-      <span style="font-size:1.2rem;">👤</span>
-      <span class="ph-t" style="margin-left:6px;" data-uz="Mening profilim" data-ru="Мой профиль">Mening profilim</span>
-    </div>
-    <div class="lts">
-      <button class="lt on" id="pUz" onclick="setLang('uz')">UZ</button>
-      <button class="lt" id="pRu" onclick="setLang('ru')">RU</button>
-    </div>
+    <div class="ph-logo"><span style="font-size:1.2rem;">👤</span><span class="ph-t" style="margin-left:6px;" data-uz="Mening profilim" data-ru="Мой профиль">Mening profilim</span></div>
+    <div class="lts"><button class="lt on" id="pUz" onclick="setLang('uz')">UZ</button><button class="lt" id="pRu" onclick="setLang('ru')">RU</button></div>
   </div>
   <div class="pb">
-
-    <!-- Avatar + name -->
     <div class="prof-hero">
-      <div class="prof-avatar-wrap">
-        <div id="profAvatarWrap">
-          <!-- filled by JS -->
-        </div>
-        <div class="prof-online"></div>
-      </div>
+      <div class="prof-avatar-wrap"><div id="profAv"></div><div class="prof-online"></div></div>
       <div class="prof-name" id="profName">—</div>
-      <div class="prof-username" id="profUsername"></div>
-      <div class="prof-id-chip" onclick="copyId()">
-        🆔 <span id="profIdChip">—</span>
-        <span style="font-size:.65rem;opacity:.6;" data-uz="nusxalash" data-ru="копировать">nusxalash</span>
-      </div>
+      <div class="prof-uname" id="profUname"></div>
+      <div class="prof-id-chip" onclick="copyId()">🆔 <span id="profIdChip">—</span> <span style="font-size:.62rem;opacity:.55;" data-uz="nusxalash" data-ru="копировать">nusxalash</span></div>
     </div>
-
-    <!-- Stats row -->
-    <div class="prof-grid">
-      <div class="prof-stat">
-        <div class="ps-v">✈️</div>
-        <div class="ps-l" data-uz="Aviakassa" data-ru="Авиакасса">Aviakassa</div>
-      </div>
-      <div class="prof-stat">
-        <div class="ps-v">🛂</div>
-        <div class="ps-l" data-uz="Viza" data-ru="Виза">Viza</div>
-      </div>
-      <div class="prof-stat">
-        <div class="ps-v">🖨️</div>
-        <div class="ps-l" data-uz="Ofis" data-ru="Офис">Ofis</div>
-      </div>
+    <div class="pg3">
+      <div class="pgs"><div class="pgs-v">✈️</div><div class="pgs-l" data-uz="Aviakassa" data-ru="Авиакасса">Aviakassa</div></div>
+      <div class="pgs"><div class="pgs-v">🛂</div><div class="pgs-l" data-uz="Viza" data-ru="Виза">Viza</div></div>
+      <div class="pgs"><div class="pgs-v">🖨️</div><div class="pgs-l" data-uz="Ofis" data-ru="Офис">Ofis</div></div>
     </div>
-
-    <!-- Telegram info -->
-    <div class="prof-info" id="profInfo">
-      <div class="pi-row">
-        <div class="pi-icon">👤</div>
-        <div class="pi-body">
-          <div class="pi-label" data-uz="To'liq ism" data-ru="Полное имя">To'liq ism</div>
-          <div class="pi-value" id="piFullName">—</div>
-        </div>
-      </div>
-      <div class="pi-row" id="piUsernameRow">
-        <div class="pi-icon">🔗</div>
-        <div class="pi-body">
-          <div class="pi-label" data-uz="Username" data-ru="Имя пользователя">Username</div>
-          <div class="pi-value" id="piUsername">—</div>
-        </div>
-        <div class="pi-copy" onclick="copyUsername()">Nusxa</div>
-      </div>
-      <div class="pi-row">
-        <div class="pi-icon">🆔</div>
-        <div class="pi-body">
-          <div class="pi-label" data-uz="Telegram ID" data-ru="Telegram ID">Telegram ID</div>
-          <div class="pi-value" id="piId">—</div>
-        </div>
-        <div class="pi-copy" onclick="copyId()">Nusxa</div>
-      </div>
-      <div class="pi-row">
-        <div class="pi-icon">🌐</div>
-        <div class="pi-body">
-          <div class="pi-label" data-uz="Til" data-ru="Язык">Til</div>
-          <div class="pi-value" id="piLang">—</div>
-        </div>
-      </div>
-      <div class="pi-row">
-        <div class="pi-icon">📱</div>
-        <div class="pi-body">
-          <div class="pi-label" data-uz="Platforma" data-ru="Платформа">Platforma</div>
-          <div class="pi-value" id="piPlat">Telegram Mini App</div>
-        </div>
-      </div>
+    <div class="prof-info">
+      <div class="pi-row"><div class="pi-ic">👤</div><div class="pi-b"><div class="pi-lb" data-uz="To'liq ism" data-ru="Полное имя">To'liq ism</div><div class="pi-v" id="piFullName">—</div></div></div>
+      <div class="pi-row" id="piUnRow"><div class="pi-ic">🔗</div><div class="pi-b"><div class="pi-lb">Username</div><div class="pi-v" id="piUsername">—</div></div><div class="pi-cp" onclick="copyUsername()">Nusxa</div></div>
+      <div class="pi-row"><div class="pi-ic">🆔</div><div class="pi-b"><div class="pi-lb">Telegram ID</div><div class="pi-v" id="piId">—</div></div><div class="pi-cp" onclick="copyId()">Nusxa</div></div>
+      <div class="pi-row"><div class="pi-ic">🌐</div><div class="pi-b"><div class="pi-lb" data-uz="Til" data-ru="Язык">Til</div><div class="pi-v" id="piLang">—</div></div></div>
+      <div class="pi-row"><div class="pi-ic">📱</div><div class="pi-b"><div class="pi-lb" data-uz="Platforma" data-ru="Платформа">Platforma</div><div class="pi-v" id="piPlat">Telegram Mini App</div></div></div>
     </div>
-
-    <!-- Lang switch -->
     <div class="lang-card">
       <div class="lc-t" data-uz="Interfeys tili" data-ru="Язык интерфейса">Interfeys tili</div>
       <div class="lc-row">
-        <button class="lc-btn on" id="lcUz" onclick="setLang('uz');updLcBtns()">🇺🇿 O'zbek</button>
-        <button class="lc-btn" id="lcRu" onclick="setLang('ru');updLcBtns()">🇷🇺 Русский</button>
+        <button class="lc-btn on" id="lcUz" onclick="setLang('uz');updLc()">🇺🇿 O'zbek</button>
+        <button class="lc-btn" id="lcRu" onclick="setLang('ru');updLc()">🇷🇺 Русский</button>
       </div>
     </div>
-
-    <!-- About -->
     <div class="about-card">
       <div class="about-logo">
-        <div class="about-ring">
-          <svg viewBox="0 0 21 21" fill="none">
-            <circle cx="10.5" cy="10.5" r="6.5" stroke="rgba(255,255,255,.28)" stroke-width="1.2"/>
-            <path d="M4.5 10.5 Q10.5 4 16.5 10.5 Q10.5 17 4.5 10.5Z" fill="rgba(255,255,255,.18)" stroke="white" stroke-width=".75"/>
-            <circle cx="10.5" cy="10.5" r="2.2" fill="white"/>
-          </svg>
-        </div>
+        <div class="about-ring"><svg viewBox="0 0 21 21" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="rgba(255,255,255,.28)" stroke-width="1.2"/><path d="M4.5 10.5 Q10.5 4 16.5 10.5 Q10.5 17 4.5 10.5Z" fill="rgba(255,255,255,.18)" stroke="white" stroke-width=".75"/><circle cx="10.5" cy="10.5" r="2.2" fill="white"/></svg></div>
         <div class="about-name">OMAD TOUR</div>
       </div>
-      <div class="about-desc" data-uz="Sankt-Peterburgda joylashgan sayohat agentligi. Aviabilet, viza, hujjatlar va ofis xizmatlari bo'yicha to'liq yordamni taqdim etamiz. 2k+ mijoz bizga ishonadi." data-ru="Туристическое агентство в Санкт-Петербурге. Предоставляем полный спектр услуг: авиабилеты, визы, документы и офисные услуги. Более 2000 клиентов доверяют нам.">Sankt-Peterburgda joylashgan sayohat agentligi. Aviabilet, viza, hujjatlar va ofis xizmatlari bo'yicha to'liq yordamni taqdim etamiz. 2k+ mijoz bizga ishonadi.</div>
-      <div class="about-version">v2.0 — Premium Mini App ✨</div>
+      <div class="about-desc" data-uz="Sankt-Peterburgda joylashgan sayohat agentligi. Aviabilet, viza, hujjatlar va ofis xizmatlari bo'yicha to'liq yordam. 2k+ mijoz ishonadi." data-ru="Туристическое агентство в Санкт-Петербурге. Авиабилеты, визы, документы и офисные услуги. Более 2000 клиентов доверяют нам.">Sankt-Peterburgda joylashgan sayohat agentligi. Aviabilet, viza, hujjatlar va ofis xizmatlari bo'yicha to'liq yordam. 2k+ mijoz ishonadi.</div>
+      <div class="about-ver">v3.0 Premium · <span id="adminTrigger" onclick="onAdminTap()" style="cursor:pointer;color:transparent;user-select:none;">·····</span></div>
     </div>
-
   </div>
 </div>
 
 <!-- ══════════ INNER: AVIA ══════════ -->
 <div class="scr" id="avia">
-  <div class="ih">
-    <button class="bk" onclick="closeInner()">‹</button>
-    <div class="ih-t">✈️ Aviakassa</div>
-    <div class="lts"><button class="lt on" id="aUz" onclick="setLang('uz')">UZ</button><button class="lt" id="aRu" onclick="setLang('ru')">RU</button></div>
-  </div>
+  <div class="ih"><button class="bk" onclick="closeInner()">‹</button><div class="ih-t">✈️ Aviakassa</div><div class="lts"><button class="lt on" id="aUz" onclick="setLang('uz')">UZ</button><button class="lt" id="aRu" onclick="setLang('ru')">RU</button></div></div>
   <div class="pb">
-    <div class="icard"><p data-uz="Siz aviakassa bo'limidasiz. Biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishing va bron qiling." data-ru="Вы в разделе авиакасса. Свяжитесь с нами, ознакомьтесь с ценами и оформите бронирование.">Siz aviakassa bo'limidasiz. Biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishing va bron qiling.</p></div>
-    <a href="https://t.me/OMAD_TOUR9094" target="_blank" class="lrow" onclick="haptic('light')">
-      <span class="l-ic">💬</span><div><div class="l-sb">Telegram</div><div>@OMAD_TOUR9094</div></div>
-    </a>
-    <a href="https://wa.me/79811939094" target="_blank" class="lrow" onclick="haptic('light')">
-      <span class="l-ic">📱</span><div><div class="l-sb">WhatsApp</div><div>+7 981 193 9094</div></div>
-    </a>
-    <a href="https://max.ru/u/f9LHodD0cOLLpEmAWC_I3iUUWcn5IO6DFYg0IVz4jEXfm6BJP6OL-L7V0jk" target="_blank" class="lrow" onclick="haptic('light')">
-      <span class="l-ic">🔗</span><div><div class="l-sb">MAX</div><div>max.ru — OMAD TOUR</div></div>
-    </a>
-    <div class="pbig">
-      <a href="tel:+79811939094" class="pb2" onclick="haptic('medium')">📞 +7 981 193 9094</a>
-      <a href="tel:+79379499094" class="pb2" onclick="haptic('medium')">📞 +7 937 949 9094</a>
-    </div>
+    <div class="icard"><p data-uz="Siz aviakassa bo'limidasiz. Biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishing va bron qiling." data-ru="Вы в разделе авиакасса. Свяжитесь с нами и оформите бронирование.">Siz aviakassa bo'limidasiz. Biz bilan bog'lanib, qulay aviabilet narxlari bilan tanishing va bron qiling.</p></div>
+    <a href="https://t.me/OMAD_TOUR9094" target="_blank" class="lrow" onclick="haptic('light');trackBtn('tg_avia')"><span class="l-ic">💬</span><div><div class="l-sb">Telegram</div><div>@OMAD_TOUR9094</div></div></a>
+    <a href="https://wa.me/79811939094" target="_blank" class="lrow" onclick="haptic('light');trackBtn('wa_avia')"><span class="l-ic">📱</span><div><div class="l-sb">WhatsApp</div><div>+7 981 193 9094</div></div></a>
+    <a href="https://max.ru/u/f9LHodD0cOLLpEmAWC_I3iUUWcn5IO6DFYg0IVz4jEXfm6BJP6OL-L7V0jk" target="_blank" class="lrow" onclick="haptic('light');trackBtn('max_avia')"><span class="l-ic">🔗</span><div><div class="l-sb">MAX</div><div>max.ru — OMAD TOUR</div></div></a>
+    <div class="pbig"><a href="tel:+79811939094" class="pb2" onclick="haptic('medium');trackBtn('phone1')">📞 +7 981 193 9094</a><a href="tel:+79379499094" class="pb2" onclick="haptic('medium');trackBtn('phone2')">📞 +7 937 949 9094</a></div>
   </div>
 </div>
 
 <!-- ══════════ INNER: VIZA ══════════ -->
 <div class="scr" id="viza">
-  <div class="ih">
-    <button class="bk" onclick="closeInner()">‹</button>
-    <div class="ih-t">🛂 Viza bo'limi</div>
-    <div class="lts"><button class="lt on" id="vUz" onclick="setLang('uz')">UZ</button><button class="lt" id="vRu" onclick="setLang('ru')">RU</button></div>
-  </div>
+  <div class="ih"><button class="bk" onclick="closeInner()">‹</button><div class="ih-t">🛂 Viza bo'limi</div><div class="lts"><button class="lt on" id="vUz" onclick="setLang('uz')">UZ</button><button class="lt" id="vRu" onclick="setLang('ru')">RU</button></div></div>
   <div class="pb">
     <div class="icard"><p data-uz="Viza bo'limida viza javoblarini bilib olishingiz va konsullik bo'limiga murojat qilishingiz mumkin." data-ru="В визовом отделе вы можете узнать ответы по визам и обратиться в консульский отдел.">Viza bo'limida viza javoblarini bilib olishingiz va konsullik bo'limiga murojat qilishingiz mumkin.</p></div>
-    <a href="https://visa.mfa.uz/ruxsat/view" target="_blank" class="lrow" onclick="haptic('light')">
-      <span class="l-ic">📋</span><div><div class="l-sb" data-uz="Viza javoblari" data-ru="Ответы по визам">Viza javoblari</div><div>visa.mfa.uz</div></div>
-    </a>
-    <a href="https://t.me/+i8I6ByH_CUVhOWQy" target="_blank" class="lrow" onclick="haptic('light')">
-      <span class="l-ic">🏛️</span><div><div class="l-sb" data-uz="Bosh konsulxona SPb" data-ru="Генконсульство СПб">Bosh konsulxona SPb</div><div data-uz="Telegram kanal" data-ru="Telegram канал">Telegram kanal</div></div>
-    </a>
+    <a href="https://visa.mfa.uz/ruxsat/view" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">📋</span><div><div class="l-sb" data-uz="Viza javoblari" data-ru="Ответы по визам">Viza javoblari</div><div>visa.mfa.uz</div></div></a>
+    <a href="https://t.me/+i8I6ByH_CUVhOWQy" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">🏛️</span><div><div class="l-sb" data-uz="Bosh konsulxona SPb" data-ru="Генконсульство СПб">Bosh konsulxona SPb</div><div data-uz="Telegram kanal" data-ru="Telegram канал">Telegram kanal</div></div></a>
   </div>
 </div>
 
 <!-- ══════════ INNER: GURUH ══════════ -->
 <div class="scr" id="guruh">
-  <div class="ih">
-    <button class="bk" onclick="closeInner()">‹</button>
-    <div class="ih-t">👥 Guruhlarimiz</div>
-    <div class="lts"><button class="lt on" id="gUz" onclick="setLang('uz')">UZ</button><button class="lt" id="gRu" onclick="setLang('ru')">RU</button></div>
-  </div>
+  <div class="ih"><button class="bk" onclick="closeInner()">‹</button><div class="ih-t">👥 Guruhlarimiz</div><div class="lts"><button class="lt on" id="gUz" onclick="setLang('uz')">UZ</button><button class="lt" id="gRu" onclick="setLang('ru')">RU</button></div></div>
   <div class="pb">
     <div class="icard"><p data-uz="Bu yerda biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin." data-ru="Здесь вы можете узнать актуальные цены на билеты по дням.">Bu yerda biletlar narxini qaysi kunda qancha turganini bilib borishingiz mumkin.</p></div>
-    <a href="https://t.me/+OW_pzYSHjIA5NmQy" target="_blank" class="lrow" onclick="haptic('light')">
-      <span class="l-ic">📢</span><div><div class="l-sb" data-uz="Telegram guruh" data-ru="Telegram группа">Telegram guruh</div><div>OMAD TOUR Telegram</div></div>
-    </a>
-    <a href="https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t" target="_blank" class="lrow" onclick="haptic('light')">
-      <span class="l-ic">💬</span><div><div class="l-sb" data-uz="WhatsApp guruh" data-ru="WhatsApp группа">WhatsApp guruh</div><div>OMAD TOUR WhatsApp</div></div>
-    </a>
-    <a href="https://max.ru/join/M4-SsjF594_qN-XYZd8YabTAqxvGFRzd30p_N2hRh7c" target="_blank" class="lrow" onclick="haptic('light')">
-      <span class="l-ic">🔗</span><div><div class="l-sb">MAX guruh</div><div>OMAD TOUR MAX</div></div>
-    </a>
+    <a href="https://t.me/+OW_pzYSHjIA5NmQy" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">📢</span><div><div class="l-sb" data-uz="Telegram guruh" data-ru="Telegram группа">Telegram guruh</div><div>OMAD TOUR Telegram</div></div></a>
+    <a href="https://chat.whatsapp.com/KgnvfhpMYso6lSX3kbNd4l?mode=gi_t" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">💬</span><div><div class="l-sb" data-uz="WhatsApp guruh" data-ru="WhatsApp группа">WhatsApp guruh</div><div>OMAD TOUR WhatsApp</div></div></a>
+    <a href="https://max.ru/join/M4-SsjF594_qN-XYZd8YabTAqxvGFRzd30p_N2hRh7c" target="_blank" class="lrow" onclick="haptic('light')"><span class="l-ic">🔗</span><div><div class="l-sb">MAX guruh</div><div>OMAD TOUR MAX</div></div></a>
   </div>
 </div>
 
 <!-- ══════════ INNER: OFIS ══════════ -->
 <div class="scr" id="ofis">
-  <div class="ih">
-    <button class="bk" onclick="closeInner()">‹</button>
-    <div class="ih-t">🖨️ Ofis xizmatlari</div>
-    <div class="lts"><button class="lt on" id="oUz" onclick="setLang('uz')">UZ</button><button class="lt" id="oRu" onclick="setLang('ru')">RU</button></div>
-  </div>
+  <div class="ih"><button class="bk" onclick="closeInner()">‹</button><div class="ih-t">🖨️ Ofis xizmatlari</div><div class="lts"><button class="lt on" id="oUz" onclick="setLang('uz')">UZ</button><button class="lt" id="oRu" onclick="setLang('ru')">RU</button></div></div>
   <div class="pb">
     <div class="ptbl">
-      <div class="ps">
-        <div class="ps-h" data-uz="Nusxa ko'chirish" data-ru="Копирование">Nusxa ko'chirish</div>
-        <div class="ps-r"><span class="ps-n" data-uz="Qora-oq" data-ru="Чёрно-белая">Qora-oq</span><span class="ps-p">35 ₽</span></div>
-        <div class="ps-r"><span class="ps-n" data-uz="Ikki tomonlama" data-ru="Двухсторонняя">Ikki tomonlama</span><span class="ps-p">50 ₽</span></div>
-        <div class="ps-r"><span class="ps-n" data-uz="Rangli" data-ru="Цветная">Rangli</span><span class="ps-p">50 ₽</span></div>
-        <div class="ps-r"><span class="ps-n" data-uz="Skan" data-ru="Скан">Skan</span><span class="ps-p">50 ₽</span></div>
-      </div>
-      <div class="ps">
-        <div class="ps-h" data-uz="Fotosurat" data-ru="Фотография">Fotosurat</div>
-        <div class="ps-r"><span class="ps-n">Фото 3×4</span><span class="ps-p">400 ₽</span></div>
-        <div class="ps-r"><span class="ps-n" data-uz="Elektron foto" data-ru="Фото эл.">Elektron foto</span><span class="ps-p">250 ₽</span></div>
-        <div class="ps-r"><span class="ps-n">Фото 2×3</span><span class="ps-p">400 ₽</span></div>
-      </div>
-      <div class="ps">
-        <div class="ps-h" data-uz="Hujjatlar" data-ru="Документы">Hujjatlar</div>
-        <div class="ps-r"><span class="ps-n">Загранпаспорт</span><span class="ps-p">1000 ₽</span></div>
-        <div class="ps-r"><span class="ps-n">Возвращение</span><span class="ps-p">500 ₽</span></div>
-        <div class="ps-r"><span class="ps-n">Консульский учёт</span><span class="ps-p">500 ₽</span></div>
-        <div class="ps-r"><span class="ps-n">Транзитная виза</span><span class="ps-p">1000 ₽</span></div>
-      </div>
+      <div class="ps"><div class="ps-h" data-uz="Nusxa ko'chirish" data-ru="Копирование">Nusxa ko'chirish</div><div class="ps-r"><span class="ps-n" data-uz="Qora-oq" data-ru="Чёрно-белая">Qora-oq</span><span class="ps-p">35 ₽</span></div><div class="ps-r"><span class="ps-n" data-uz="Ikki tomonlama" data-ru="Двухсторонняя">Ikki tomonlama</span><span class="ps-p">50 ₽</span></div><div class="ps-r"><span class="ps-n" data-uz="Rangli" data-ru="Цветная">Rangli</span><span class="ps-p">50 ₽</span></div><div class="ps-r"><span class="ps-n" data-uz="Skan" data-ru="Скан">Skan</span><span class="ps-p">50 ₽</span></div></div>
+      <div class="ps"><div class="ps-h" data-uz="Fotosurat" data-ru="Фотография">Fotosurat</div><div class="ps-r"><span class="ps-n">Фото 3×4</span><span class="ps-p">400 ₽</span></div><div class="ps-r"><span class="ps-n" data-uz="Elektron foto" data-ru="Фото эл.">Elektron foto</span><span class="ps-p">250 ₽</span></div><div class="ps-r"><span class="ps-n">Фото 2×3</span><span class="ps-p">400 ₽</span></div></div>
+      <div class="ps"><div class="ps-h" data-uz="Hujjatlar" data-ru="Документы">Hujjatlar</div><div class="ps-r"><span class="ps-n">Загранпаспорт</span><span class="ps-p">1000 ₽</span></div><div class="ps-r"><span class="ps-n">Возвращение</span><span class="ps-p">500 ₽</span></div><div class="ps-r"><span class="ps-n">Консульский учёт</span><span class="ps-p">500 ₽</span></div><div class="ps-r"><span class="ps-n">Транзитная виза</span><span class="ps-p">1000 ₽</span></div></div>
     </div>
-
     <div class="oform">
       <div style="font-family:'Syne',sans-serif;font-size:.93rem;font-weight:800;color:var(--acc2);" data-uz="📦 Buyurtma" data-ru="📦 Заказ">📦 Buyurtma</div>
       <div>
-        <div class="fl" data-uz="Ismingiz *" data-ru="Ваше имя *">Ismingiz <span class="freq">*</span></div>
-        <input class="fi" id="oNm" type="text" autocomplete="off"/>
+        <div class="fl" data-uz="Telegram username / Ismingiz *" data-ru="Username / Ваше имя *">Telegram username / Ismingiz <span class="freq">*</span></div>
+        <input class="fi" id="oNm" type="text" autocomplete="off" placeholder="@username yoki ismingiz"/>
       </div>
       <div>
         <div class="fl" data-uz="Tel raqam *" data-ru="Телефон *">Tel raqam <span class="freq">*</span></div>
         <div class="fw">
           <div style="position:relative;">
-            <div class="fls" id="fls" onclick="tgFlag()">
-              <span id="fEm">🇷🇺</span><span id="fCd">+7</span><span style="font-size:.62rem;color:var(--mut);">▾</span>
-              <div class="fdrop" id="fdrop">
-                <div class="fdo" onclick="setFlag('ru')">🇷🇺 +7 Россия</div>
-                <div class="fdo" onclick="setFlag('uz')">🇺🇿 +998 Ўзбекистон</div>
-              </div>
+            <div class="fls" id="fls" onclick="tgFlag()"><span id="fEm">🇷🇺</span><span id="fCd">+7</span><span style="font-size:.62rem;color:var(--mut);">▾</span>
+              <div class="fdrop" id="fdrop"><div class="fdo" onclick="setFlag('ru')">🇷🇺 +7 Россия</div><div class="fdo" onclick="setFlag('uz')">🇺🇿 +998 Ўзбекистон</div></div>
             </div>
           </div>
           <input class="fi" id="oPh" type="tel" style="flex:1;" placeholder="900 000 00 00"/>
         </div>
       </div>
-      <div>
-        <div class="fl" data-uz="Xizmat / savol" data-ru="Услуга / вопрос">Xizmat / savol</div>
-        <textarea class="fta" id="oNt" rows="3"></textarea>
-      </div>
-      <button class="sbtn" onclick="submitOrder()" data-uz="Yuborish ✉️" data-ru="Отправить ✉️">Yuborish ✉️</button>
+      <div><div class="fl" data-uz="Xizmat / savol" data-ru="Услуга / вопрос">Xizmat / savol</div><textarea class="fta" id="oNt" rows="3"></textarea></div>
+      <button class="sbtn" onclick="submitOrder();trackBtn('order')" data-uz="Yuborish ✉️" data-ru="Отправить ✉️">Yuborish ✉️</button>
       <div class="sok" id="sok"></div>
     </div>
   </div>
@@ -708,24 +541,30 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 
 <!-- ══════════ JS ══════════ -->
 <script>
+/* ══ CONFIG ══ */
 const BOT   = '8564514766:AAEXi5C6MzvB4466QI3e1LKJHDcwjwx5RX4';
 const ADMIN = '7359558983';
 
+/* ══ ADMIN CREDENTIALS ══ */
+const ADMIN_LOGIN    = 'muxiw2';
+const ADMIN_PASS     = 'm20062601';
+const ADMIN_TG_ID    = '7359558983';
+const ADMIN_USERNAME = 'AVIAKASSA9094';
+
 /* ══ TELEGRAM ══ */
-let tg = null, tgUser = null, tgPhoto = null;
+let tg = null, tgUser = null;
 try {
   tg = window.Telegram?.WebApp;
   if (tg) { tg.expand(); tg.setHeaderColor('#05080F'); tg.setBackgroundColor('#05080F'); }
   tgUser = tg?.initDataUnsafe?.user || null;
 } catch(e) {}
 
-const myId   = tgUser?.id         ? String(tgUser.id)   : null;
-const myUser = tgUser?.username   || null;
-const myFirst= tgUser?.first_name || 'Mehmon';
-const myLast = tgUser?.last_name  || '';
-const myFull = (myFirst + (myLast ? ' ' + myLast : '')).trim();
+const myId       = tgUser?.id         ? String(tgUser.id)   : null;
+const myUser     = tgUser?.username   || null;
+const myFirst    = tgUser?.first_name || 'Mehmon';
+const myLast     = tgUser?.last_name  || '';
+const myFull     = (myFirst + (myLast ? ' ' + myLast : '')).trim();
 const myLangCode = tgUser?.language_code || 'uz';
-const isPrem = tgUser?.is_premium || false;
 
 /* ══ HAPTIC ══ */
 function haptic(t='light')   { try { tg?.HapticFeedback?.impactOccurred(t); } catch(e) {} }
@@ -735,8 +574,7 @@ function hapticN(t='success'){ try { tg?.HapticFeedback?.notificationOccurred(t)
 let lang = localStorage.getItem('omad_lang') || (myLangCode === 'ru' ? 'ru' : 'uz');
 
 function setLang(l) {
-  lang = l;
-  localStorage.setItem('omad_lang', l);
+  lang = l; localStorage.setItem('omad_lang', l);
   document.querySelectorAll('.lt').forEach(b => {
     const id = b.id || '';
     if (id.slice(-2) === 'Uz') b.classList.toggle('on', l === 'uz');
@@ -748,14 +586,50 @@ function setLang(l) {
     if (el.children.length === 0) el.textContent = v;
     else el.innerHTML = v;
   });
-  updLcBtns();
+  updLc();
+}
+function updLc() {
+  const u = document.getElementById('lcUz'), r = document.getElementById('lcRu');
+  if (u) u.classList.toggle('on', lang === 'uz');
+  if (r) r.classList.toggle('on', lang === 'ru');
 }
 
-function updLcBtns() {
-  const u = document.getElementById('lcUz');
-  const r = document.getElementById('lcRu');
-  if (u) { u.classList.toggle('on', lang === 'uz'); }
-  if (r) { r.classList.toggle('on', lang === 'ru'); }
+/* ══ ANALYTICS — localStorage asosida ══ */
+const STORE_KEY = 'omad_analytics';
+
+function getAnalytics() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { return {}; }
+}
+function saveAnalytics(data) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function trackVisit() {
+  const data = getAnalytics();
+  if (!data.visits) data.visits = [];
+  const now = Date.now();
+  const visit = {
+    ts: now,
+    id: myId || 'guest',
+    name: myFull,
+    username: myUser || '',
+    lang: myLangCode,
+    platform: tg?.platform || 'web'
+  };
+  // deduplicate same user same day
+  const today = new Date().toDateString();
+  const alreadyToday = data.visits.some(v => v.id === visit.id && new Date(v.ts).toDateString() === today);
+  if (!alreadyToday) {
+    data.visits.push(visit);
+    saveAnalytics(data);
+  }
+}
+
+function trackBtn(btn) {
+  const data = getAnalytics();
+  if (!data.buttons) data.buttons = {};
+  data.buttons[btn] = (data.buttons[btn] || 0) + 1;
+  saveAnalytics(data);
 }
 
 /* ══ ONBOARDING ══ */
@@ -763,15 +637,12 @@ let obI = 0;
 const obSls = document.querySelectorAll('.ob-sl');
 const obDs  = document.querySelectorAll('.ob-dot');
 
-(function buildParticles() {
+(function() {
   const w = document.getElementById('obPts');
-  for (let i = 0; i < 12; i++) {
-    const p = document.createElement('div');
-    p.className = 'ob-p';
+  for (let i = 0; i < 11; i++) {
+    const p = document.createElement('div'); p.className = 'ob-p';
     const s = 16 + Math.random() * 58;
-    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;` +
-      `animation-duration:${4+Math.random()*7}s;animation-delay:${Math.random()*5}s;` +
-      `opacity:${.035+Math.random()*.1}`;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${4+Math.random()*7}s;animation-delay:${Math.random()*5}s;opacity:${.035+Math.random()*.1}`;
     w.appendChild(p);
   }
 })();
@@ -782,134 +653,99 @@ function goSl(n) {
   setTimeout(() => obSls[prev].classList.remove('ex'), 520);
   obSls[obI].classList.add('act');
   obDs.forEach((d, i) => d.classList.toggle('act', i === obI));
-  document.getElementById('obBtn').textContent =
-    obI === obSls.length - 1
-      ? (lang === 'uz' ? 'Boshlash 🚀' : 'Начать 🚀')
-      : (lang === 'uz' ? 'Davom etish →' : 'Далее →');
+  document.getElementById('obBtn').textContent = obI === obSls.length - 1 ? 'Boshlash 🚀' : 'Davom etish →';
   haptic('light');
 }
-
-function nextSl() {
-  haptic('light');
-  if (obI < obSls.length - 1) goSl(obI + 1);
-  else finOb();
-}
-
+function nextSl() { haptic('light'); if (obI < obSls.length - 1) goSl(obI + 1); else finOb(); }
 function finOb() {
-  hapticN('success');
-  localStorage.setItem('omad_ob', '1');
+  hapticN('success'); localStorage.setItem('omad_ob', '1');
   const o = document.getElementById('ob');
-  o.style.transition = 'opacity .5s, transform .5s';
-  o.style.opacity = '0'; o.style.transform = 'scale(.95)';
+  o.style.transition = 'opacity .5s,transform .5s'; o.style.opacity = '0'; o.style.transform = 'scale(.95)';
   setTimeout(() => { o.style.display = 'none'; startApp(); }, 500);
 }
-
-if (localStorage.getItem('omad_ob') === '1') {
-  document.getElementById('ob').style.display = 'none';
-  startApp();
-}
+if (localStorage.getItem('omad_ob') === '1') { document.getElementById('ob').style.display = 'none'; startApp(); }
 
 /* ══ APP START ══ */
 function startApp() {
   document.getElementById('bnav').style.display = 'flex';
+  trackVisit();
   buildProfile();
   buildChart();
   setLang(lang);
-  // Hero name
-  if (myFirst && myFirst !== 'Mehmon') {
-    document.getElementById('heroName').textContent = myFirst;
-  }
+  if (myFirst && myFirst !== 'Mehmon') document.getElementById('heroName').textContent = myFirst;
+  // auto-fill order name
+  const oNm = document.getElementById('oNm');
+  if (oNm) oNm.value = myUser ? '@' + myUser : myFull;
+  // update total users display
+  const data = getAnalytics();
+  const total = 2148 + (data.visits ? data.visits.length : 0);
+  const el = document.getElementById('homeTotalUsers');
+  if (el) el.textContent = total.toLocaleString();
 }
 
 /* ══ PROFILE ══ */
 async function buildProfile() {
-  // Full name
-  document.getElementById('profName').textContent  = myFull || 'OMAD TOUR Foydalanuvchisi';
+  document.getElementById('profName').textContent  = myFull || 'Foydalanuvchi';
   document.getElementById('piFullName').textContent = myFull || '—';
-
-  // Username
   if (myUser) {
-    document.getElementById('profUsername').textContent  = '@' + myUser;
-    document.getElementById('piUsername').textContent    = '@' + myUser;
+    document.getElementById('profUname').textContent = '@' + myUser;
+    document.getElementById('piUsername').textContent = '@' + myUser;
   } else {
-    document.getElementById('piUsernameRow').style.display = 'none';
-    document.getElementById('profUsername').textContent = lang === 'uz' ? 'Username yo\'q' : 'Нет username';
+    const row = document.getElementById('piUnRow');
+    if (row) row.style.display = 'none';
+    document.getElementById('profUname').textContent = '';
   }
-
-  // ID
   const idVal = myId || '—';
   document.getElementById('profIdChip').textContent = idVal;
-  document.getElementById('piId').textContent        = idVal;
-
-  // Lang code
-  const langMap = { uz:'O\'zbek 🇺🇿', ru:'Русский 🇷🇺', en:'English 🇬🇧', de:'Deutsch 🇩🇪', fr:'Français 🇫🇷', tr:'Türkçe 🇹🇷' };
+  document.getElementById('piId').textContent = idVal;
+  const langMap = {uz:"O'zbek 🇺🇿",ru:'Русский 🇷🇺',en:'English 🇬🇧',de:'Deutsch 🇩🇪',tr:'Türkçe 🇹🇷'};
   document.getElementById('piLang').textContent = langMap[myLangCode] || (myLangCode || '—').toUpperCase();
-
-  // Platform
-  const plat = tg?.platform || 'unknown';
-  document.getElementById('piPlat').textContent = `Telegram Mini App (${plat})`;
-
-  // Avatar
+  document.getElementById('piPlat').textContent = `Telegram Mini App (${tg?.platform || 'web'})`;
   buildAvatar();
 }
 
 function buildAvatar() {
-  const wrap = document.getElementById('profAvatarWrap');
-  // Try to get photo via bot API (only works if user started bot)
+  const wrap = document.getElementById('profAv');
   if (myId) {
     fetch(`https://api.telegram.org/bot${BOT}/getUserProfilePhotos?user_id=${myId}&limit=1`)
       .then(r => r.json())
-      .then(data => {
-        if (data.ok && data.result?.total_count > 0) {
-          const fileId = data.result.photos[0][0].file_id;
-          return fetch(`https://api.telegram.org/bot${BOT}/getFile?file_id=${fileId}`);
+      .then(d => {
+        if (d.ok && d.result?.total_count > 0) {
+          return fetch(`https://api.telegram.org/bot${BOT}/getFile?file_id=${d.result.photos[0][0].file_id}`);
         }
-        throw new Error('no photo');
+        throw new Error('no');
       })
       .then(r => r.json())
-      .then(data => {
-        if (data.ok && data.result?.file_path) {
-          const url = `https://api.telegram.org/file/bot${BOT}/${data.result.file_path}`;
+      .then(d => {
+        if (d.ok && d.result?.file_path) {
           const img = document.createElement('img');
           img.className = 'prof-avatar';
-          img.src = url;
-          img.alt = 'avatar';
-          img.onerror = () => setDefaultAvatar(wrap);
-          wrap.innerHTML = '';
-          wrap.appendChild(img);
-        } else { setDefaultAvatar(wrap); }
+          img.src = `https://api.telegram.org/file/bot${BOT}/${d.result.file_path}`;
+          img.onerror = () => defAvatar(wrap);
+          wrap.innerHTML = ''; wrap.appendChild(img);
+        } else defAvatar(wrap);
       })
-      .catch(() => setDefaultAvatar(wrap));
-  } else {
-    setDefaultAvatar(wrap);
-  }
+      .catch(() => defAvatar(wrap));
+  } else defAvatar(wrap);
 }
-
-function setDefaultAvatar(wrap) {
+function defAvatar(wrap) {
   const letter = (myFirst || 'O')[0].toUpperCase();
-  const colors = ['#1D4ED8,#3B82F6','#7C3AED,#A78BFA','#0891B2,#22D3EE','#059669,#34D399','#DC2626,#F87171'];
-  const col = colors[Math.abs((myId || '0').split('').reduce((a,c)=>a+c.charCodeAt(0),0)) % colors.length];
-  wrap.innerHTML = `<div class="prof-avatar-default" style="background:linear-gradient(135deg,${col});">${letter}</div>`;
+  const cols = ['#1D4ED8,#3B82F6','#7C3AED,#A78BFA','#0891B2,#22D3EE','#059669,#34D399'];
+  const col = cols[parseInt(myId || '0') % cols.length];
+  wrap.innerHTML = `<div class="prof-avatar-def" style="background:linear-gradient(135deg,${col});">${letter}</div>`;
 }
 
 /* ══ COPY ══ */
-function copyId() {
-  const v = myId || '—';
-  copy(v, lang === 'uz' ? 'ID nusxalandi!' : 'ID скопирован!');
-}
-function copyUsername() {
-  const v = myUser ? '@' + myUser : '—';
-  copy(v, lang === 'uz' ? 'Username nusxalandi!' : 'Username скопирован!');
-}
+function copyId()       { copy(myId || '—', 'ID nusxalandi! ✅'); }
+function copyUsername() { copy(myUser ? '@'+myUser : '—', 'Username nusxalandi! ✅'); }
 function copy(text, msg) {
   haptic('medium');
-  try {
-    navigator.clipboard.writeText(text).then(() => toast(msg)).catch(() => fallbackCopy(text, msg));
-  } catch(e) { fallbackCopy(text, msg); }
+  try { navigator.clipboard.writeText(text).then(() => toast(msg)).catch(() => fbCopy(text, msg)); }
+  catch(e) { fbCopy(text, msg); }
 }
-function fallbackCopy(text, msg) {
+function fbCopy(text, msg) {
   const el = document.createElement('textarea');
-  el.value = text; el.style.position = 'fixed'; el.style.opacity = '0';
+  el.value = text; el.style.cssText = 'position:fixed;opacity:0';
   document.body.appendChild(el); el.select();
   try { document.execCommand('copy'); toast(msg); } catch(e) {}
   document.body.removeChild(el);
@@ -917,7 +753,7 @@ function fallbackCopy(text, msg) {
 
 /* ══ NAV ══ */
 let activeMain = 'home', innerOpen = null;
-const mains = ['home', 'stats', 'notifs', 'profile'];
+const mains = ['home', 'stats', 'profile'];
 
 function navTo(id, btn) {
   haptic('light');
@@ -927,13 +763,8 @@ function navTo(id, btn) {
   document.querySelectorAll('.ni').forEach(b => b.classList.remove('act'));
   btn.classList.add('act');
   activeMain = id;
-  if (id === 'notifs') {
-    document.getElementById('notifBdg').classList.remove('on');
-    document.getElementById('notifBdg').textContent = '0';
-  }
   setLang(lang);
 }
-
 function openInner(id) {
   haptic('medium');
   mains.forEach(s => document.getElementById(s).classList.remove('act'));
@@ -942,7 +773,6 @@ function openInner(id) {
   document.getElementById('bnav').style.display = 'none';
   setLang(lang);
 }
-
 function closeInner() { haptic('light'); closeInnerSilent(); }
 function closeInnerSilent() {
   if (innerOpen) { document.getElementById(innerOpen).classList.remove('act'); innerOpen = null; }
@@ -958,46 +788,26 @@ function toast(msg) {
   setTimeout(() => t.classList.remove('on'), 2500);
 }
 
-/* ══ NOTIFS ══ */
-function rdN(el) {
-  haptic('light');
-  el.classList.remove('unr');
-  const bd = el.querySelector('.n-bd');
-  if (bd) bd.remove();
-}
-
 /* ══ CHART ══ */
 function buildChart() {
-  const d  = [45,62,55,78,90,105,88,120,95,110,130,148];
-  const lb = ['Y','F','M','A','M','I','I','A','S','O','N','D'];
+  const d=[45,62,55,78,90,105,88,120,95,110,130,148], lb=['Y','F','M','A','M','I','I','A','S','O','N','D'];
   const mx = Math.max(...d);
-  const c  = document.getElementById('bch');
-  if (!c) return;
-  c.innerHTML = '';
-  d.forEach((v, i) => {
-    const it = document.createElement('div');
-    it.className = 'bi';
-    const pct = Math.round(v / mx * 100);
+  const c = document.getElementById('bch'); if (!c) return; c.innerHTML = '';
+  d.forEach((v,i) => {
+    const it = document.createElement('div'); it.className = 'bi';
+    const pct = Math.round(v/mx*100);
     it.innerHTML = `<div class="bf" style="height:0" data-h="${pct}"></div><div class="bl">${lb[i]}</div>`;
     c.appendChild(it);
   });
-  setTimeout(() => {
-    document.querySelectorAll('.bf').forEach(b => {
-      b.style.height = (parseInt(b.dataset.h) * 0.7) + 'px';
-    });
-  }, 350);
+  setTimeout(() => document.querySelectorAll('.bf').forEach(b => b.style.height=(parseInt(b.dataset.h)*.7)+'px'), 350);
 }
 
 /* ══ FLAG / ORDER ══ */
-function tgFlag() {
-  document.getElementById('fdrop').classList.toggle('op');
-  document.getElementById('fls').classList.toggle('op');
-}
+function tgFlag() { document.getElementById('fdrop').classList.toggle('op'); document.getElementById('fls').classList.toggle('op'); }
 function setFlag(c) {
-  document.getElementById('fdrop').classList.remove('op');
-  document.getElementById('fls').classList.remove('op');
-  document.getElementById('fEm').textContent = c === 'ru' ? '🇷🇺' : '🇺🇿';
-  document.getElementById('fCd').textContent  = c === 'ru' ? '+7'  : '+998';
+  document.getElementById('fdrop').classList.remove('op'); document.getElementById('fls').classList.remove('op');
+  document.getElementById('fEm').textContent = c==='ru'?'🇷🇺':'🇺🇿';
+  document.getElementById('fCd').textContent  = c==='ru'?'+7':'+998';
   haptic('light');
 }
 document.addEventListener('click', e => {
@@ -1010,32 +820,227 @@ async function submitOrder() {
   const ph = document.getElementById('oPh').value.trim();
   const cd = document.getElementById('fCd').textContent;
   const nt = document.getElementById('oNt').value.trim();
-  if (!nm) { document.getElementById('oNm').focus(); hapticN('error'); toast(lang==='uz'?'Ismingizni kiriting!':'Введите имя!'); return; }
-  if (!ph) { document.getElementById('oPh').focus(); hapticN('error'); toast(lang==='uz'?'Telefon kiriting!':'Введите телефон!'); return; }
+  if (!nm) { document.getElementById('oNm').focus(); hapticN('error'); toast('Ismingizni kiriting!'); return; }
+  if (!ph) { document.getElementById('oPh').focus(); hapticN('error'); toast('Telefon kiriting!'); return; }
   haptic('medium');
-  const txt =
-    `📦 *Yangi buyurtma*\n\n` +
-    `👤 Ism: ${nm}\n` +
-    `📞 Tel: ${cd}${ph}\n` +
-    `📝 Xizmat: ${nt || '—'}\n` +
-    `🔗 TG: ${myUser ? '@' + myUser : (myId ? 'ID: ' + myId : 'Noma\'lum')}`;
-  try {
-    await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: ADMIN, text: txt, parse_mode: 'Markdown' })
-    });
-  } catch(e) {}
+  const txt = `📦 *Yangi buyurtma*\n\n👤 ${nm}\n📞 ${cd}${ph}\n📝 ${nt||'—'}\n🔗 TG: ${myUser?'@'+myUser:(myId||'—')}`;
+  try { await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:ADMIN,text:txt,parse_mode:'Markdown'})}); } catch(e){}
   hapticN('success');
   const ok = document.getElementById('sok');
-  ok.textContent = lang === 'uz' ? '✅ Buyurtmangiz qabul qilindi!' : '✅ Ваш заказ принят!';
+  ok.textContent = lang==='uz'?'✅ Buyurtmangiz qabul qilindi!':'✅ Ваш заказ принят!';
   ok.style.display = 'block';
-  document.getElementById('oNm').value = '';
-  document.getElementById('oPh').value = '';
-  document.getElementById('oNt').value = '';
-  toast(lang === 'uz' ? 'Buyurtma yuborildi!' : 'Заказ отправлен!');
-  setTimeout(() => ok.style.display = 'none', 4000);
+  document.getElementById('oPh').value = ''; document.getElementById('oNt').value = '';
+  toast(lang==='uz'?'Buyurtma yuborildi!':'Заказ отправлен!');
+  setTimeout(() => ok.style.display='none', 4000);
 }
+
+/* ══ ADMIN — yashirin kirish ══ */
+let adminTapCount = 0, adminTapTimer = null;
+
+function onAdminTap() {
+  // Faqat Telegram ID yoki username mos kelsa login oynasini ko'rsatamiz
+  const isOwner = (myId === ADMIN_TG_ID) || (myUser && myUser.toLowerCase() === ADMIN_USERNAME.toLowerCase().replace('@',''));
+  if (!isOwner) return; // boshqa hech kim bilmaydi
+  adminTapCount++;
+  clearTimeout(adminTapTimer);
+  adminTapTimer = setTimeout(() => adminTapCount = 0, 2000);
+  if (adminTapCount >= 3) {
+    adminTapCount = 0;
+    showAdminLogin();
+  }
+}
+
+function showAdminLogin() {
+  haptic('medium');
+  document.getElementById('adminLogin').style.display = 'flex';
+  setTimeout(() => document.getElementById('alUser')?.focus(), 300);
+}
+
+function closeAdminLogin() {
+  haptic('light');
+  document.getElementById('adminLogin').style.display = 'none';
+  document.getElementById('alErr').style.display = 'none';
+  document.getElementById('alUser').value = '';
+  document.getElementById('alPass').value = '';
+}
+
+function doAdminLogin() {
+  const u = document.getElementById('alUser').value.trim();
+  const p = document.getElementById('alPass').value.trim();
+
+  // Triple check: login + parol + Telegram ID
+  const idOk   = myId === ADMIN_TG_ID;
+  const unOk   = myUser && myUser.toLowerCase() === ADMIN_USERNAME.toLowerCase().replace('@','');
+  const credOk = u === ADMIN_LOGIN && p === ADMIN_PASS;
+
+  if (credOk && (idOk || unOk)) {
+    hapticN('success');
+    localStorage.setItem('omad_admin_auth', '1');
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('alUser').value = '';
+    document.getElementById('alPass').value = '';
+    openAdminPanel();
+  } else {
+    hapticN('error');
+    document.getElementById('alErr').style.display = 'block';
+    document.getElementById('alPass').value = '';
+    setTimeout(() => document.getElementById('alErr').style.display = 'none', 3000);
+  }
+}
+
+function adminLogout() {
+  haptic('light');
+  localStorage.removeItem('omad_admin_auth');
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('bnav').style.display = 'flex';
+  toast('Admin paneldan chiqildi');
+}
+
+/* ══ ADMIN PANEL ══ */
+function openAdminPanel() {
+  document.getElementById('bnav').style.display = 'none';
+  const panel = document.getElementById('adminPanel');
+  panel.style.display = 'flex';
+  renderAdminPanel();
+}
+
+function renderAdminPanel() {
+  const data = getAnalytics();
+  const visits   = data.visits   || [];
+  const buttons  = data.buttons  || {};
+  const now      = new Date();
+  const todayStr = now.toDateString();
+
+  const todayVisits  = visits.filter(v => new Date(v.ts).toDateString() === todayStr);
+  const uniqueUsers  = [...new Set(visits.map(v => v.id))].length;
+  const totalVisits  = visits.length;
+
+  // source stats
+  const srcCount = { telegram: 0, whatsapp: 0, max: 0 };
+  Object.entries(buttons).forEach(([k, v]) => {
+    if (k.includes('tg'))   srcCount.telegram  += v;
+    if (k.includes('wa'))   srcCount.whatsapp  += v;
+    if (k.includes('max'))  srcCount.max       += v;
+  });
+
+  // button stats
+  const btnLabels = {
+    avia:   {ic:'✈️', t:'Aviakassa'},
+    viza:   {ic:'🛂', t:'Viza bo\'limi'},
+    guruh:  {ic:'👥', t:'Guruhlarimiz'},
+    ofis:   {ic:'🖨️', t:'Ofis xizmatlari'},
+    order:  {ic:'📦', t:'Buyurtma yuborish'},
+    phone1: {ic:'📞', t:'+7 981 193 9094'},
+    phone2: {ic:'📞', t:'+7 937 949 9094'},
+    tg_avia:{ic:'💬', t:'Telegram (Avia)'},
+    wa_avia:{ic:'📱', t:'WhatsApp (Avia)'},
+    max_avia:{ic:'🔗', t:'MAX (Avia)'},
+  };
+  const maxBtn = Math.max(1, ...Object.values(buttons));
+
+  // unique users list (last 20)
+  const userMap = {};
+  visits.forEach(v => { userMap[v.id] = v; });
+  const userList = Object.values(userMap).slice(-20).reverse();
+
+  const html = `
+  <div class="ap-hero">
+    <div class="ap-hero-t">🎛 Boshqaruv paneli</div>
+    <div class="ap-hero-s">OMAD TOUR · Admin: @${ADMIN_USERNAME}</div>
+  </div>
+
+  <div class="ap-grid4">
+    <div class="ap-stat"><div class="ap-stat-v">${totalVisits}</div><div class="ap-stat-l">Jami kirish</div><div class="ap-stat-t">↑ Hammasi</div></div>
+    <div class="ap-stat"><div class="ap-stat-v">${uniqueUsers}</div><div class="ap-stat-l">Unique user</div><div class="ap-stat-t">↑ Har xil</div></div>
+    <div class="ap-stat"><div class="ap-stat-v">${todayVisits.length}</div><div class="ap-stat-l">Bugun</div><div class="ap-stat-t">↑ Bugungi</div></div>
+    <div class="ap-stat"><div class="ap-stat-v">${Object.values(buttons).reduce((a,b)=>a+b,0)}</div><div class="ap-stat-l">Bosimlar</div><div class="ap-stat-t">↑ Jami</div></div>
+  </div>
+
+  <div class="ap-sec">Qayerdan kirganlar</div>
+  <div class="src-grid">
+    <div class="src-card">
+      <div class="src-ic">💬</div>
+      <div class="src-v">${srcCount.telegram}</div>
+      <div class="src-l">Telegram</div>
+      <div class="src-bar-wrap"><div class="src-bar" style="width:0" data-w="${Math.round(srcCount.telegram/(Math.max(1,srcCount.telegram+srcCount.whatsapp+srcCount.max))*100)}%"></div></div>
+    </div>
+    <div class="src-card">
+      <div class="src-ic">📱</div>
+      <div class="src-v">${srcCount.whatsapp}</div>
+      <div class="src-l">WhatsApp</div>
+      <div class="src-bar-wrap"><div class="src-bar" style="width:0" data-w="${Math.round(srcCount.whatsapp/(Math.max(1,srcCount.telegram+srcCount.whatsapp+srcCount.max))*100)}%"></div></div>
+    </div>
+    <div class="src-card">
+      <div class="src-ic">🔗</div>
+      <div class="src-v">${srcCount.max}</div>
+      <div class="src-l">MAX</div>
+      <div class="src-bar-wrap"><div class="src-bar" style="width:0" data-w="${Math.round(srcCount.max/(Math.max(1,srcCount.telegram+srcCount.whatsapp+srcCount.max))*100)}%"></div></div>
+    </div>
+  </div>
+
+  <div class="ap-sec">Qaysi tugma ko'p bosilgan</div>
+  <div class="btn-list">
+    ${Object.entries(btnLabels).map(([k, info]) => {
+      const cnt = buttons[k] || 0;
+      const pct = Math.round(cnt / maxBtn * 100);
+      return `<div class="btn-stat-row">
+        <div class="bsr-ic">${info.ic}</div>
+        <div class="bsr-b">
+          <div class="bsr-t">${info.t}</div>
+          <div class="bsr-bar"><div class="bsr-fill" style="width:0" data-w="${pct}%"></div></div>
+        </div>
+        <div class="bsr-v">${cnt}</div>
+      </div>`;
+    }).join('')}
+  </div>
+
+  <div class="ap-sec">Foydalanuvchilar (so'nggi ${userList.length})</div>
+  <div class="users-list">
+    ${userList.length === 0 ? '<div style="text-align:center;color:var(--mut);font-size:.82rem;padding:20px;">Hali hech kim kirmagan</div>' :
+      userList.map(u => {
+        const letter = (u.name || 'U')[0].toUpperCase();
+        const time = new Date(u.ts).toLocaleString('uz-UZ', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+        const platIc = u.platform === 'android' ? '🤖' : u.platform === 'ios' ? '🍎' : '💻';
+        const langIc = u.lang === 'ru' ? '🇷🇺' : u.lang === 'uz' ? '🇺🇿' : '🌐';
+        return `<div class="user-card">
+          <div class="uc-av">${letter}</div>
+          <div class="uc-b">
+            <div class="uc-name">${u.name || 'Noma\'lum'}${u.username ? ' · @'+u.username : ''}</div>
+            <div class="uc-info">🆔 ${u.id} · ${platIc} ${u.platform} · ${langIc}</div>
+            <div class="uc-time">📅 ${time}</div>
+          </div>
+        </div>`;
+      }).join('')
+    }
+  </div>
+
+  <div style="text-align:center;padding:10px 0;">
+    <button onclick="clearAnalytics()" style="padding:10px 24px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:20px;color:#F87171;font-size:.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">🗑 Statistikani tozalash</button>
+  </div>
+  `;
+
+  document.getElementById('apBody').innerHTML = html;
+
+  // animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.src-bar[data-w]').forEach(b => b.style.width = b.dataset.w);
+    document.querySelectorAll('.bsr-fill[data-w]').forEach(b => b.style.width = b.dataset.w);
+  }, 200);
+}
+
+function clearAnalytics() {
+  if (confirm('Barcha statistikani o\'chirasizmi?')) {
+    localStorage.removeItem(STORE_KEY);
+    hapticN('success');
+    toast('Statistika tozalandi!');
+    renderAdminPanel();
+  }
+}
+
+// enter key on admin login
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('adminLogin').style.display === 'flex') doAdminLogin();
+});
 
 /* ══ INIT ══ */
 window.addEventListener('DOMContentLoaded', () => setLang(lang));
